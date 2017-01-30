@@ -23,7 +23,7 @@ public class Connection {
 
     public EntityManagerFactory getEntityManagerFactory() {//Singleton pattern
         if (emf == null) {
-            emf = Persistence.createEntityManagerFactory("PorteriaV3PU");
+            emf = Persistence.createEntityManagerFactory("ClienteV3PU");
         }
         return emf;
     }
