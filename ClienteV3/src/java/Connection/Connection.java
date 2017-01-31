@@ -14,7 +14,7 @@ import javax.persistence.Persistence;
  */
 public class Connection {
     
-    private static final Connection connection = new Connection();
+    private static final Connection connection = new Connection();//Just 1 Connection must be created for all sessions
     protected static EntityManagerFactory emf;//Just 1 entity manager factory must be created for all sessions
 
     public static Connection getInstance() {
