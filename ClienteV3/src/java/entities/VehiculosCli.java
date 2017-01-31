@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -90,7 +91,7 @@ public class VehiculosCli implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
+    @PrimaryKeyJoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
     @ManyToOne
     private DepartamentosCli idDepartamento;
     @JoinColumn(name = "Id_Entidad", referencedColumnName = "Id_Entidad")
@@ -104,7 +105,7 @@ public class VehiculosCli implements Serializable {
         @JoinColumn(name = "Id_Linea", referencedColumnName = "Id_Linea")})
     @ManyToOne
     private LineasCli lineasCli;
-    @JoinColumn(name = "Id_Marca", referencedColumnName = "Id_Marca")
+    @PrimaryKeyJoinColumn(name = "Id_Marca", referencedColumnName = "Id_Marca")
     @ManyToOne
     private MarcasCli idMarca;
     @JoinColumns({

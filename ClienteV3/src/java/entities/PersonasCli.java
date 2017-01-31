@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -157,7 +158,7 @@ public class PersonasCli implements Serializable {
     @JoinColumn(name = "ARL", referencedColumnName = "ARL")
     @ManyToOne
     private ARLCli arl;
-    @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
+    @PrimaryKeyJoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
     @ManyToOne
     private DepartamentosCli idDepartamento;
     @JoinColumn(name = "Id_Empresa_Origen", referencedColumnName = "Id_Emorigen")

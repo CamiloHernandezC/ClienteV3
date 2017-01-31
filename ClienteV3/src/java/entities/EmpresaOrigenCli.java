@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -73,7 +74,7 @@ public class EmpresaOrigenCli implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
+    @PrimaryKeyJoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
     @ManyToOne
     private DepartamentosCli idDepartamento;
     @JoinColumn(name = "Id_Estado", referencedColumnName = "Id_Estado")

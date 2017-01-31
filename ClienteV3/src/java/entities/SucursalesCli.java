@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -65,7 +66,7 @@ public class SucursalesCli implements Serializable {
     @JoinColumn(name = "Id_Cliente", referencedColumnName = "Id_Cliente")
     @ManyToOne(optional = false)
     private ClientesCli idCliente;
-    @JoinColumn(name = "Departamento", referencedColumnName = "Id_Departamento")
+    @PrimaryKeyJoinColumn(name = "Departamento", referencedColumnName = "Id_Departamento")
     @ManyToOne
     private DepartamentosCli departamento;
     @JoinColumns({
