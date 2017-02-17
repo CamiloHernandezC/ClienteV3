@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class MovMaterialesCliFacade extends AbstractFacade<MovMaterialesCli> {
 
-    @PersistenceContext(unitName = "PorteriaV3PU")
+    @PersistenceContext(unitName = "ClienteV3PU")
     private EntityManager em;
 
     @Override

@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class EPSCliFacade extends AbstractFacade<EPSCli> {
 
-    @PersistenceContext(unitName = "PorteriaV3PU")
+    @PersistenceContext(unitName = "ClienteV3PU")
     private EntityManager em;
 
     @Override
