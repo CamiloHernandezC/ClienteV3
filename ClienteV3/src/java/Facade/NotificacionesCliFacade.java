@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class NotificacionesCliFacade extends AbstractFacade<NotificacionesCli> {
 
-    @PersistenceContext(unitName = "PorteriaV3PU")
+    @PersistenceContext(unitName = "ClienteV3PU")
     private EntityManager em;
 
     @Override

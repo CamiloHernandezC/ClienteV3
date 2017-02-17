@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class MenuClienteFacade extends AbstractFacade<MenuCliente> {
 
-    @PersistenceContext(unitName = "PorteriaV3PU")
+    @PersistenceContext(unitName = "ClienteV3PU")
     private EntityManager em;
 
     @Override
