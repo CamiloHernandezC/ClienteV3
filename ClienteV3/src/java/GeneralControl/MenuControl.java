@@ -40,14 +40,24 @@ public class MenuControl {
         ResourceBundle rb = ResourceBundle.getBundle("Utils/Bundle");
         
         //ENTRY SUBMENU
-        DefaultSubMenu firstSubmenu = new DefaultSubMenu(rb.getString("Datos maestros"));
+        DefaultSubMenu firstSubmenu = new DefaultSubMenu("Datos Maestros");
         
         
-        DefaultMenuItem item = new DefaultMenuItem(rb.getString("Personas"));
+        DefaultMenuItem item = new DefaultMenuItem("Personas");
         item.setUrl(Navigation.PAGE_MASTER_DATA_PERSON);
         firstSubmenu.addElement(item);
          
         menu.addElement(firstSubmenu);
+        
+        //ENTRY SUBMENU
+        DefaultSubMenu secondSubmenu = new DefaultSubMenu("Reportes");
+        
+        
+        item = new DefaultMenuItem("Personas");
+        item.setUrl(Navigation.PAGE_REPORT_PERSON);
+        secondSubmenu.addElement(item);
+         
+        menu.addElement(secondSubmenu);
          
         //</editor-fold>
     }

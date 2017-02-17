@@ -10,6 +10,7 @@ package Utils;
  * @author MAURICIO
  */
 public class Navigation {
-    public static final String PAGE_MASTER_DATA_PERSON ="/person_entry/complete_entry/CompleteEntry.xhtml";
+    public static final String PAGE_MASTER_DATA_PERSON ="/master_data/person/persons.xhtml";
     public static final String PAGE_INDEX ="/Cliente";
+    public static String PAGE_REPORT_PERSON="/reports/person/person.xhtml";
 }
