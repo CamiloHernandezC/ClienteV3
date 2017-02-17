@@ -39,8 +39,20 @@ public class MovMaterialesCliController implements Serializable {
         this.selected = selected;
     }
 
-    public void prepareCreate() {
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private MovMaterialesCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public MovMaterialesCli prepareCreate() {
         selected = new MovMaterialesCli();
+        initializeEmbeddableKey();
+        return selected;
     }
 
     public void create() {
@@ -64,18 +76,19 @@ public class MovMaterialesCliController implements Serializable {
 
     public List<MovMaterialesCli> getItems() {
         if (items == null) {
-            items = (List<MovMaterialesCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    ejbFacade.edit(selected);
+                    getFacade().edit(selected);
                 } else {
-                    ejbFacade.remove(selected);
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -95,8 +108,19 @@ public class MovMaterialesCliController implements Serializable {
             }
         }
     }
-    
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+
+    public MovMaterialesCli getMovMaterialesCli(java.lang.Long id) {
+        return getFacade().find(id);
+    }
+
+    public List<MovMaterialesCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<MovMaterialesCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = MovMaterialesCli.class)
     public static class MovMaterialesCliControllerConverter implements Converter {
 
@@ -107,7 +131,7 @@ public class MovMaterialesCliController implements Serializable {
             }
             MovMaterialesCliController controller = (MovMaterialesCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "movMaterialesCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getMovMaterialesCli(getKey(value));
         }
 
         java.lang.Long getKey(String value) {
@@ -137,6 +161,5 @@ public class MovMaterialesCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
-    
+
 }

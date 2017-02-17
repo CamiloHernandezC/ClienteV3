@@ -26,18 +26,101 @@ public class SucursalesCliController implements Serializable {
     @EJB
     private Facade.SucursalesCliFacade ejbFacade;
     private List<SucursalesCli> items = null;
+    private SucursalesCli selected;
 
     public SucursalesCliController() {
     }
 
+    public SucursalesCli getSelected() {
+        return selected;
+    }
+
+    public void setSelected(SucursalesCli selected) {
+        this.selected = selected;
+    }
+
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private SucursalesCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public SucursalesCli prepareCreate() {
+        selected = new SucursalesCli();
+        initializeEmbeddableKey();
+        return selected;
+    }
+
+    public void create() {
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("SucursalesCliCreated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void update() {
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SucursalesCliUpdated"));
+    }
+
+    public void destroy() {
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("SucursalesCliDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
     public List<SucursalesCli> getItems() {
         if (items == null) {
-            items = (List<SucursalesCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
 
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    private void persist(PersistAction persistAction, String successMessage) {
+        if (selected != null) {
+            setEmbeddableKeys();
+            try {
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
+                }
+                JsfUtil.addSuccessMessage(successMessage);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            }
+        }
+    }
+
+    public SucursalesCli getSucursalesCli(java.lang.Long id) {
+        return getFacade().find(id);
+    }
+
+    public List<SucursalesCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<SucursalesCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = SucursalesCli.class)
     public static class SucursalesCliControllerConverter implements Converter {
 
@@ -48,7 +131,7 @@ public class SucursalesCliController implements Serializable {
             }
             SucursalesCliController controller = (SucursalesCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "sucursalesCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getSucursalesCli(getKey(value));
         }
 
         java.lang.Long getKey(String value) {
@@ -78,6 +161,5 @@ public class SucursalesCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
 
 }

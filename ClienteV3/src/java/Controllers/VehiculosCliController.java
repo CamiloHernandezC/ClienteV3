@@ -3,6 +3,7 @@ package Controllers;
 import Entities.VehiculosCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
+import Facade.VehiculosCliFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -38,8 +39,20 @@ public class VehiculosCliController implements Serializable {
         this.selected = selected;
     }
 
-    public void prepareCreate() {
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private VehiculosCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public VehiculosCli prepareCreate() {
         selected = new VehiculosCli();
+        initializeEmbeddableKey();
+        return selected;
     }
 
     public void create() {
@@ -63,18 +76,19 @@ public class VehiculosCliController implements Serializable {
 
     public List<VehiculosCli> getItems() {
         if (items == null) {
-            items = (List<VehiculosCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    ejbFacade.edit(selected);
+                    getFacade().edit(selected);
                 } else {
-                    ejbFacade.remove(selected);
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -95,7 +109,18 @@ public class VehiculosCliController implements Serializable {
         }
     }
 
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    public VehiculosCli getVehiculosCli(java.lang.String id) {
+        return getFacade().find(id);
+    }
+
+    public List<VehiculosCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<VehiculosCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = VehiculosCli.class)
     public static class VehiculosCliControllerConverter implements Converter {
 
@@ -106,7 +131,7 @@ public class VehiculosCliController implements Serializable {
             }
             VehiculosCliController controller = (VehiculosCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "vehiculosCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getVehiculosCli(getKey(value));
         }
 
         java.lang.String getKey(String value) {
@@ -136,6 +161,5 @@ public class VehiculosCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
 
 }

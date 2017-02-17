@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Areas_Empresa_Cli")
@@ -48,14 +49,14 @@ public class AreasEmpresaCli implements Serializable {
     @Size(min = 1, max = 2147483647)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "areaempresa")
+    @OneToMany(mappedBy = "areaempresa", fetch = FetchType.LAZY)
     private List<NovedadesCli> novedadesCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "area")
-    private List<PersonasCli> personasCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idArea")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "area", fetch = FetchType.LAZY)
+    private List<PersonasSucursalCli> personasSucursalCliList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idArea", fetch = FetchType.LAZY)
     private List<MovPersonasCli> movPersonasCliList;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
 
     public AreasEmpresaCli() {
@@ -96,12 +97,12 @@ public class AreasEmpresaCli implements Serializable {
     }
 
     @XmlTransient
-    public List<PersonasCli> getPersonasCliList() {
-        return personasCliList;
+    public List<PersonasSucursalCli> getPersonasSucursalCliList() {
+        return personasSucursalCliList;
     }
 
-    public void setPersonasCliList(List<PersonasCli> personasCliList) {
-        this.personasCliList = personasCliList;
+    public void setPersonasSucursalCliList(List<PersonasSucursalCli> personasSucursalCliList) {
+        this.personasSucursalCliList = personasSucursalCliList;
     }
 
     @XmlTransient
@@ -143,7 +144,7 @@ public class AreasEmpresaCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.AreasEmpresaCli[ idareaemp=" + idareaemp + " ]";
+        return "Entities.AreasEmpresaCli[ idareaemp=" + idareaemp + " ]";
     }
     
 }

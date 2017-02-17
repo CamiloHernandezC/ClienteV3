@@ -1,11 +1,14 @@
 package Controllers.util;
 
+import Utils.Navigation;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 
 public class JsfUtil {
 
@@ -65,5 +68,32 @@ public class JsfUtil {
         CREATE,
         DELETE,
         UPDATE
+    }
+    
+    @SuppressWarnings("unchecked")
+    public static <T> T findBean(String beanName) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        return (T) context.getApplication().evaluateExpressionGet(context, "#{" + beanName + "}", Object.class);
+    }
+    
+    public static String quitaEspacios(String texto) {
+        texto= texto.replaceAll(" ", "");
+        texto = texto.trim();
+        texto = texto.replaceAll("\u00A0", "");
+        return texto;
+    }
+    
+    public static void cancel() {
+        redirectTo(Navigation.PAGE_INDEX);
+    }
+
+    public static void redirectTo(String page) {
+
+        try {
+            FacesContext contex = FacesContext.getCurrentInstance();
+            contex.getExternalContext().redirect(page);
+        } catch (Exception e) {
+            System.out.println("Exception cancel " + e);
+        }
     }
 }

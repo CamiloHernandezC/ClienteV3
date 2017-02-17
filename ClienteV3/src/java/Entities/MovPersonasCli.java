@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,12 +23,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Mov_Personas_Cli")
@@ -39,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MovPersonasCli.findByHoraEntrada", query = "SELECT m FROM MovPersonasCli m WHERE m.horaEntrada = :horaEntrada"),
     @NamedQuery(name = "MovPersonasCli.findByFechaSalida", query = "SELECT m FROM MovPersonasCli m WHERE m.fechaSalida = :fechaSalida"),
     @NamedQuery(name = "MovPersonasCli.findByHoraSalida", query = "SELECT m FROM MovPersonasCli m WHERE m.horaSalida = :horaSalida"),
+    @NamedQuery(name = "MovPersonasCli.findByPersonaAutoriza", query = "SELECT m FROM MovPersonasCli m WHERE m.personaAutoriza = :personaAutoriza"),
     @NamedQuery(name = "MovPersonasCli.findByFecha", query = "SELECT m FROM MovPersonasCli m WHERE m.fecha = :fecha"),
     @NamedQuery(name = "MovPersonasCli.findBySalidaForzosa", query = "SELECT m FROM MovPersonasCli m WHERE m.salidaForzosa = :salidaForzosa")})
 public class MovPersonasCli implements Serializable {
@@ -65,6 +68,9 @@ public class MovPersonasCli implements Serializable {
     @Column(name = "Hora_Salida")
     @Temporal(TemporalType.TIME)
     private Date horaSalida;
+    @Size(max = 14)
+    @Column(name = "Persona_Autoriza")
+    private String personaAutoriza;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Fecha")
@@ -74,32 +80,29 @@ public class MovPersonasCli implements Serializable {
     @NotNull
     @Column(name = "Salida_Forzosa")
     private boolean salidaForzosa;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovEntrada")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovEntrada", fetch = FetchType.LAZY)
     private List<MovVehiculosCli> movVehiculosCliList;
-    @OneToMany(mappedBy = "idMovSalida")
+    @OneToMany(mappedBy = "idMovSalida", fetch = FetchType.LAZY)
     private List<MovVehiculosCli> movVehiculosCliList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovPersona")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovPersona", fetch = FetchType.LAZY)
     private List<MovDocumentosCli> movDocumentosCliList;
     @JoinColumn(name = "Id_Area", referencedColumnName = "Id_areaemp")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private AreasEmpresaCli idArea;
     @JoinColumn(name = "Id_Persona", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli idPersona;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
-    @JoinColumn(name = "Persona_Autoriza", referencedColumnName = "Id_Persona")
-    @ManyToOne
-    private PersonasCli personaAutoriza;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovPersona")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovPersona", fetch = FetchType.LAZY)
     private List<MovMaterialesCli> movMaterialesCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovEntrada")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovEntrada", fetch = FetchType.LAZY)
     private List<MovHerramientasCli> movHerramientasCliList;
-    @OneToMany(mappedBy = "idMovSalida")
+    @OneToMany(mappedBy = "idMovSalida", fetch = FetchType.LAZY)
     private List<MovHerramientasCli> movHerramientasCliList1;
 
     public MovPersonasCli() {
@@ -155,6 +158,14 @@ public class MovPersonasCli implements Serializable {
 
     public void setHoraSalida(Date horaSalida) {
         this.horaSalida = horaSalida;
+    }
+
+    public String getPersonaAutoriza() {
+        return personaAutoriza;
+    }
+
+    public void setPersonaAutoriza(String personaAutoriza) {
+        this.personaAutoriza = personaAutoriza;
     }
 
     public Date getFecha() {
@@ -224,14 +235,6 @@ public class MovPersonasCli implements Serializable {
         this.usuario = usuario;
     }
 
-    public PersonasCli getPersonaAutoriza() {
-        return personaAutoriza;
-    }
-
-    public void setPersonaAutoriza(PersonasCli personaAutoriza) {
-        this.personaAutoriza = personaAutoriza;
-    }
-
     public SucursalesCli getIdSucursal() {
         return idSucursal;
     }
@@ -289,7 +292,7 @@ public class MovPersonasCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.MovPersonasCli[ idMovimiento=" + idMovimiento + " ]";
+        return "Entities.MovPersonasCli[ idMovimiento=" + idMovimiento + " ]";
     }
     
 }

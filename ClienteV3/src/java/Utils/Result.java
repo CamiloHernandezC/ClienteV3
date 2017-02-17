@@ -7,10 +7,10 @@ package Utils;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
-public class Result<T> {
-    public T result;//Entity
+public class Result {
+    public Object result;
     public int errorCode;
     
     //TIPOS DE OBJETO
@@ -18,7 +18,7 @@ public class Result<T> {
     public int resultInt;
     public boolean resultBoolean;
 
-    public Result(T result, int errorCode) {
+    public Result(Object result, int errorCode) {
         this.result = result;
         this.errorCode = errorCode;
     }

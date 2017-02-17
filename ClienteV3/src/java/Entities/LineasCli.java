@@ -9,8 +9,9 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -24,56 +25,55 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Lineas_Cli")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "LineasCli.findAll", query = "SELECT l FROM LineasCli l"),
-    @NamedQuery(name = "LineasCli.findByIdMarca", query = "SELECT l FROM LineasCli l WHERE l.lineasCliPK.idMarca = :idMarca"),
-    @NamedQuery(name = "LineasCli.findByIdLinea", query = "SELECT l FROM LineasCli l WHERE l.lineasCliPK.idLinea = :idLinea"),
+    @NamedQuery(name = "LineasCli.findByIdLinea", query = "SELECT l FROM LineasCli l WHERE l.idLinea = :idLinea"),
     @NamedQuery(name = "LineasCli.findByDescripcion", query = "SELECT l FROM LineasCli l WHERE l.descripcion = :descripcion")})
 public class LineasCli implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected LineasCliPK lineasCliPK;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 5)
+    @Column(name = "Id_Linea")
+    private String idLinea;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 120)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "lineasCli")
+    @OneToMany(mappedBy = "idLinea", fetch = FetchType.LAZY)
     private List<VehiculosCli> vehiculosCliList;
-    @OneToMany(mappedBy = "lineasCli")
+    @OneToMany(mappedBy = "idLinea", fetch = FetchType.LAZY)
     private List<ObjetosCli> objetosCliList;
-    @JoinColumn(name = "Id_Marca", referencedColumnName = "Id_Marca", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private MarcasCli marcasCli;
+    @JoinColumn(name = "Id_Marca", referencedColumnName = "Id_Marca")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private MarcasCli idMarca;
 
     public LineasCli() {
     }
 
-    public LineasCli(LineasCliPK lineasCliPK) {
-        this.lineasCliPK = lineasCliPK;
+    public LineasCli(String idLinea) {
+        this.idLinea = idLinea;
     }
 
-    public LineasCli(LineasCliPK lineasCliPK, String descripcion) {
-        this.lineasCliPK = lineasCliPK;
+    public LineasCli(String idLinea, String descripcion) {
+        this.idLinea = idLinea;
         this.descripcion = descripcion;
     }
 
-    public LineasCli(String idMarca, String idLinea) {
-        this.lineasCliPK = new LineasCliPK(idMarca, idLinea);
+    public String getIdLinea() {
+        return idLinea;
     }
 
-    public LineasCliPK getLineasCliPK() {
-        return lineasCliPK;
-    }
-
-    public void setLineasCliPK(LineasCliPK lineasCliPK) {
-        this.lineasCliPK = lineasCliPK;
+    public void setIdLinea(String idLinea) {
+        this.idLinea = idLinea;
     }
 
     public String getDescripcion() {
@@ -102,18 +102,18 @@ public class LineasCli implements Serializable {
         this.objetosCliList = objetosCliList;
     }
 
-    public MarcasCli getMarcasCli() {
-        return marcasCli;
+    public MarcasCli getIdMarca() {
+        return idMarca;
     }
 
-    public void setMarcasCli(MarcasCli marcasCli) {
-        this.marcasCli = marcasCli;
+    public void setIdMarca(MarcasCli idMarca) {
+        this.idMarca = idMarca;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (lineasCliPK != null ? lineasCliPK.hashCode() : 0);
+        hash += (idLinea != null ? idLinea.hashCode() : 0);
         return hash;
     }
 
@@ -124,7 +124,7 @@ public class LineasCli implements Serializable {
             return false;
         }
         LineasCli other = (LineasCli) object;
-        if ((this.lineasCliPK == null && other.lineasCliPK != null) || (this.lineasCliPK != null && !this.lineasCliPK.equals(other.lineasCliPK))) {
+        if ((this.idLinea == null && other.idLinea != null) || (this.idLinea != null && !this.idLinea.equals(other.idLinea))) {
             return false;
         }
         return true;
@@ -132,7 +132,7 @@ public class LineasCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.LineasCli[ lineasCliPK=" + lineasCliPK + " ]";
+        return "Entities.LineasCli[ idLinea=" + idLinea + " ]";
     }
     
 }

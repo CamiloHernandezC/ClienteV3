@@ -3,7 +3,9 @@ package Controllers;
 import Entities.MunicipiosCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
+import Entities.DepartamentosCli;
 import Facade.MunicipiosCliFacade;
+import Querys.Querys;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,23 +28,113 @@ public class MunicipiosCliController implements Serializable {
     @EJB
     private Facade.MunicipiosCliFacade ejbFacade;
     private List<MunicipiosCli> items = null;
+    private MunicipiosCli selected;
 
     public MunicipiosCliController() {
     }
 
+    public MunicipiosCli getSelected() {
+        return selected;
+    }
+
+    public void setSelected(MunicipiosCli selected) {
+        this.selected = selected;
+    }
+
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private MunicipiosCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public MunicipiosCli prepareCreate() {
+        selected = new MunicipiosCli();
+        initializeEmbeddableKey();
+        return selected;
+    }
+
+    public void create() {
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("MunicipiosCliCreated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void update() {
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("MunicipiosCliUpdated"));
+    }
+
+    public void destroy() {
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("MunicipiosCliDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
     public List<MunicipiosCli> getItems() {
         if (items == null) {
-            items = (List<MunicipiosCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
 
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    private void persist(PersistAction persistAction, String successMessage) {
+        if (selected != null) {
+            setEmbeddableKeys();
+            try {
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
+                }
+                JsfUtil.addSuccessMessage(successMessage);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            }
+        }
+    }
+
+    public MunicipiosCli getMunicipiosCli(java.lang.String id) {
+        return getFacade().find(id);
+    }
+
+    public List<MunicipiosCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<MunicipiosCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+    
+    public List<MunicipiosCli> getItemsOfDepartment(DepartamentosCli department) {
+        if(department==null){
+            items = null;
+            return items;
+        }
+        String squery = Querys.MUNICIPIOS_CLI_DEPARTAMENTO+department.getIdDepartamento()+"'";
+        items = (List<MunicipiosCli>) getFacade().findByQueryArray(squery).result;
+        return items;
+    }
+
     @FacesConverter(forClass = MunicipiosCli.class)
     public static class MunicipiosCliControllerConverter implements Converter {
-
-        private static final String SEPARATOR = "#";
-        private static final String SEPARATOR_ESCAPED = "\\#";
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
@@ -51,23 +143,18 @@ public class MunicipiosCliController implements Serializable {
             }
             MunicipiosCliController controller = (MunicipiosCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "municipiosCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getMunicipiosCli(getKey(value));
         }
 
-        Entities.MunicipiosCliPK getKey(String value) {
-            Entities.MunicipiosCliPK key;
-            String values[] = value.split(SEPARATOR_ESCAPED);
-            key = new Entities.MunicipiosCliPK();
-            key.setIdDepartamento(values[0]);
-            key.setIdMunicipio(values[1]);
+        java.lang.String getKey(String value) {
+            java.lang.String key;
+            key = value;
             return key;
         }
 
-        String getStringKey(Entities.MunicipiosCliPK value) {
+        String getStringKey(java.lang.String value) {
             StringBuilder sb = new StringBuilder();
-            sb.append(value.getIdDepartamento());
-            sb.append(SEPARATOR);
-            sb.append(value.getIdMunicipio());
+            sb.append(value);
             return sb.toString();
         }
 
@@ -78,7 +165,7 @@ public class MunicipiosCliController implements Serializable {
             }
             if (object instanceof MunicipiosCli) {
                 MunicipiosCli o = (MunicipiosCli) object;
-                return getStringKey(o.getMunicipiosCliPK());
+                return getStringKey(o.getIdMunicipio());
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), MunicipiosCli.class.getName()});
                 return null;
@@ -86,6 +173,5 @@ public class MunicipiosCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
 
 }

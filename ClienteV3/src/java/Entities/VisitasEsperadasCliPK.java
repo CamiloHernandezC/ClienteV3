@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Embeddable
 public class VisitasEsperadasCliPK implements Serializable {
@@ -100,7 +100,7 @@ public class VisitasEsperadasCliPK implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.VisitasEsperadasCliPK[ idPersona=" + idPersona + ", idSucursal=" + idSucursal + ", fechaVisita=" + fechaVisita + " ]";
+        return "Entities.VisitasEsperadasCliPK[ idPersona=" + idPersona + ", idSucursal=" + idSucursal + ", fechaVisita=" + fechaVisita + " ]";
     }
     
 }

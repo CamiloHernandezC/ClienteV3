@@ -1,4 +1,45 @@
 <?xml version='1.0' encoding='UTF-8' ?>
+<<<<<<< OURS
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="TiposDocumentoCliListForm">
+                <p:panel header="#{bundle.ListTiposDocumentoCliTitle}">
+                    <p:dataTable id="datalist" value="#{tiposDocumentoCliController.items}" var="item"
+                                 selectionMode="single" selection="#{tiposDocumentoCliController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.tipodocumento}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTiposDocumentoCliTitle_tipodocumento}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipodocumento}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTiposDocumentoCliTitle_descripcion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descripcion}"/>
+                        </p:column>
+                        <f:facet name="footer">
+
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+    </ui:define>
+
+</ui:composition>
+=======
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
@@ -12,3 +53,4 @@
     </h:body>
 </html>
 
+>>>>>>> THEIRS

@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Clientes_Cli")
@@ -47,10 +48,10 @@ public class ClientesCli implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "Nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente", fetch = FetchType.LAZY)
     private List<SucursalesCli> sucursalesCliList;
     @JoinColumn(name = "Estado", referencedColumnName = "Id_Estado")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadosCli estado;
 
     public ClientesCli() {
@@ -120,7 +121,7 @@ public class ClientesCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.ClientesCli[ idCliente=" + idCliente + " ]";
+        return "Entities.ClientesCli[ idCliente=" + idCliente + " ]";
     }
     
 }

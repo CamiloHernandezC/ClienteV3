@@ -12,10 +12,18 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Stateless
 public class LineasCliFacade extends AbstractFacade<LineasCli> {
+
+    @PersistenceContext(unitName = "PorteriaV3PU")
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
     public LineasCliFacade() {
         super(LineasCli.class);

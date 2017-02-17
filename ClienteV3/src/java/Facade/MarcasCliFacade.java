@@ -12,10 +12,18 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Stateless
 public class MarcasCliFacade extends AbstractFacade<MarcasCli> {
+
+    @PersistenceContext(unitName = "PorteriaV3PU")
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
     public MarcasCliFacade() {
         super(MarcasCli.class);

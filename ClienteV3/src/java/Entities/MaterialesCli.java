@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Materiales_Cli")
@@ -67,15 +68,15 @@ public class MaterialesCli implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
     @JoinColumn(name = "Unidad", referencedColumnName = "Id_Unidad")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UnidadesCli unidad;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaterial")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaterial", fetch = FetchType.LAZY)
     private List<MovMaterialesCli> movMaterialesCliList;
 
     public MaterialesCli() {
@@ -187,7 +188,7 @@ public class MaterialesCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.MaterialesCli[ idMaterial=" + idMaterial + " ]";
+        return "Entities.MaterialesCli[ idMaterial=" + idMaterial + " ]";
     }
     
 }
