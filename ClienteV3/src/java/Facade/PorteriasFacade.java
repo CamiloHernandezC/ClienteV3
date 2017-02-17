@@ -5,20 +5,28 @@
  */
 package Facade;
 
-import Entities.AppMenu;
+import Entities.Porterias;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Stateless
-public class AppMenuFacade extends AbstractFacade<AppMenu> {
+public class PorteriasFacade extends AbstractFacade<Porterias> {
 
-    public AppMenuFacade() {
-        super(AppMenu.class);
+    @PersistenceContext(unitName = "PorteriaV3PU")
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
+    public PorteriasFacade() {
+        super(Porterias.class);
     }
     
 }

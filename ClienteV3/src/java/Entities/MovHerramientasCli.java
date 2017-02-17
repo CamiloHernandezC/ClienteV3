@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Mov_Herramientas_Cli")
@@ -80,19 +81,19 @@ public class MovHerramientasCli implements Serializable {
     @Column(name = "Salida_Forzosa")
     private boolean salidaForzosa;
     @JoinColumn(name = "Id_Mov_Entrada", referencedColumnName = "Id_Movimiento")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private MovPersonasCli idMovEntrada;
     @JoinColumn(name = "Id_Mov_Salida", referencedColumnName = "Id_Movimiento")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private MovPersonasCli idMovSalida;
     @JoinColumn(name = "Id_Objeto", referencedColumnName = "Id_Objeto")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ObjetosCli idObjeto;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
 
     public MovHerramientasCli() {
@@ -244,7 +245,7 @@ public class MovHerramientasCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.MovHerramientasCli[ idMovimiento=" + idMovimiento + " ]";
+        return "Entities.MovHerramientasCli[ idMovimiento=" + idMovimiento + " ]";
     }
     
 }

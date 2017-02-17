@@ -11,14 +11,13 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Empresa_Origen_Cli")
@@ -74,29 +73,29 @@ public class EmpresaOrigenCli implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @PrimaryKeyJoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
-    @ManyToOne
+    @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
+    @ManyToOne(fetch = FetchType.LAZY)
     private DepartamentosCli idDepartamento;
     @JoinColumn(name = "Id_Estado", referencedColumnName = "Id_Estado")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadosCli idEstado;
-    @JoinColumns({
-        @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento"),
-        @JoinColumn(name = "Id_Municipio", referencedColumnName = "Id_Municipio")})
-    @ManyToOne
-    private MunicipiosCli municipiosCli;
+    @JoinColumn(name = "Id_Municipio", referencedColumnName = "Id_Municipio")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private MunicipiosCli idMunicipio;
     @JoinColumn(name = "Id_Pais", referencedColumnName = "Id_Pais")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private PaisesCli idPais;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
-    @OneToMany(mappedBy = "idemorigen")
+    @OneToMany(mappedBy = "idemorigen", fetch = FetchType.LAZY)
     private List<NovedadesCli> novedadesCliList;
-    @OneToMany(mappedBy = "idEmpresaOrigen")
+    @OneToMany(mappedBy = "idEmpresaOrigen", fetch = FetchType.LAZY)
+    private List<NotificacionesCli> notificacionesCliList;
+    @OneToMany(mappedBy = "idEmpresaOrigen", fetch = FetchType.LAZY)
     private List<PersonasCli> personasCliList;
 
     public EmpresaOrigenCli() {
@@ -184,12 +183,12 @@ public class EmpresaOrigenCli implements Serializable {
         this.idEstado = idEstado;
     }
 
-    public MunicipiosCli getMunicipiosCli() {
-        return municipiosCli;
+    public MunicipiosCli getIdMunicipio() {
+        return idMunicipio;
     }
 
-    public void setMunicipiosCli(MunicipiosCli municipiosCli) {
-        this.municipiosCli = municipiosCli;
+    public void setIdMunicipio(MunicipiosCli idMunicipio) {
+        this.idMunicipio = idMunicipio;
     }
 
     public PaisesCli getIdPais() {
@@ -226,6 +225,15 @@ public class EmpresaOrigenCli implements Serializable {
     }
 
     @XmlTransient
+    public List<NotificacionesCli> getNotificacionesCliList() {
+        return notificacionesCliList;
+    }
+
+    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
+        this.notificacionesCliList = notificacionesCliList;
+    }
+
+    @XmlTransient
     public List<PersonasCli> getPersonasCliList() {
         return personasCliList;
     }
@@ -256,7 +264,7 @@ public class EmpresaOrigenCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.EmpresaOrigenCli[ idEmorigen=" + idEmorigen + " ]";
+        return "Entities.EmpresaOrigenCli[ idEmorigen=" + idEmorigen + " ]";
     }
     
 }

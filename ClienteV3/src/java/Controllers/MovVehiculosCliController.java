@@ -39,8 +39,20 @@ public class MovVehiculosCliController implements Serializable {
         this.selected = selected;
     }
 
-    public void prepareCreate() {
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private MovVehiculosCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public MovVehiculosCli prepareCreate() {
         selected = new MovVehiculosCli();
+        initializeEmbeddableKey();
+        return selected;
     }
 
     public void create() {
@@ -64,18 +76,19 @@ public class MovVehiculosCliController implements Serializable {
 
     public List<MovVehiculosCli> getItems() {
         if (items == null) {
-            items = (List<MovVehiculosCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    ejbFacade.edit(selected);
+                    getFacade().edit(selected);
                 } else {
-                    ejbFacade.remove(selected);
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -96,7 +109,18 @@ public class MovVehiculosCliController implements Serializable {
         }
     }
 
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    public MovVehiculosCli getMovVehiculosCli(java.lang.Long id) {
+        return getFacade().find(id);
+    }
+
+    public List<MovVehiculosCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<MovVehiculosCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = MovVehiculosCli.class)
     public static class MovVehiculosCliControllerConverter implements Converter {
 
@@ -107,7 +131,7 @@ public class MovVehiculosCliController implements Serializable {
             }
             MovVehiculosCliController controller = (MovVehiculosCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "movVehiculosCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getMovVehiculosCli(getKey(value));
         }
 
         java.lang.Long getKey(String value) {
@@ -137,6 +161,5 @@ public class MovVehiculosCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
 
 }

@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -19,11 +20,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Visitas_Esperadas_Cli")
@@ -35,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "VisitasEsperadasCli.findByFechaVisita", query = "SELECT v FROM VisitasEsperadasCli v WHERE v.visitasEsperadasCliPK.fechaVisita = :fechaVisita"),
     @NamedQuery(name = "VisitasEsperadasCli.findByHoraInicio", query = "SELECT v FROM VisitasEsperadasCli v WHERE v.horaInicio = :horaInicio"),
     @NamedQuery(name = "VisitasEsperadasCli.findByHoraHasta", query = "SELECT v FROM VisitasEsperadasCli v WHERE v.horaHasta = :horaHasta"),
+    @NamedQuery(name = "VisitasEsperadasCli.findByFuncionarioVisitado", query = "SELECT v FROM VisitasEsperadasCli v WHERE v.funcionarioVisitado = :funcionarioVisitado"),
     @NamedQuery(name = "VisitasEsperadasCli.findByFecha", query = "SELECT v FROM VisitasEsperadasCli v WHERE v.fecha = :fecha")})
 public class VisitasEsperadasCli implements Serializable {
 
@@ -53,17 +56,22 @@ public class VisitasEsperadasCli implements Serializable {
     private Date horaHasta;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 14)
+    @Column(name = "Funcionario_Visitado")
+    private String funcionarioVisitado;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "Fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
+    @JoinColumn(name = "Id_Persona", referencedColumnName = "Id_Persona", insertable = false, updatable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private PersonasCli personasCli;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
-    @JoinColumn(name = "Funcionario_Visitado", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false)
-    private PersonasCli funcionarioVisitado;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli sucursalesCli;
 
     public VisitasEsperadasCli() {
@@ -73,10 +81,11 @@ public class VisitasEsperadasCli implements Serializable {
         this.visitasEsperadasCliPK = visitasEsperadasCliPK;
     }
 
-    public VisitasEsperadasCli(VisitasEsperadasCliPK visitasEsperadasCliPK, Date horaInicio, Date horaHasta, Date fecha) {
+    public VisitasEsperadasCli(VisitasEsperadasCliPK visitasEsperadasCliPK, Date horaInicio, Date horaHasta, String funcionarioVisitado, Date fecha) {
         this.visitasEsperadasCliPK = visitasEsperadasCliPK;
         this.horaInicio = horaInicio;
         this.horaHasta = horaHasta;
+        this.funcionarioVisitado = funcionarioVisitado;
         this.fecha = fecha;
     }
 
@@ -108,6 +117,14 @@ public class VisitasEsperadasCli implements Serializable {
         this.horaHasta = horaHasta;
     }
 
+    public String getFuncionarioVisitado() {
+        return funcionarioVisitado;
+    }
+
+    public void setFuncionarioVisitado(String funcionarioVisitado) {
+        this.funcionarioVisitado = funcionarioVisitado;
+    }
+
     public Date getFecha() {
         return fecha;
     }
@@ -116,20 +133,20 @@ public class VisitasEsperadasCli implements Serializable {
         this.fecha = fecha;
     }
 
+    public PersonasCli getPersonasCli() {
+        return personasCli;
+    }
+
+    public void setPersonasCli(PersonasCli personasCli) {
+        this.personasCli = personasCli;
+    }
+
     public PersonasCli getUsuario() {
         return usuario;
     }
 
     public void setUsuario(PersonasCli usuario) {
         this.usuario = usuario;
-    }
-
-    public PersonasCli getFuncionarioVisitado() {
-        return funcionarioVisitado;
-    }
-
-    public void setFuncionarioVisitado(PersonasCli funcionarioVisitado) {
-        this.funcionarioVisitado = funcionarioVisitado;
     }
 
     public SucursalesCli getSucursalesCli() {
@@ -162,7 +179,7 @@ public class VisitasEsperadasCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.VisitasEsperadasCli[ visitasEsperadasCliPK=" + visitasEsperadasCliPK + " ]";
+        return "Entities.VisitasEsperadasCli[ visitasEsperadasCliPK=" + visitasEsperadasCliPK + " ]";
     }
     
 }

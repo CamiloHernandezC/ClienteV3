@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Departamentos_Cli")
@@ -46,17 +47,17 @@ public class DepartamentosCli implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "idDepartamento")
+    @OneToMany(mappedBy = "idDepartamento", fetch = FetchType.LAZY)
     private List<VehiculosCli> vehiculosCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamentosCli")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepartamento", fetch = FetchType.LAZY)
     private List<MunicipiosCli> municipiosCliList;
-    @OneToMany(mappedBy = "idDepartamento")
+    @OneToMany(mappedBy = "idDepartamento", fetch = FetchType.LAZY)
     private List<EmpresaOrigenCli> empresaOrigenCliList;
-    @OneToMany(mappedBy = "departamento")
+    @OneToMany(mappedBy = "departamento", fetch = FetchType.LAZY)
     private List<SucursalesCli> sucursalesCliList;
-    @OneToMany(mappedBy = "idDepartamento")
+    @OneToMany(mappedBy = "idDepartamento", fetch = FetchType.LAZY)
     private List<PersonasCli> personasCliList;
-    @OneToMany(mappedBy = "idDepartamento")
+    @OneToMany(mappedBy = "idDepartamento", fetch = FetchType.LAZY)
     private List<ObjetosCli> objetosCliList;
 
     public DepartamentosCli() {
@@ -163,7 +164,7 @@ public class DepartamentosCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.DepartamentosCli[ idDepartamento=" + idDepartamento + " ]";
+        return "Entities.DepartamentosCli[ idDepartamento=" + idDepartamento + " ]";
     }
     
 }

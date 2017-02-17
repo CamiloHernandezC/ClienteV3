@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Entidades_Cli")
@@ -48,16 +49,18 @@ public class EntidadesCli implements Serializable {
     @Size(min = 1, max = 35)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad", fetch = FetchType.LAZY)
     private List<VehiculosCli> vehiculosCliList;
     @JoinColumn(name = "Id_Categoria", referencedColumnName = "Id_Categoria")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private CategoriasCli idCategoria;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidad", fetch = FetchType.LAZY)
+    private List<PersonasSucursalCli> personasSucursalCliList;
+    @OneToMany(mappedBy = "idEntidad", fetch = FetchType.LAZY)
+    private List<NotificacionesCli> notificacionesCliList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad", fetch = FetchType.LAZY)
     private List<MovDocumentosCli> movDocumentosCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad")
-    private List<PersonasCli> personasCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad", fetch = FetchType.LAZY)
     private List<ObjetosCli> objetosCliList;
 
     public EntidadesCli() {
@@ -106,21 +109,30 @@ public class EntidadesCli implements Serializable {
     }
 
     @XmlTransient
+    public List<PersonasSucursalCli> getPersonasSucursalCliList() {
+        return personasSucursalCliList;
+    }
+
+    public void setPersonasSucursalCliList(List<PersonasSucursalCli> personasSucursalCliList) {
+        this.personasSucursalCliList = personasSucursalCliList;
+    }
+
+    @XmlTransient
+    public List<NotificacionesCli> getNotificacionesCliList() {
+        return notificacionesCliList;
+    }
+
+    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
+        this.notificacionesCliList = notificacionesCliList;
+    }
+
+    @XmlTransient
     public List<MovDocumentosCli> getMovDocumentosCliList() {
         return movDocumentosCliList;
     }
 
     public void setMovDocumentosCliList(List<MovDocumentosCli> movDocumentosCliList) {
         this.movDocumentosCliList = movDocumentosCliList;
-    }
-
-    @XmlTransient
-    public List<PersonasCli> getPersonasCliList() {
-        return personasCliList;
-    }
-
-    public void setPersonasCliList(List<PersonasCli> personasCliList) {
-        this.personasCliList = personasCliList;
     }
 
     @XmlTransient
@@ -154,7 +166,7 @@ public class EntidadesCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.EntidadesCli[ idEntidad=" + idEntidad + " ]";
+        return "Entities.EntidadesCli[ idEntidad=" + idEntidad + " ]";
     }
     
 }

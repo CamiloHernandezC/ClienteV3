@@ -9,8 +9,9 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -24,62 +25,61 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Municipios_Cli")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MunicipiosCli.findAll", query = "SELECT m FROM MunicipiosCli m"),
-    @NamedQuery(name = "MunicipiosCli.findByIdDepartamento", query = "SELECT m FROM MunicipiosCli m WHERE m.municipiosCliPK.idDepartamento = :idDepartamento"),
-    @NamedQuery(name = "MunicipiosCli.findByIdMunicipio", query = "SELECT m FROM MunicipiosCli m WHERE m.municipiosCliPK.idMunicipio = :idMunicipio"),
+    @NamedQuery(name = "MunicipiosCli.findByIdMunicipio", query = "SELECT m FROM MunicipiosCli m WHERE m.idMunicipio = :idMunicipio"),
     @NamedQuery(name = "MunicipiosCli.findByDescripcion", query = "SELECT m FROM MunicipiosCli m WHERE m.descripcion = :descripcion")})
 public class MunicipiosCli implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected MunicipiosCliPK municipiosCliPK;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 5)
+    @Column(name = "Id_Municipio")
+    private String idMunicipio;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 120)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "municipiosCli")
+    @OneToMany(mappedBy = "idMunicipio", fetch = FetchType.LAZY)
     private List<VehiculosCli> vehiculosCliList;
-    @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private DepartamentosCli departamentosCli;
-    @OneToMany(mappedBy = "municipiosCli")
+    @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private DepartamentosCli idDepartamento;
+    @OneToMany(mappedBy = "idMunicipio", fetch = FetchType.LAZY)
     private List<EmpresaOrigenCli> empresaOrigenCliList;
-    @OneToMany(mappedBy = "municipiosCli")
+    @OneToMany(mappedBy = "municipio", fetch = FetchType.LAZY)
     private List<SucursalesCli> sucursalesCliList;
-    @OneToMany(mappedBy = "municipiosCli")
+    @OneToMany(mappedBy = "idMunicipio", fetch = FetchType.LAZY)
     private List<PersonasCli> personasCliList;
-    @OneToMany(mappedBy = "municipiosCli")
+    @OneToMany(mappedBy = "idMunicipio", fetch = FetchType.LAZY)
     private List<ObjetosCli> objetosCliList;
 
     public MunicipiosCli() {
     }
 
-    public MunicipiosCli(MunicipiosCliPK municipiosCliPK) {
-        this.municipiosCliPK = municipiosCliPK;
+    public MunicipiosCli(String idMunicipio) {
+        this.idMunicipio = idMunicipio;
     }
 
-    public MunicipiosCli(MunicipiosCliPK municipiosCliPK, String descripcion) {
-        this.municipiosCliPK = municipiosCliPK;
+    public MunicipiosCli(String idMunicipio, String descripcion) {
+        this.idMunicipio = idMunicipio;
         this.descripcion = descripcion;
     }
 
-    public MunicipiosCli(String idDepartamento, String idMunicipio) {
-        this.municipiosCliPK = new MunicipiosCliPK(idDepartamento, idMunicipio);
+    public String getIdMunicipio() {
+        return idMunicipio;
     }
 
-    public MunicipiosCliPK getMunicipiosCliPK() {
-        return municipiosCliPK;
-    }
-
-    public void setMunicipiosCliPK(MunicipiosCliPK municipiosCliPK) {
-        this.municipiosCliPK = municipiosCliPK;
+    public void setIdMunicipio(String idMunicipio) {
+        this.idMunicipio = idMunicipio;
     }
 
     public String getDescripcion() {
@@ -99,12 +99,12 @@ public class MunicipiosCli implements Serializable {
         this.vehiculosCliList = vehiculosCliList;
     }
 
-    public DepartamentosCli getDepartamentosCli() {
-        return departamentosCli;
+    public DepartamentosCli getIdDepartamento() {
+        return idDepartamento;
     }
 
-    public void setDepartamentosCli(DepartamentosCli departamentosCli) {
-        this.departamentosCli = departamentosCli;
+    public void setIdDepartamento(DepartamentosCli idDepartamento) {
+        this.idDepartamento = idDepartamento;
     }
 
     @XmlTransient
@@ -146,7 +146,7 @@ public class MunicipiosCli implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (municipiosCliPK != null ? municipiosCliPK.hashCode() : 0);
+        hash += (idMunicipio != null ? idMunicipio.hashCode() : 0);
         return hash;
     }
 
@@ -157,7 +157,7 @@ public class MunicipiosCli implements Serializable {
             return false;
         }
         MunicipiosCli other = (MunicipiosCli) object;
-        if ((this.municipiosCliPK == null && other.municipiosCliPK != null) || (this.municipiosCliPK != null && !this.municipiosCliPK.equals(other.municipiosCliPK))) {
+        if ((this.idMunicipio == null && other.idMunicipio != null) || (this.idMunicipio != null && !this.idMunicipio.equals(other.idMunicipio))) {
             return false;
         }
         return true;
@@ -165,7 +165,7 @@ public class MunicipiosCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.MunicipiosCli[ municipiosCliPK=" + municipiosCliPK + " ]";
+        return "Entities.MunicipiosCli[ idMunicipio=" + idMunicipio + " ]";
     }
     
 }

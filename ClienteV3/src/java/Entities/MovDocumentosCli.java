@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Mov_Documentos_Cli")
@@ -78,18 +79,18 @@ public class MovDocumentosCli implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @JoinColumn(name = "Id_Entidad", referencedColumnName = "Id_Entidad")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EntidadesCli idEntidad;
     @JoinColumn(name = "Id_Mov_Persona", referencedColumnName = "Id_Movimiento")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private MovPersonasCli idMovPersona;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovDocumento")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovDocumento", fetch = FetchType.LAZY)
     private List<MovMaterialesCli> movMaterialesCliList;
 
     public MovDocumentosCli() {
@@ -227,7 +228,7 @@ public class MovDocumentosCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.MovDocumentosCli[ idMovDocumento=" + idMovDocumento + " ]";
+        return "Entities.MovDocumentosCli[ idMovDocumento=" + idMovDocumento + " ]";
     }
     
 }

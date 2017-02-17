@@ -10,7 +10,10 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -22,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Notificaciones_Cli")
@@ -31,12 +34,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "NotificacionesCli.findAll", query = "SELECT n FROM NotificacionesCli n"),
     @NamedQuery(name = "NotificacionesCli.findByIdNotificacion", query = "SELECT n FROM NotificacionesCli n WHERE n.idNotificacion = :idNotificacion"),
     @NamedQuery(name = "NotificacionesCli.findByTipoEvento", query = "SELECT n FROM NotificacionesCli n WHERE n.tipoEvento = :tipoEvento"),
-    @NamedQuery(name = "NotificacionesCli.findByIdSucursal", query = "SELECT n FROM NotificacionesCli n WHERE n.idSucursal = :idSucursal"),
-    @NamedQuery(name = "NotificacionesCli.findByIdPorteria", query = "SELECT n FROM NotificacionesCli n WHERE n.idPorteria = :idPorteria"),
-    @NamedQuery(name = "NotificacionesCli.findByIdEmpresaOrigen", query = "SELECT n FROM NotificacionesCli n WHERE n.idEmpresaOrigen = :idEmpresaOrigen"),
-    @NamedQuery(name = "NotificacionesCli.findByIdCategoria", query = "SELECT n FROM NotificacionesCli n WHERE n.idCategoria = :idCategoria"),
-    @NamedQuery(name = "NotificacionesCli.findByIdEntidad", query = "SELECT n FROM NotificacionesCli n WHERE n.idEntidad = :idEntidad"),
-    @NamedQuery(name = "NotificacionesCli.findByIdEnte", query = "SELECT n FROM NotificacionesCli n WHERE n.idEnte = :idEnte"),
     @NamedQuery(name = "NotificacionesCli.findByFechaDesde", query = "SELECT n FROM NotificacionesCli n WHERE n.fechaDesde = :fechaDesde"),
     @NamedQuery(name = "NotificacionesCli.findByFechaHasta", query = "SELECT n FROM NotificacionesCli n WHERE n.fechaHasta = :fechaHasta"),
     @NamedQuery(name = "NotificacionesCli.findByHoraDesde", query = "SELECT n FROM NotificacionesCli n WHERE n.horaDesde = :horaDesde"),
@@ -44,7 +41,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "NotificacionesCli.findByMail", query = "SELECT n FROM NotificacionesCli n WHERE n.mail = :mail"),
     @NamedQuery(name = "NotificacionesCli.findByAsunto", query = "SELECT n FROM NotificacionesCli n WHERE n.asunto = :asunto"),
     @NamedQuery(name = "NotificacionesCli.findByMensaje", query = "SELECT n FROM NotificacionesCli n WHERE n.mensaje = :mensaje"),
-    @NamedQuery(name = "NotificacionesCli.findByUsuario", query = "SELECT n FROM NotificacionesCli n WHERE n.usuario = :usuario"),
     @NamedQuery(name = "NotificacionesCli.findByFecha", query = "SELECT n FROM NotificacionesCli n WHERE n.fecha = :fecha"),
     @NamedQuery(name = "NotificacionesCli.findByBSucursal", query = "SELECT n FROM NotificacionesCli n WHERE n.bSucursal = :bSucursal"),
     @NamedQuery(name = "NotificacionesCli.findByBPorteria", query = "SELECT n FROM NotificacionesCli n WHERE n.bPorteria = :bPorteria"),
@@ -63,34 +59,6 @@ public class NotificacionesCli implements Serializable {
     @NotNull
     @Column(name = "Tipo_Evento")
     private Character tipoEvento;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Id_Sucursal")
-    private long idSucursal;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Id_Porteria")
-    private long idPorteria;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "Id_Empresa_Origen")
-    private String idEmpresaOrigen;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 3)
-    @Column(name = "Id_Categoria")
-    private String idCategoria;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 3)
-    @Column(name = "Id_Entidad")
-    private String idEntidad;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 14)
-    @Column(name = "Id_Ente")
-    private String idEnte;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Fecha_Desde")
@@ -128,11 +96,6 @@ public class NotificacionesCli implements Serializable {
     private String mensaje;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 14)
-    @Column(name = "Usuario")
-    private String usuario;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
@@ -156,6 +119,33 @@ public class NotificacionesCli implements Serializable {
     @NotNull
     @Column(name = "B_Ente")
     private boolean bEnte;
+    @JoinColumn(name = "Id_Categoria", referencedColumnName = "Id_Categoria")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private CategoriasCli idCategoria;
+    @JoinColumn(name = "Id_Empresa_Origen", referencedColumnName = "Id_Emorigen")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private EmpresaOrigenCli idEmpresaOrigen;
+    @JoinColumn(name = "Id_Entidad", referencedColumnName = "Id_Entidad")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private EntidadesCli idEntidad;
+    @JoinColumn(name = "Id_Objeto", referencedColumnName = "Id_Objeto")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ObjetosCli idObjeto;
+    @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private PersonasCli usuario;
+    @JoinColumn(name = "Id_Persona", referencedColumnName = "Id_Persona")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private PersonasCli idPersona;
+    @JoinColumn(name = "Id_Porteria", referencedColumnName = "Id_Porteria")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Porterias idPorteria;
+    @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SucursalesCli idSucursal;
+    @JoinColumn(name = "Id_Vehiculo", referencedColumnName = "Id_Vehiculo")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private VehiculosCli idVehiculo;
 
     public NotificacionesCli() {
     }
@@ -164,15 +154,9 @@ public class NotificacionesCli implements Serializable {
         this.idNotificacion = idNotificacion;
     }
 
-    public NotificacionesCli(Long idNotificacion, Character tipoEvento, long idSucursal, long idPorteria, String idEmpresaOrigen, String idCategoria, String idEntidad, String idEnte, Date fechaDesde, Date fechaHasta, Date horaDesde, Date horaHasta, String mail, String asunto, String mensaje, String usuario, Date fecha, boolean bSucursal, boolean bPorteria, boolean bEmpresaOrigen, boolean bEntidad, boolean bEnte) {
+    public NotificacionesCli(Long idNotificacion, Character tipoEvento, Date fechaDesde, Date fechaHasta, Date horaDesde, Date horaHasta, String mail, String asunto, String mensaje, Date fecha, boolean bSucursal, boolean bPorteria, boolean bEmpresaOrigen, boolean bEntidad, boolean bEnte) {
         this.idNotificacion = idNotificacion;
         this.tipoEvento = tipoEvento;
-        this.idSucursal = idSucursal;
-        this.idPorteria = idPorteria;
-        this.idEmpresaOrigen = idEmpresaOrigen;
-        this.idCategoria = idCategoria;
-        this.idEntidad = idEntidad;
-        this.idEnte = idEnte;
         this.fechaDesde = fechaDesde;
         this.fechaHasta = fechaHasta;
         this.horaDesde = horaDesde;
@@ -180,7 +164,6 @@ public class NotificacionesCli implements Serializable {
         this.mail = mail;
         this.asunto = asunto;
         this.mensaje = mensaje;
-        this.usuario = usuario;
         this.fecha = fecha;
         this.bSucursal = bSucursal;
         this.bPorteria = bPorteria;
@@ -203,54 +186,6 @@ public class NotificacionesCli implements Serializable {
 
     public void setTipoEvento(Character tipoEvento) {
         this.tipoEvento = tipoEvento;
-    }
-
-    public long getIdSucursal() {
-        return idSucursal;
-    }
-
-    public void setIdSucursal(long idSucursal) {
-        this.idSucursal = idSucursal;
-    }
-
-    public long getIdPorteria() {
-        return idPorteria;
-    }
-
-    public void setIdPorteria(long idPorteria) {
-        this.idPorteria = idPorteria;
-    }
-
-    public String getIdEmpresaOrigen() {
-        return idEmpresaOrigen;
-    }
-
-    public void setIdEmpresaOrigen(String idEmpresaOrigen) {
-        this.idEmpresaOrigen = idEmpresaOrigen;
-    }
-
-    public String getIdCategoria() {
-        return idCategoria;
-    }
-
-    public void setIdCategoria(String idCategoria) {
-        this.idCategoria = idCategoria;
-    }
-
-    public String getIdEntidad() {
-        return idEntidad;
-    }
-
-    public void setIdEntidad(String idEntidad) {
-        this.idEntidad = idEntidad;
-    }
-
-    public String getIdEnte() {
-        return idEnte;
-    }
-
-    public void setIdEnte(String idEnte) {
-        this.idEnte = idEnte;
     }
 
     public Date getFechaDesde() {
@@ -309,14 +244,6 @@ public class NotificacionesCli implements Serializable {
         this.mensaje = mensaje;
     }
 
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
     public Date getFecha() {
         return fecha;
     }
@@ -365,6 +292,78 @@ public class NotificacionesCli implements Serializable {
         this.bEnte = bEnte;
     }
 
+    public CategoriasCli getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(CategoriasCli idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public EmpresaOrigenCli getIdEmpresaOrigen() {
+        return idEmpresaOrigen;
+    }
+
+    public void setIdEmpresaOrigen(EmpresaOrigenCli idEmpresaOrigen) {
+        this.idEmpresaOrigen = idEmpresaOrigen;
+    }
+
+    public EntidadesCli getIdEntidad() {
+        return idEntidad;
+    }
+
+    public void setIdEntidad(EntidadesCli idEntidad) {
+        this.idEntidad = idEntidad;
+    }
+
+    public ObjetosCli getIdObjeto() {
+        return idObjeto;
+    }
+
+    public void setIdObjeto(ObjetosCli idObjeto) {
+        this.idObjeto = idObjeto;
+    }
+
+    public PersonasCli getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(PersonasCli usuario) {
+        this.usuario = usuario;
+    }
+
+    public PersonasCli getIdPersona() {
+        return idPersona;
+    }
+
+    public void setIdPersona(PersonasCli idPersona) {
+        this.idPersona = idPersona;
+    }
+
+    public Porterias getIdPorteria() {
+        return idPorteria;
+    }
+
+    public void setIdPorteria(Porterias idPorteria) {
+        this.idPorteria = idPorteria;
+    }
+
+    public SucursalesCli getIdSucursal() {
+        return idSucursal;
+    }
+
+    public void setIdSucursal(SucursalesCli idSucursal) {
+        this.idSucursal = idSucursal;
+    }
+
+    public VehiculosCli getIdVehiculo() {
+        return idVehiculo;
+    }
+
+    public void setIdVehiculo(VehiculosCli idVehiculo) {
+        this.idVehiculo = idVehiculo;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -387,7 +386,7 @@ public class NotificacionesCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.NotificacionesCli[ idNotificacion=" + idNotificacion + " ]";
+        return "Entities.NotificacionesCli[ idNotificacion=" + idNotificacion + " ]";
     }
     
 }

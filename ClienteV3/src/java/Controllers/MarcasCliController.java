@@ -26,18 +26,101 @@ public class MarcasCliController implements Serializable {
     @EJB
     private Facade.MarcasCliFacade ejbFacade;
     private List<MarcasCli> items = null;
+    private MarcasCli selected;
 
     public MarcasCliController() {
     }
 
+    public MarcasCli getSelected() {
+        return selected;
+    }
+
+    public void setSelected(MarcasCli selected) {
+        this.selected = selected;
+    }
+
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private MarcasCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public MarcasCli prepareCreate() {
+        selected = new MarcasCli();
+        initializeEmbeddableKey();
+        return selected;
+    }
+
+    public void create() {
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("MarcasCliCreated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void update() {
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("MarcasCliUpdated"));
+    }
+
+    public void destroy() {
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("MarcasCliDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
     public List<MarcasCli> getItems() {
         if (items == null) {
-            items = (List<MarcasCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
 
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    private void persist(PersistAction persistAction, String successMessage) {
+        if (selected != null) {
+            setEmbeddableKeys();
+            try {
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
+                }
+                JsfUtil.addSuccessMessage(successMessage);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            }
+        }
+    }
+
+    public MarcasCli getMarcasCli(java.lang.String id) {
+        return getFacade().find(id);
+    }
+
+    public List<MarcasCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<MarcasCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = MarcasCli.class)
     public static class MarcasCliControllerConverter implements Converter {
 
@@ -48,7 +131,7 @@ public class MarcasCliController implements Serializable {
             }
             MarcasCliController controller = (MarcasCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "marcasCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getMarcasCli(getKey(value));
         }
 
         java.lang.String getKey(String value) {
@@ -78,6 +161,5 @@ public class MarcasCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
 
 }

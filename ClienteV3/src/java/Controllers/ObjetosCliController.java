@@ -39,8 +39,20 @@ public class ObjetosCliController implements Serializable {
         this.selected = selected;
     }
 
-    public void prepareCreate() {
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private ObjetosCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public ObjetosCli prepareCreate() {
         selected = new ObjetosCli();
+        initializeEmbeddableKey();
+        return selected;
     }
 
     public void create() {
@@ -64,18 +76,19 @@ public class ObjetosCliController implements Serializable {
 
     public List<ObjetosCli> getItems() {
         if (items == null) {
-            items = (List<ObjetosCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    ejbFacade.edit(selected);
+                    getFacade().edit(selected);
                 } else {
-                    ejbFacade.remove(selected);
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -95,8 +108,19 @@ public class ObjetosCliController implements Serializable {
             }
         }
     }
-    
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+
+    public ObjetosCli getObjetosCli(java.lang.String id) {
+        return getFacade().find(id);
+    }
+
+    public List<ObjetosCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<ObjetosCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = ObjetosCli.class)
     public static class ObjetosCliControllerConverter implements Converter {
 
@@ -107,7 +131,7 @@ public class ObjetosCliController implements Serializable {
             }
             ObjetosCliController controller = (ObjetosCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "objetosCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getObjetosCli(getKey(value));
         }
 
         java.lang.String getKey(String value) {
@@ -137,6 +161,5 @@ public class ObjetosCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
 
 }

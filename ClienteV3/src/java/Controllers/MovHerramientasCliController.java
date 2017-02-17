@@ -39,8 +39,20 @@ public class MovHerramientasCliController implements Serializable {
         this.selected = selected;
     }
 
-    public void prepareCreate() {
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private MovHerramientasCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public MovHerramientasCli prepareCreate() {
         selected = new MovHerramientasCli();
+        initializeEmbeddableKey();
+        return selected;
     }
 
     public void create() {
@@ -64,18 +76,19 @@ public class MovHerramientasCliController implements Serializable {
 
     public List<MovHerramientasCli> getItems() {
         if (items == null) {
-            items = (List<MovHerramientasCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    ejbFacade.edit(selected);
+                    getFacade().edit(selected);
                 } else {
-                    ejbFacade.remove(selected);
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -96,7 +109,18 @@ public class MovHerramientasCliController implements Serializable {
         }
     }
 
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    public MovHerramientasCli getMovHerramientasCli(java.lang.Long id) {
+        return getFacade().find(id);
+    }
+
+    public List<MovHerramientasCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<MovHerramientasCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = MovHerramientasCli.class)
     public static class MovHerramientasCliControllerConverter implements Converter {
 
@@ -107,7 +131,7 @@ public class MovHerramientasCliController implements Serializable {
             }
             MovHerramientasCliController controller = (MovHerramientasCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "movHerramientasCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getMovHerramientasCli(getKey(value));
         }
 
         java.lang.Long getKey(String value) {
@@ -137,6 +161,5 @@ public class MovHerramientasCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
 
 }

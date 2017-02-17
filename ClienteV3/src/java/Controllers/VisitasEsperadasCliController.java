@@ -3,6 +3,7 @@ package Controllers;
 import Entities.VisitasEsperadasCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
+import Facade.VisitasEsperadasCliFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -39,6 +40,7 @@ public class VisitasEsperadasCliController implements Serializable {
     }
 
     protected void setEmbeddableKeys() {
+        selected.getVisitasEsperadasCliPK().setIdPersona(selected.getPersonasCli().getIdPersona());
         selected.getVisitasEsperadasCliPK().setIdSucursal(selected.getSucursalesCli().getIdSucursal());
     }
 
@@ -46,9 +48,14 @@ public class VisitasEsperadasCliController implements Serializable {
         selected.setVisitasEsperadasCliPK(new Entities.VisitasEsperadasCliPK());
     }
 
-    public void prepareCreate() {
+    private VisitasEsperadasCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public VisitasEsperadasCli prepareCreate() {
         selected = new VisitasEsperadasCli();
         initializeEmbeddableKey();
+        return selected;
     }
 
     public void create() {
@@ -72,7 +79,7 @@ public class VisitasEsperadasCliController implements Serializable {
 
     public List<VisitasEsperadasCli> getItems() {
         if (items == null) {
-            items = (List<VisitasEsperadasCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
@@ -82,9 +89,9 @@ public class VisitasEsperadasCliController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    ejbFacade.edit(selected);
+                    getFacade().edit(selected);
                 } else {
-                    ejbFacade.remove(selected);
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -105,7 +112,18 @@ public class VisitasEsperadasCliController implements Serializable {
         }
     }
 
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    public VisitasEsperadasCli getVisitasEsperadasCli(Entities.VisitasEsperadasCliPK id) {
+        return getFacade().find(id);
+    }
+
+    public List<VisitasEsperadasCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<VisitasEsperadasCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = VisitasEsperadasCli.class)
     public static class VisitasEsperadasCliControllerConverter implements Converter {
 
@@ -119,7 +137,7 @@ public class VisitasEsperadasCliController implements Serializable {
             }
             VisitasEsperadasCliController controller = (VisitasEsperadasCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "visitasEsperadasCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getVisitasEsperadasCli(getKey(value));
         }
 
         Entities.VisitasEsperadasCliPK getKey(String value) {
@@ -157,6 +175,5 @@ public class VisitasEsperadasCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
 
 }

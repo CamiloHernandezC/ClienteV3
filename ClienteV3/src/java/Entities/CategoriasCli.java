@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Categorias_Cli")
@@ -46,10 +47,12 @@ public class CategoriasCli implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria", fetch = FetchType.LAZY)
     private List<MarcasCli> marcasCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria", fetch = FetchType.LAZY)
     private List<EntidadesCli> entidadesCliList;
+    @OneToMany(mappedBy = "idCategoria", fetch = FetchType.LAZY)
+    private List<NotificacionesCli> notificacionesCliList;
 
     public CategoriasCli() {
     }
@@ -97,6 +100,15 @@ public class CategoriasCli implements Serializable {
         this.entidadesCliList = entidadesCliList;
     }
 
+    @XmlTransient
+    public List<NotificacionesCli> getNotificacionesCliList() {
+        return notificacionesCliList;
+    }
+
+    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
+        this.notificacionesCliList = notificacionesCliList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -119,7 +131,7 @@ public class CategoriasCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.CategoriasCli[ idCategoria=" + idCategoria + " ]";
+        return "Entities.CategoriasCli[ idCategoria=" + idCategoria + " ]";
     }
     
 }

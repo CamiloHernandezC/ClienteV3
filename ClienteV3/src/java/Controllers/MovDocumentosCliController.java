@@ -39,8 +39,20 @@ public class MovDocumentosCliController implements Serializable {
         this.selected = selected;
     }
 
-    public void prepareCreate() {
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private MovDocumentosCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public MovDocumentosCli prepareCreate() {
         selected = new MovDocumentosCli();
+        initializeEmbeddableKey();
+        return selected;
     }
 
     public void create() {
@@ -64,18 +76,19 @@ public class MovDocumentosCliController implements Serializable {
 
     public List<MovDocumentosCli> getItems() {
         if (items == null) {
-            items = (List<MovDocumentosCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    ejbFacade.edit(selected);
+                    getFacade().edit(selected);
                 } else {
-                    ejbFacade.remove(selected);
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -96,7 +109,18 @@ public class MovDocumentosCliController implements Serializable {
         }
     }
 
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    public MovDocumentosCli getMovDocumentosCli(java.lang.Long id) {
+        return getFacade().find(id);
+    }
+
+    public List<MovDocumentosCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<MovDocumentosCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = MovDocumentosCli.class)
     public static class MovDocumentosCliControllerConverter implements Converter {
 
@@ -107,7 +131,7 @@ public class MovDocumentosCliController implements Serializable {
             }
             MovDocumentosCliController controller = (MovDocumentosCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "movDocumentosCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getMovDocumentosCli(getKey(value));
         }
 
         java.lang.Long getKey(String value) {
@@ -137,6 +161,5 @@ public class MovDocumentosCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
-    
+
 }

@@ -12,14 +12,13 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Vehiculos_Cli")
@@ -91,45 +90,43 @@ public class VehiculosCli implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @PrimaryKeyJoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
-    @ManyToOne
-    private DepartamentosCli idDepartamento;
     @JoinColumn(name = "Id_Entidad", referencedColumnName = "Id_Entidad")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EntidadesCli idEntidad;
+    @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private DepartamentosCli idDepartamento;
     @JoinColumn(name = "Id_Estado", referencedColumnName = "Id_Estado")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadosCli idEstado;
-    @JoinColumns({
-        @JoinColumn(name = "Id_Marca", referencedColumnName = "Id_Marca"),
-        @JoinColumn(name = "Id_Linea", referencedColumnName = "Id_Linea")})
-    @ManyToOne
-    private LineasCli lineasCli;
-    @PrimaryKeyJoinColumn(name = "Id_Marca", referencedColumnName = "Id_Marca")
-    @ManyToOne
+    @JoinColumn(name = "Id_Linea", referencedColumnName = "Id_Linea")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private LineasCli idLinea;
+    @JoinColumn(name = "Id_Marca", referencedColumnName = "Id_Marca")
+    @ManyToOne(fetch = FetchType.LAZY)
     private MarcasCli idMarca;
-    @JoinColumns({
-        @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento"),
-        @JoinColumn(name = "Id_Municipio", referencedColumnName = "Id_Municipio")})
-    @ManyToOne
-    private MunicipiosCli municipiosCli;
+    @JoinColumn(name = "Id_Municipio", referencedColumnName = "Id_Municipio")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private MunicipiosCli idMunicipio;
     @JoinColumn(name = "Id_Pais", referencedColumnName = "Id_Pais")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private PaisesCli idPais;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
     @JoinColumn(name = "Unidad_Peso", referencedColumnName = "Id_Unidad")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private UnidadesCli unidadPeso;
     @JoinColumn(name = "Unidad_Volumen", referencedColumnName = "Id_Unidad")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private UnidadesCli unidadVolumen;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVehiculo")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVehiculo", fetch = FetchType.LAZY)
     private List<MovVehiculosCli> movVehiculosCliList;
+    @OneToMany(mappedBy = "idVehiculo", fetch = FetchType.LAZY)
+    private List<NotificacionesCli> notificacionesCliList;
 
     public VehiculosCli() {
     }
@@ -232,20 +229,20 @@ public class VehiculosCli implements Serializable {
         this.fecha = fecha;
     }
 
-    public DepartamentosCli getIdDepartamento() {
-        return idDepartamento;
-    }
-
-    public void setIdDepartamento(DepartamentosCli idDepartamento) {
-        this.idDepartamento = idDepartamento;
-    }
-
     public EntidadesCli getIdEntidad() {
         return idEntidad;
     }
 
     public void setIdEntidad(EntidadesCli idEntidad) {
         this.idEntidad = idEntidad;
+    }
+
+    public DepartamentosCli getIdDepartamento() {
+        return idDepartamento;
+    }
+
+    public void setIdDepartamento(DepartamentosCli idDepartamento) {
+        this.idDepartamento = idDepartamento;
     }
 
     public EstadosCli getIdEstado() {
@@ -256,12 +253,12 @@ public class VehiculosCli implements Serializable {
         this.idEstado = idEstado;
     }
 
-    public LineasCli getLineasCli() {
-        return lineasCli;
+    public LineasCli getIdLinea() {
+        return idLinea;
     }
 
-    public void setLineasCli(LineasCli lineasCli) {
-        this.lineasCli = lineasCli;
+    public void setIdLinea(LineasCli idLinea) {
+        this.idLinea = idLinea;
     }
 
     public MarcasCli getIdMarca() {
@@ -272,12 +269,12 @@ public class VehiculosCli implements Serializable {
         this.idMarca = idMarca;
     }
 
-    public MunicipiosCli getMunicipiosCli() {
-        return municipiosCli;
+    public MunicipiosCli getIdMunicipio() {
+        return idMunicipio;
     }
 
-    public void setMunicipiosCli(MunicipiosCli municipiosCli) {
-        this.municipiosCli = municipiosCli;
+    public void setIdMunicipio(MunicipiosCli idMunicipio) {
+        this.idMunicipio = idMunicipio;
     }
 
     public PaisesCli getIdPais() {
@@ -329,6 +326,15 @@ public class VehiculosCli implements Serializable {
         this.movVehiculosCliList = movVehiculosCliList;
     }
 
+    @XmlTransient
+    public List<NotificacionesCli> getNotificacionesCliList() {
+        return notificacionesCliList;
+    }
+
+    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
+        this.notificacionesCliList = notificacionesCliList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -351,7 +357,7 @@ public class VehiculosCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.VehiculosCli[ idVehiculo=" + idVehiculo + " ]";
+        return "Entities.VehiculosCli[ idVehiculo=" + idVehiculo + " ]";
     }
     
 }

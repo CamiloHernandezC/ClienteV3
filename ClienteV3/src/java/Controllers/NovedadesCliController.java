@@ -39,8 +39,20 @@ public class NovedadesCliController implements Serializable {
         this.selected = selected;
     }
 
-    public void prepareCreate() {
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private NovedadesCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public NovedadesCli prepareCreate() {
         selected = new NovedadesCli();
+        initializeEmbeddableKey();
+        return selected;
     }
 
     public void create() {
@@ -64,18 +76,19 @@ public class NovedadesCliController implements Serializable {
 
     public List<NovedadesCli> getItems() {
         if (items == null) {
-            items = (List<NovedadesCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    ejbFacade.edit(selected);
+                    getFacade().edit(selected);
                 } else {
-                    ejbFacade.remove(selected);
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -96,7 +109,18 @@ public class NovedadesCliController implements Serializable {
         }
     }
 
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    public NovedadesCli getNovedadesCli(java.lang.String id) {
+        return getFacade().find(id);
+    }
+
+    public List<NovedadesCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<NovedadesCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = NovedadesCli.class)
     public static class NovedadesCliControllerConverter implements Converter {
 
@@ -107,7 +131,7 @@ public class NovedadesCliController implements Serializable {
             }
             NovedadesCliController controller = (NovedadesCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "novedadesCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getNovedadesCli(getKey(value));
         }
 
         java.lang.String getKey(String value) {
@@ -137,6 +161,5 @@ public class NovedadesCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
 
 }

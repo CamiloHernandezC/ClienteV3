@@ -39,8 +39,20 @@ public class MaterialesCliController implements Serializable {
         this.selected = selected;
     }
 
-    public void prepareCreate() {
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private MaterialesCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public MaterialesCli prepareCreate() {
         selected = new MaterialesCli();
+        initializeEmbeddableKey();
+        return selected;
     }
 
     public void create() {
@@ -64,18 +76,19 @@ public class MaterialesCliController implements Serializable {
 
     public List<MaterialesCli> getItems() {
         if (items == null) {
-            items = (List<MaterialesCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    ejbFacade.edit(selected);
+                    getFacade().edit(selected);
                 } else {
-                    ejbFacade.remove(selected);
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -96,7 +109,18 @@ public class MaterialesCliController implements Serializable {
         }
     }
 
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    public MaterialesCli getMaterialesCli(java.lang.String id) {
+        return getFacade().find(id);
+    }
+
+    public List<MaterialesCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<MaterialesCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = MaterialesCli.class)
     public static class MaterialesCliControllerConverter implements Converter {
 
@@ -107,7 +131,7 @@ public class MaterialesCliController implements Serializable {
             }
             MaterialesCliController controller = (MaterialesCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "materialesCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getMaterialesCli(getKey(value));
         }
 
         java.lang.String getKey(String value) {
@@ -137,6 +161,5 @@ public class MaterialesCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
-    
+
 }

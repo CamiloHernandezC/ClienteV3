@@ -39,8 +39,20 @@ public class UsuariosCliController implements Serializable {
         this.selected = selected;
     }
 
-    public void prepareCreate() {
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private UsuariosCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public UsuariosCli prepareCreate() {
         selected = new UsuariosCli();
+        initializeEmbeddableKey();
+        return selected;
     }
 
     public void create() {
@@ -64,18 +76,19 @@ public class UsuariosCliController implements Serializable {
 
     public List<UsuariosCli> getItems() {
         if (items == null) {
-            items = (List<UsuariosCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    ejbFacade.edit(selected);
+                    getFacade().edit(selected);
                 } else {
-                    ejbFacade.remove(selected);
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -96,7 +109,18 @@ public class UsuariosCliController implements Serializable {
         }
     }
 
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    public UsuariosCli getUsuariosCli(java.lang.String id) {
+        return getFacade().find(id);
+    }
+
+    public List<UsuariosCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<UsuariosCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = UsuariosCli.class)
     public static class UsuariosCliControllerConverter implements Converter {
 
@@ -107,7 +131,7 @@ public class UsuariosCliController implements Serializable {
             }
             UsuariosCliController controller = (UsuariosCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "usuariosCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getUsuariosCli(getKey(value));
         }
 
         java.lang.String getKey(String value) {
@@ -137,6 +161,5 @@ public class UsuariosCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
 
 }

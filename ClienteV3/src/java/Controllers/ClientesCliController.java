@@ -25,11 +25,102 @@ public class ClientesCliController implements Serializable {
 
     @EJB
     private Facade.ClientesCliFacade ejbFacade;
+    private List<ClientesCli> items = null;
+    private ClientesCli selected;
 
     public ClientesCliController() {
     }
 
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    public ClientesCli getSelected() {
+        return selected;
+    }
+
+    public void setSelected(ClientesCli selected) {
+        this.selected = selected;
+    }
+
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private ClientesCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public ClientesCli prepareCreate() {
+        selected = new ClientesCli();
+        initializeEmbeddableKey();
+        return selected;
+    }
+
+    public void create() {
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ClientesCliCreated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void update() {
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ClientesCliUpdated"));
+    }
+
+    public void destroy() {
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("ClientesCliDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public List<ClientesCli> getItems() {
+        if (items == null) {
+            items = getFacade().findAll();
+        }
+        return items;
+    }
+
+    private void persist(PersistAction persistAction, String successMessage) {
+        if (selected != null) {
+            setEmbeddableKeys();
+            try {
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
+                }
+                JsfUtil.addSuccessMessage(successMessage);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            }
+        }
+    }
+
+    public ClientesCli getClientesCli(java.lang.Long id) {
+        return getFacade().find(id);
+    }
+
+    public List<ClientesCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<ClientesCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = ClientesCli.class)
     public static class ClientesCliControllerConverter implements Converter {
 
@@ -40,7 +131,7 @@ public class ClientesCliController implements Serializable {
             }
             ClientesCliController controller = (ClientesCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "clientesCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getClientesCli(getKey(value));
         }
 
         java.lang.Long getKey(String value) {
@@ -70,6 +161,5 @@ public class ClientesCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
 
 }

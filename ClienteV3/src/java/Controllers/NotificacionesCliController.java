@@ -39,8 +39,20 @@ public class NotificacionesCliController implements Serializable {
         this.selected = selected;
     }
 
-    public void prepareCreate() {
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private NotificacionesCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public NotificacionesCli prepareCreate() {
         selected = new NotificacionesCli();
+        initializeEmbeddableKey();
+        return selected;
     }
 
     public void create() {
@@ -64,18 +76,19 @@ public class NotificacionesCliController implements Serializable {
 
     public List<NotificacionesCli> getItems() {
         if (items == null) {
-            items = (List<NotificacionesCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    ejbFacade.edit(selected);
+                    getFacade().edit(selected);
                 } else {
-                    ejbFacade.remove(selected);
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -95,8 +108,19 @@ public class NotificacionesCliController implements Serializable {
             }
         }
     }
-    
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+
+    public NotificacionesCli getNotificacionesCli(java.lang.Long id) {
+        return getFacade().find(id);
+    }
+
+    public List<NotificacionesCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<NotificacionesCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = NotificacionesCli.class)
     public static class NotificacionesCliControllerConverter implements Converter {
 
@@ -107,7 +131,7 @@ public class NotificacionesCliController implements Serializable {
             }
             NotificacionesCliController controller = (NotificacionesCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "notificacionesCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getNotificacionesCli(getKey(value));
         }
 
         java.lang.Long getKey(String value) {
@@ -137,6 +161,5 @@ public class NotificacionesCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
-    
+
 }

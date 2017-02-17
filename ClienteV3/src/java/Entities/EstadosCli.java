@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Entity
 @Table(name = "Estados_Cli")
@@ -33,6 +34,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "EstadosCli.findByIdEstado", query = "SELECT e FROM EstadosCli e WHERE e.idEstado = :idEstado"),
     @NamedQuery(name = "EstadosCli.findByDescripcion", query = "SELECT e FROM EstadosCli e WHERE e.descripcion = :descripcion")})
 public class EstadosCli implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
+    private List<PersonasCli> personasCliList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,17 +49,17 @@ public class EstadosCli implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado", fetch = FetchType.LAZY)
     private List<VehiculosCli> vehiculosCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado", fetch = FetchType.LAZY)
     private List<EmpresaOrigenCli> empresaOrigenCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
+    private List<PersonasSucursalCli> personasSucursalCliList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
     private List<ClientesCli> clientesCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado")
-    private List<PersonasCli> personasCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado", fetch = FetchType.LAZY)
     private List<ObjetosCli> objetosCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado", fetch = FetchType.LAZY)
     private List<UsuariosCli> usuariosCliList;
 
     public EstadosCli() {
@@ -105,21 +109,21 @@ public class EstadosCli implements Serializable {
     }
 
     @XmlTransient
+    public List<PersonasSucursalCli> getPersonasSucursalCliList() {
+        return personasSucursalCliList;
+    }
+
+    public void setPersonasSucursalCliList(List<PersonasSucursalCli> personasSucursalCliList) {
+        this.personasSucursalCliList = personasSucursalCliList;
+    }
+
+    @XmlTransient
     public List<ClientesCli> getClientesCliList() {
         return clientesCliList;
     }
 
     public void setClientesCliList(List<ClientesCli> clientesCliList) {
         this.clientesCliList = clientesCliList;
-    }
-
-    @XmlTransient
-    public List<PersonasCli> getPersonasCliList() {
-        return personasCliList;
-    }
-
-    public void setPersonasCliList(List<PersonasCli> personasCliList) {
-        this.personasCliList = personasCliList;
     }
 
     @XmlTransient
@@ -162,7 +166,16 @@ public class EstadosCli implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.EstadosCli[ idEstado=" + idEstado + " ]";
+        return "Entities.EstadosCli[ idEstado=" + idEstado + " ]";
+    }
+
+    @XmlTransient
+    public List<PersonasCli> getPersonasCliList() {
+        return personasCliList;
+    }
+
+    public void setPersonasCliList(List<PersonasCli> personasCliList) {
+        this.personasCliList = personasCliList;
     }
     
 }

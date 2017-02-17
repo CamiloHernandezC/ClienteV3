@@ -39,8 +39,20 @@ public class EmpresaOrigenCliController implements Serializable {
         this.selected = selected;
     }
 
-    public void prepareCreate() {
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
+    }
+
+    private EmpresaOrigenCliFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public EmpresaOrigenCli prepareCreate() {
         selected = new EmpresaOrigenCli();
+        initializeEmbeddableKey();
+        return selected;
     }
 
     public void create() {
@@ -64,18 +76,19 @@ public class EmpresaOrigenCliController implements Serializable {
 
     public List<EmpresaOrigenCli> getItems() {
         if (items == null) {
-            items = (List<EmpresaOrigenCli>) ejbFacade.findAll().result;
+            items = getFacade().findAll();
         }
         return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    ejbFacade.edit(selected);
+                    getFacade().edit(selected);
                 } else {
-                    ejbFacade.remove(selected);
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -96,7 +109,18 @@ public class EmpresaOrigenCliController implements Serializable {
         }
     }
 
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    public EmpresaOrigenCli getEmpresaOrigenCli(java.lang.String id) {
+        return getFacade().find(id);
+    }
+
+    public List<EmpresaOrigenCli> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<EmpresaOrigenCli> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
     @FacesConverter(forClass = EmpresaOrigenCli.class)
     public static class EmpresaOrigenCliControllerConverter implements Converter {
 
@@ -107,7 +131,7 @@ public class EmpresaOrigenCliController implements Serializable {
             }
             EmpresaOrigenCliController controller = (EmpresaOrigenCliController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "empresaOrigenCliController");
-            return controller.ejbFacade.find(getKey(value));
+            return controller.getEmpresaOrigenCli(getKey(value));
         }
 
         java.lang.String getKey(String value) {
@@ -137,6 +161,5 @@ public class EmpresaOrigenCliController implements Serializable {
         }
 
     }
-    //</editor-fold>
 
 }

@@ -13,7 +13,7 @@
             </f:facet>
         </h:head>
 
-        <h:body>
+        <h:body id="body">
 
             <p:layout fullPage="true">
 
@@ -25,21 +25,18 @@
                     Footer
                 </p:layoutUnit>
 
-                <p:layoutUnit position="west" size="175" header="Left" collapsible="true">
-                    <p:menu>
-                        <p:submenu label="Resources">
-                            <p:menuitem value="Demo" url="http://www.primefaces.org/showcase-labs/ui/home.jsf" />
-                            <p:menuitem value="Documentation" url="http://www.primefaces.org/documentation.html" />
-                            <p:menuitem value="Forum" url="http://forum.primefaces.org/" />
-                            <p:menuitem value="Themes" url="http://www.primefaces.org/themes.html" />
-
-                        </p:submenu>
-
-                    </p:menu>
+                <p:layoutUnit position="west" size="175" header="#{bundle.Menu_Name}" collapsible="false">
+                    <p:panelMenu model="#{menuControl.menu}"/>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
-                    Welcome to PrimeFaces
+                    <p:confirmDialog id="blockedDialog" appendTo="@(body)" message="BLOQUEADO" header="BLOQUEADO" severity="error" showEffect="fade" hideEffect="fade" widgetVar="blockedDialog" closable="false">
+                        <h:form>
+                            <p:commandButton value="#{bundle.Accept}" onclick="PF('blockedDialog').hide();" ajax="false"/>
+                        </h:form>
+                    </p:confirmDialog>
+                    <p:growl id="growl" sticky="true" />
+                    <ui:insert name="content"/>
                 </p:layoutUnit>
 
             </p:layout>

@@ -5,20 +5,28 @@
  */
 package Facade;
 
-import Entities.RegistroCli;
+import Entities.MenuCliente;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author chernandez
+ * @author MAURICIO
  */
 @Stateless
-public class RegistroCliFacade extends AbstractFacade<RegistroCli> {
+public class MenuClienteFacade extends AbstractFacade<MenuCliente> {
 
-    public RegistroCliFacade() {
-        super(RegistroCli.class);
+    @PersistenceContext(unitName = "PorteriaV3PU")
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
+    public MenuClienteFacade() {
+        super(MenuCliente.class);
     }
     
 }
