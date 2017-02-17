@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../masterDataTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="masterData">
+        <!--Superior Menu-->
+        <h:form id="formActions" style="margin: 0px;">            
+            <h1 style="margin: 0px;">Personas</h1>
+            <h:panelGrid columns="5" cellpadding="50">	
+                              
+                <p:commandLink onclick="PF('dialogLoad').show();">
+                    <h:outputText value="Cargar desde Archivo" />                   
+                </p:commandLink>
+                
+                <p:commandLink action="#{personaCliControl.changeViewToCreate}">
+                    <h:outputText value="Ingresar desde Formulario" />
+                </p:commandLink>
+                
+                <p:commandLink action="#{personaCliControl.showErrors}" rendered="#{personaCliControl.showError}">
+                    <h:outputText value="Mostrar Errores"/>
+                </p:commandLink>
+                
+            </h:panelGrid>           
+        </h:form>
+        
+        <h:form id="PersonasCliListForm">
+                <p:panel header="#{bundle.ListPersonasCliTitle}">
+                    <p:dataTable id="datalist" value="#{personasCliController.items}" var="item"
+                                 selectionMode="single" selection="#{personasCliController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.idPersona}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 scrollable="true" scrollWidth="200%"
+                                 >
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_idPersona}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idPersona}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_numDocumento}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.numDocumento}"/>
+                        </p:column>
+                        <p:column resizable="true" filterBy="#{item.nombre1}" headerText="#{bundle.ListPersonasCliTitle_nombre1}" filterMatchMode="contains">
+                            <h:outputText value="#{item.nombre1}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_nombre2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombre2}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_apellido1}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.apellido1}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_apellido2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.apellido2}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_direccion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.direccion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_telefono}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.telefono}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_celular}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.celular}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_mail}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.mail}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_personaContacto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.personaContacto}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_telPersonaContacto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.telPersonaContacto}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_fechavigenciaEPS}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechavigenciaEPS}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_fechavigenciaARL}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechavigenciaARL}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_sexo}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.sexo}" disabled="true"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_rh}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.rh}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_fechaNacimiento}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaNacimiento}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_usuario}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuario}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_fecha}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fecha}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_arl}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.arl}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_idDepartamento}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idDepartamento}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_idEmpresaOrigen}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idEmpresaOrigen}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_eps}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.eps}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_idMunicipio}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idMunicipio}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_idPais}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idPais}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPersonasCliTitle_tipoDocumento}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipoDocumento}"/>
+                        </p:column>
+                        <p:column headerText="#{bundle.Options}" styleClass="centerElem" id="columA" exportable="false" width="100">
+                            <h:panelGroup style="white-space: nowrap">
+                                <p:commandButton id="editButtonn" resetValues="true" actionListener="#{personasCliController.preEdit(item)}" icon="ui-icon-pencil" />
+                                <p:commandButton id="blockButton" resetValues="true" actionListener="#{personasCliController.blockPerson(item)}" icon="ui-icon-cancel" />
+                            </h:panelGroup>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+        
+    </ui:define>
+
+</ui:composition>
