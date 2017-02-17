@@ -40,42 +40,15 @@ public class MenuControl {
         ResourceBundle rb = ResourceBundle.getBundle("Utils/Bundle");
         
         //ENTRY SUBMENU
-        DefaultSubMenu firstSubmenu = new DefaultSubMenu(rb.getString("Entry"));
+        DefaultSubMenu firstSubmenu = new DefaultSubMenu(rb.getString("Datos maestros"));
         
         
-        DefaultMenuItem item = new DefaultMenuItem(rb.getString("Complete_Entry"));
-        item.setUrl(Navigation.PAGE_COMPLETE_ENTRY);
+        DefaultMenuItem item = new DefaultMenuItem(rb.getString("Personas"));
+        item.setUrl(Navigation.PAGE_MASTER_DATA_PERSON);
         firstSubmenu.addElement(item);
-        
-        item = new DefaultMenuItem(rb.getString("Express_Entry"));
-        item.setUrl(Navigation.PAGE_EXPRESS_ENTRY);
-        firstSubmenu.addElement(item);
-        
-        
          
         menu.addElement(firstSubmenu);
          
-        //EXIT SUBMENU
-        DefaultSubMenu secondSubmenu = new DefaultSubMenu(rb.getString("Exit"));
- 
-        item = new DefaultMenuItem(rb.getString("Complete_Exit"));
-        item.setUrl(Navigation.PAGE_COMPLETE_EXIT);
-        secondSubmenu.addElement(item);
-        
-        item = new DefaultMenuItem(rb.getString("Express_Exit"));
-        item.setUrl(Navigation.PAGE_EXPRESS_EXIT);
-        secondSubmenu.addElement(item);
- 
-        menu.addElement(secondSubmenu);
-        
-        //CONFIG SUBMENU
-        DefaultSubMenu thirdSubmenu = new DefaultSubMenu(rb.getString("Configuration"));
-
-        item = new DefaultMenuItem(rb.getString("Configuration"));
-        item.setUrl(Navigation.PAGE_CONFIGURATION);
-        thirdSubmenu.addElement(item);
-        
-        menu.addElement(thirdSubmenu);
         //</editor-fold>
     }
  
