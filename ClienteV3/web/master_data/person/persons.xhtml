@@ -122,7 +122,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPersonasCliTitle_sexo}"/>
                             </f:facet>
-                            <p:selectBooleanCheckbox value="#{item.personasCli.sexo}" disabled="true"/>
+                            <h:outputText value="#{item.personasCli.sexoString}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -197,6 +197,10 @@
                     </p:dataTable>
                 </p:panel>
             </h:form>
+        
+        <h:form id="initializePageDataForm">
+            <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{personasSucursalCliController.clean()}" />
+        </h:form>
 
     </ui:define>
 

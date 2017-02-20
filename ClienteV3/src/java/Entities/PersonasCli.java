@@ -153,7 +153,7 @@ public class PersonasCli implements Serializable {
     @JoinColumn(name = "Tipo_Documento", referencedColumnName = "Tipo_documento")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TiposDocumentoCli tipoDocumento;
-
+    
     public PersonasCli() {
     }
 
@@ -418,6 +418,14 @@ public class PersonasCli implements Serializable {
     @Override
     public String toString() {
         return "Entities.PersonasCli[ idPersona=" + idPersona + " ]";
+    }
+    
+    //ADITIONAL CODE
+    public String getSexoString(){
+        if (sexo) {
+            return "M";
+        }
+        return "F";
     }
     
 }
