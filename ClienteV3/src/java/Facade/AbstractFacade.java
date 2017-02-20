@@ -9,7 +9,6 @@ import Utils.Constants;
 import Utils.Result;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CacheStoreMode;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
@@ -71,7 +70,6 @@ public abstract class AbstractFacade<T> {
     public Result findByQuery(String squery, boolean maxResult) {
         try {
             Query query = getEntityManager().createQuery(squery);
-            query.setHint("javax.persistence.cache.storeMode", CacheStoreMode.BYPASS);
             T entity;
             if (maxResult) {
                 entity = (T) query.setMaxResults(1).getSingleResult();
@@ -93,13 +91,7 @@ public abstract class AbstractFacade<T> {
         try {
             EntityManager em = getEntityManager();
             Query query = em.createQuery(squery);
-            //Refresh 
-            query.setHint("javax.persistence.cache.storeMode", CacheStoreMode.BYPASS);
             List<T> list;
-            list = (List<T>) query.getResultList();
-            for(T entity:list){
-                em.refresh(entity);
-            }
             list = (List<T>) query.getResultList();
             return new Result(list, Constants.OK);
         } catch (NoResultException nre) {

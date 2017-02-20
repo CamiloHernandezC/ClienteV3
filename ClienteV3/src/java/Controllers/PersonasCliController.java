@@ -156,11 +156,6 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         //TODO CLEAN BRANCH AND AREA, MOV, EVERITHING
         JsfUtil.cancel();
     }
-    
-    public void preEdit(PersonasCli person){
-        setSelected(person);
-        //TODO SHOW EDIT DIALOG
-    }
 
     // <editor-fold desc="CONVERTER" defaultstate="collapsed">
     @FacesConverter(forClass = PersonasCli.class)
