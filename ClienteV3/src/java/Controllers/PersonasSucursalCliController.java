@@ -101,17 +101,17 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
         }
         return items;
     }
+    
+    public List<PersonasSucursalCli> getItemsByBranchOffice() {
+        if (items == null) {
+            String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+"1'";//TODO ASSIGN REAL USER HERE
+            items = getFacade().findAll();
+        }
+        return items;
+    }
 
     public PersonasSucursalCli getPersonasSucursalCli(Entities.PersonasSucursalCliPK id) {
         return getFacade().find(id);
-    }
-
-    public List<PersonasSucursalCli> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<PersonasSucursalCli> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 
     Result findSpecificPerson() {
@@ -138,6 +138,17 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
         return ejbFacade.findByQuery(squery, false);//ID EXTERNO MUST BE UNIQUE FOR NOW
     }
 
+        
+    public void preEdit(PersonasSucursalCli person){
+        setSelected(person);
+        //TODO SHOW EDIT DIALOG
+    }
+    
+    public void blockPerson(PersonasSucursalCli person){
+        setSelected(person);
+        //TODO BLOCK PERSON AND RELOAD
+    }
+    
     @FacesConverter(forClass = PersonasSucursalCli.class)
     public static class PersonasSucursalCliControllerConverter implements Converter {
 
