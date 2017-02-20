@@ -30,11 +30,6 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
-                    <p:confirmDialog id="blockedDialog" appendTo="@(body)" message="BLOQUEADO" header="BLOQUEADO" severity="error" showEffect="fade" hideEffect="fade" widgetVar="blockedDialog" closable="false">
-                        <h:form>
-                            <p:commandButton value="#{bundle.Accept}" onclick="PF('blockedDialog').hide();" ajax="false"/>
-                        </h:form>
-                    </p:confirmDialog>
                     <p:growl id="growl" sticky="true" />
                     <ui:insert name="content"/>
                 </p:layoutUnit>

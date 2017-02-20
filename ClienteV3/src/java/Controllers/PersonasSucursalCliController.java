@@ -103,8 +103,10 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
     }
     
     public List<PersonasSucursalCli> getItemsByBranchOffice() {
-        String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL+"WHERE"+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+"1'";//TODO ASSIGN REAL USER HERE
-        items = (List<PersonasSucursalCli>) getFacade().findByQueryArray(squery).result;
+        if(items==null){
+            String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL+"WHERE"+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+"1'";//TODO ASSIGN REAL USER HERE
+            items = (List<PersonasSucursalCli>) getFacade().findByQueryArray(squery).result;
+        }
         return items;
     }
 
@@ -145,11 +147,6 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
     public void blockPerson(PersonasSucursalCli person){
         setSelected(person);
         //TODO BLOCK PERSON AND RELOAD
-    }
-    
-    public void clean(){
-        //TODO PROBE WHIT MULTIPLE PAGES
-        items = null;
     }
     
     @FacesConverter(forClass = PersonasSucursalCli.class)

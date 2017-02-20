@@ -83,6 +83,12 @@
                             </f:facet>
                             <h:outputText value="#{item.idPersona}"/>
                         </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_vehicles}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.movVehiculosCliList.size()}"/>
+                        </p:column>
                     </p:dataTable>
                 </p:panel>
             </h:form>
