@@ -85,9 +85,39 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_vehicles}"/>
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_vehiclesIn}"/>
                             </f:facet>
                             <h:outputText value="#{item.movVehiculosCliList.size()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_vehiclesOut}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.movVehiculosCliList1.size()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_toolsIn}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.movHerramientasCliList.size()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_toolsOut}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.movHerramientasCliList.size()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_materials}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.movMaterialesCliList.size()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_documents}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.movDocumentosCliList.size()}"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>
