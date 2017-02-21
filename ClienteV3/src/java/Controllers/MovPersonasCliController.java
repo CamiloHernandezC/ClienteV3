@@ -75,14 +75,6 @@ public class MovPersonasCliController extends AbstractPersistenceController<MovP
     public MovPersonasCli getMovPersonasCli(java.lang.Long id) {
         return getFacade().find(id);
     }
-
-    public List<MovPersonasCli> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<MovPersonasCli> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
     
     public void recordEntryMovement(int persistAction) {
         PersonasSucursalCliController personasSucursalCli = JsfUtil.findBean("personasSucursalCliController");
