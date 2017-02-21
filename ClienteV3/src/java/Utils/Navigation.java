@@ -12,5 +12,6 @@ package Utils;
 public class Navigation {
     public static final String PAGE_MASTER_DATA_PERSON ="/master_data/person/persons.xhtml";
     public static final String PAGE_INDEX ="/Cliente";
-    public static String PAGE_REPORT_PERSON="/reports/person/person.xhtml";
+    public static final String PAGE_REPORT_GENERAL_PERSON="/reports/person/list.xhtml";
+    public static final String PAGE_REPORT_PERSON="/reports/person/person.xhtml";
 }

@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../reportTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="report">
+        <h1>#{bundle.ReportGeneralPersonTitle}</h1>
+        <h:form id="MovPersonasCliListForm">
+                <p:panel header="#{bundle.ListMovPersonasCliTitle}">
+                    <p:dataTable id="datalist" value="#{movPersonasCliController.items}" var="item"
+                                 selectionMode="single" selection="#{movPersonasCliController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.idMovimiento}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_fechaEntrada}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaEntrada}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_horaEntrada}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horaEntrada}">
+                                <f:convertDateTime pattern="HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_fechaSalida}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaSalida}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_horaSalida}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horaSalida}">
+                                <f:convertDateTime pattern="HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_personaAutoriza}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.personaAutoriza}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_fecha}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fecha}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_salidaForzosa}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.salidaForzosa}" disabled="true"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_idArea}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idArea.descripcion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_idPersona}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idPersona}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_vehiclesIn}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.movVehiculosCliList.size()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_vehiclesOut}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.movVehiculosCliList1.size()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_toolsIn}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.movHerramientasCliList.size()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_toolsOut}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.movHerramientasCliList.size()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_materials}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.movMaterialesCliList.size()}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovPersonasCliTitle_documents}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.movDocumentosCliList.size()}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+    </ui:define>
+
+</ui:composition>

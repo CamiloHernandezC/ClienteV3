@@ -6,9 +6,11 @@
 package GeneralControl;
 
 import Utils.Navigation;
+import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
@@ -20,8 +22,8 @@ import org.primefaces.model.menu.MenuModel;
  * @author MAURICIO
  */
 @Named(value = "menuControl")
-@ApplicationScoped
-public class MenuControl {
+@SessionScoped
+public class MenuControl implements Serializable{
 
     
     private MenuModel menu;
@@ -53,7 +55,11 @@ public class MenuControl {
         DefaultSubMenu secondSubmenu = new DefaultSubMenu("Reportes");
         
         
-        item = new DefaultMenuItem("Personas");
+        item = new DefaultMenuItem("General");
+        item.setUrl(Navigation.PAGE_REPORT_GENERAL_PERSON);
+        secondSubmenu.addElement(item);
+        
+        item = new DefaultMenuItem("Persona");
         item.setUrl(Navigation.PAGE_REPORT_PERSON);
         secondSubmenu.addElement(item);
          
