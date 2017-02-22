@@ -98,30 +98,37 @@ public class SpecificReportPersonControl implements Serializable{
             Date entryHour = mov.getHoraEntrada();
             Date leaveDate = mov.getFechaSalida();
             Date leaveHour = mov.getHoraSalida();
-            if(leaveDate.equals(entryDate)){
-                SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");
-                String date = format.format(entryDate);
-                int[] time = (int[]) workedHours.get(date);
-                int hours = (int) ((leaveHour.getTime()-entryHour.getTime()) / (1000 * 60 * 60));//Hours
-                int minutes = (int) ((leaveHour.getTime()-entryHour.getTime()) / (1000 * 60) % 60);//Minutes
-                if(time!=null){
-                    time[0] += hours;
-                    time[1] += minutes;
-                    workedHours.put(date, time);
-                    continue;
-                }
-                time = new int[2];
-                time[0] = hours;
-                time[1] = minutes;
-                workedHours.put(date, time);
+            
+            while (leaveDate.after(entryDate)) {
+                long milisPerDay = 24*60*60*1000;
+                
+                workedHours = calculateHours(entryDate, workedHours, (milisPerDay-entryHour.getTime()));
+                entryHour.setTime(0L);
+                entryDate.setTime(entryDate.getTime()+milisPerDay);
                 
             }
-            while (leaveDate.after(entryDate)) {
-                SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");
-                String date = format.format(entryDate);
-                workedHours.get(date);
-                long milisPerDay = 24*60*60*1000;
+            if(leaveDate.equals(entryDate)){
+                workedHours = calculateHours(entryDate, workedHours, (leaveHour.getTime()-entryHour.getTime()));
             }
         }
+    }
+    
+    public Map calculateHours(Date entryDate, Map workedHours, Long difference){
+        SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");
+            String date = format.format(entryDate);
+            int[] time = (int[]) workedHours.get(date);
+            int hours = (int) (difference / (1000 * 60 * 60));//Hours
+            int minutes = (int) (difference / (1000 * 60) % 60);//Minutes
+            if(time!=null){
+                time[0] += hours;
+                time[1] += minutes;
+                workedHours.put(date, time);
+                return workedHours;
+            }
+            time = new int[2];
+            time[0] = hours;
+            time[1] = minutes;
+            workedHours.put(date, time);
+            return workedHours;
     }
 }
