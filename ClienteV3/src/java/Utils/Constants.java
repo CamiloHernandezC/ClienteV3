@@ -5,6 +5,8 @@
  */
 package Utils;
 
+import Controllers.util.JsfUtil;
+
 /**
  *
  * @author MAURICIO
@@ -60,6 +62,35 @@ public class Constants {
     //</editor-fold>
     //</editor-fold>
     
-    
+    public static String getMonthName(int monthNumber){
+        switch(monthNumber){
+            case 0:
+                return BundleUtils.getBundleProperty("January");
+            case 1:
+                return BundleUtils.getBundleProperty("February");
+            case 2:
+                return BundleUtils.getBundleProperty("March");
+            case 3:
+                return BundleUtils.getBundleProperty("April");
+            case 4:
+                return BundleUtils.getBundleProperty("May");
+            case 5:
+                return BundleUtils.getBundleProperty("June");
+            case 6:
+                return BundleUtils.getBundleProperty("July");
+            case 7:
+                return BundleUtils.getBundleProperty("August");
+            case 8:
+                return BundleUtils.getBundleProperty("September");
+            case 9:
+                return BundleUtils.getBundleProperty("October");
+            case 10:
+                return BundleUtils.getBundleProperty("November");
+            case 11:
+                return BundleUtils.getBundleProperty("December");
+        }
+        return "";//This should never happend
+        
+    }
     
 }

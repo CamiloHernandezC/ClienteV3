@@ -10,14 +10,24 @@
     <ui:define name="report">
         <h1>#{bundle.ReportPersonTitle}</h1>
         <h:form>
+            <p:outputLabel for="restrictedMin" value="#{bundle.StartDate}" />
+            <p:calendar id="restrictedMin" value="#{specificReportPersonControl.startDate}" locale="es" required="true" requiredMessage="#{bundle.StartDateRequired}"/>
+
+            <p:outputLabel for="restrictedMax" value="#{bundle.EndDate}" />
+            <p:calendar id="restrictedMax" value="#{specificReportPersonControl.endDate}" locale="es" required="true" requiredMessage="#{bundle.EndDateRequired}"/>
+            
             <p:inputText value="#{specificReportPersonControl.docNumber}"/>
-                         <p:outputLabel value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" for="tipoDocumento" />
-                         <p:selectOneMenu id="tipoDocumento" value="#{specificReportPersonControl.docType}" required="true" requiredMessage="#{bundle.EditPersonasCliRequiredMessage_tipoDocumento}">
-                            <f:selectItems value="#{tiposDocumentoCliController.itemsAvailableSelectOne}"
-                                           var="tipoDocumentoItem"
-                                           itemValue="#{tipoDocumentoItem}"/>
-                        </p:selectOneMenu>
+            <p:outputLabel value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" for="tipoDocumento" />
+            <p:selectOneMenu id="tipoDocumento" value="#{specificReportPersonControl.docType}" required="true" requiredMessage="#{bundle.EditPersonasCliRequiredMessage_tipoDocumento}">
+                <f:selectItems value="#{tiposDocumentoCliController.itemsAvailableSelectOne}"
+                               var="tipoDocumentoItem"
+                               itemValue="#{tipoDocumentoItem}"/>
+            </p:selectOneMenu>
             <p:commandButton action="#{specificReportPersonControl.generateReport()}"/>
+            
+            <p:chart type="bar" model="#{specificReportPersonControl.barModel}" rendered="true" widgetVar="chart" style="width:100%;height:300px">
+                <p:ajax event="itemSelect" listener="#{generalReportControl.drillDown}"/>
+            </p:chart>
         </h:form>
     </ui:define>
 

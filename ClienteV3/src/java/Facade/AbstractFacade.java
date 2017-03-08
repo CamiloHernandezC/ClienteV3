@@ -9,6 +9,7 @@ import Utils.Constants;
 import Utils.Result;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CacheStoreMode;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
@@ -69,7 +70,8 @@ public abstract class AbstractFacade<T> {
     
     public Result findByQuery(String squery, boolean maxResult) {
         try {
-            Query query = getEntityManager().createQuery(squery);
+            EntityManager em = getEntityManager();
+            Query query = em.createQuery(squery);
             T entity;
             if (maxResult) {
                 entity = (T) query.setMaxResults(1).getSingleResult();
@@ -81,24 +83,19 @@ public abstract class AbstractFacade<T> {
             return new Result(null, Constants.NO_RESULT_EXCEPTION);
         } catch (NonUniqueResultException nure) {
             return new Result(null, Constants.NO_UNIQUE_RESULT_EXCEPTION);
-        } catch (Exception e) {
-            return new Result(null, Constants.UNKNOWN_EXCEPTION);
         }
     }
     
     public Result findByQueryArray(String squery) {
         
-        try {
-            EntityManager em = getEntityManager();
-            Query query = em.createQuery(squery);
-            List<T> list;
-            list = (List<T>) query.getResultList();
-            return new Result(list, Constants.OK);
-        } catch (NoResultException nre) {
-            return new Result(new ArrayList<>(), Constants.NO_RESULT_EXCEPTION);
-        } catch (Exception e) {
-            return new Result(new ArrayList<>(), Constants.UNKNOWN_EXCEPTION);
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery(squery);
+        List<T> list;
+        list = (List<T>) query.getResultList();
+        if(list.isEmpty()){
+            return new Result(list, Constants.NO_RESULT_EXCEPTION);
         }
+        return new Result(list, Constants.OK);
     }
     
 }

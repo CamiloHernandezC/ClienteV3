@@ -34,13 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PaisesCli.findByDescripcion", query = "SELECT p FROM PaisesCli p WHERE p.descripcion = :descripcion")})
 public class PaisesCli implements Serializable {
 
-    @OneToMany(mappedBy = "idPais", fetch = FetchType.LAZY)
-    private List<EmpresaOrigenCli> empresaOrigenCliList;
-    @OneToMany(mappedBy = "pais", fetch = FetchType.LAZY)
-    private List<SucursalesCli> sucursalesCliList;
-    @OneToMany(mappedBy = "idPais", fetch = FetchType.LAZY)
-    private List<PersonasCli> personasCliList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -53,6 +46,16 @@ public class PaisesCli implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "Descripcion")
     private String descripcion;
+    @OneToMany(mappedBy = "idPais", fetch = FetchType.LAZY)
+    private List<VehiculosCli> vehiculosCliList;
+    @OneToMany(mappedBy = "idPais", fetch = FetchType.LAZY)
+    private List<EmpresaOrigenCli> empresaOrigenCliList;
+    @OneToMany(mappedBy = "pais", fetch = FetchType.LAZY)
+    private List<SucursalesCli> sucursalesCliList;
+    @OneToMany(mappedBy = "idPais", fetch = FetchType.LAZY)
+    private List<PersonasCli> personasCliList;
+    @OneToMany(mappedBy = "idPais", fetch = FetchType.LAZY)
+    private List<ObjetosCli> objetosCliList;
 
     public PaisesCli() {
     }
@@ -82,29 +85,13 @@ public class PaisesCli implements Serializable {
         this.descripcion = descripcion;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idPais != null ? idPais.hashCode() : 0);
-        return hash;
+    @XmlTransient
+    public List<VehiculosCli> getVehiculosCliList() {
+        return vehiculosCliList;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PaisesCli)) {
-            return false;
-        }
-        PaisesCli other = (PaisesCli) object;
-        if ((this.idPais == null && other.idPais != null) || (this.idPais != null && !this.idPais.equals(other.idPais))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Entities.PaisesCli[ idPais=" + idPais + " ]";
+    public void setVehiculosCliList(List<VehiculosCli> vehiculosCliList) {
+        this.vehiculosCliList = vehiculosCliList;
     }
 
     @XmlTransient
@@ -132,6 +119,40 @@ public class PaisesCli implements Serializable {
 
     public void setPersonasCliList(List<PersonasCli> personasCliList) {
         this.personasCliList = personasCliList;
+    }
+
+    @XmlTransient
+    public List<ObjetosCli> getObjetosCliList() {
+        return objetosCliList;
+    }
+
+    public void setObjetosCliList(List<ObjetosCli> objetosCliList) {
+        this.objetosCliList = objetosCliList;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idPais != null ? idPais.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof PaisesCli)) {
+            return false;
+        }
+        PaisesCli other = (PaisesCli) object;
+        if ((this.idPais == null && other.idPais != null) || (this.idPais != null && !this.idPais.equals(other.idPais))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Entities.PaisesCli[ idPais=" + idPais + " ]";
     }
     
 }

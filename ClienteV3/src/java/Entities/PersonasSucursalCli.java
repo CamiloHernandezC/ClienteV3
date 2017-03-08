@@ -50,22 +50,22 @@ public class PersonasSucursalCli implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @JoinColumn(name = "Area", referencedColumnName = "Id_areaemp")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private AreasEmpresaCli area;
     @JoinColumn(name = "Entidad", referencedColumnName = "Id_Entidad")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EntidadesCli entidad;
     @JoinColumn(name = "Estado", referencedColumnName = "Id_Estado")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadosCli estado;
     @JoinColumn(name = "Id_Persona", referencedColumnName = "Id_Persona", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli personasCli;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
     @JoinColumn(name = "Sucursal", referencedColumnName = "Id_Sucursal", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli sucursalesCli;
 
     public PersonasSucursalCli() {

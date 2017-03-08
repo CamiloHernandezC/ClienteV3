@@ -43,7 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MovPersonasCli.findByHoraSalida", query = "SELECT m FROM MovPersonasCli m WHERE m.horaSalida = :horaSalida"),
     @NamedQuery(name = "MovPersonasCli.findByPersonaAutoriza", query = "SELECT m FROM MovPersonasCli m WHERE m.personaAutoriza = :personaAutoriza"),
     @NamedQuery(name = "MovPersonasCli.findByFecha", query = "SELECT m FROM MovPersonasCli m WHERE m.fecha = :fecha"),
-    @NamedQuery(name = "MovPersonasCli.findBySalidaForzosa", query = "SELECT m FROM MovPersonasCli m WHERE m.salidaForzosa = :salidaForzosa")})
+    @NamedQuery(name = "MovPersonasCli.findBySalidaForzosa", query = "SELECT m FROM MovPersonasCli m WHERE m.salidaForzosa = :salidaForzosa"),
+    @NamedQuery(name = "MovPersonasCli.findByIngresoForzado", query = "SELECT m FROM MovPersonasCli m WHERE m.ingresoForzado = :ingresoForzado")})
 public class MovPersonasCli implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -80,6 +81,10 @@ public class MovPersonasCli implements Serializable {
     @NotNull
     @Column(name = "Salida_Forzosa")
     private boolean salidaForzosa;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Ingreso_Forzado")
+    private boolean ingresoForzado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovEntrada", fetch = FetchType.LAZY)
     private List<MovVehiculosCli> movVehiculosCliList;
     @OneToMany(mappedBy = "idMovSalida", fetch = FetchType.LAZY)
@@ -112,12 +117,13 @@ public class MovPersonasCli implements Serializable {
         this.idMovimiento = idMovimiento;
     }
 
-    public MovPersonasCli(Long idMovimiento, Date fechaEntrada, Date horaEntrada, Date fecha, boolean salidaForzosa) {
+    public MovPersonasCli(Long idMovimiento, Date fechaEntrada, Date horaEntrada, Date fecha, boolean salidaForzosa, boolean ingresoForzado) {
         this.idMovimiento = idMovimiento;
         this.fechaEntrada = fechaEntrada;
         this.horaEntrada = horaEntrada;
         this.fecha = fecha;
         this.salidaForzosa = salidaForzosa;
+        this.ingresoForzado = ingresoForzado;
     }
 
     public Long getIdMovimiento() {
@@ -182,6 +188,14 @@ public class MovPersonasCli implements Serializable {
 
     public void setSalidaForzosa(boolean salidaForzosa) {
         this.salidaForzosa = salidaForzosa;
+    }
+
+    public boolean getIngresoForzado() {
+        return ingresoForzado;
+    }
+
+    public void setIngresoForzado(boolean ingresoForzado) {
+        this.ingresoForzado = ingresoForzado;
     }
 
     @XmlTransient
