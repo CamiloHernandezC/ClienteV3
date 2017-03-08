@@ -35,9 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "EstadosCli.findByDescripcion", query = "SELECT e FROM EstadosCli e WHERE e.descripcion = :descripcion")})
 public class EstadosCli implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
-    private List<PersonasCli> personasCliList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -57,6 +54,8 @@ public class EstadosCli implements Serializable {
     private List<PersonasSucursalCli> personasSucursalCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
     private List<ClientesCli> clientesCliList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
+    private List<PersonasCli> personasCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado", fetch = FetchType.LAZY)
     private List<ObjetosCli> objetosCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado", fetch = FetchType.LAZY)
@@ -127,6 +126,15 @@ public class EstadosCli implements Serializable {
     }
 
     @XmlTransient
+    public List<PersonasCli> getPersonasCliList() {
+        return personasCliList;
+    }
+
+    public void setPersonasCliList(List<PersonasCli> personasCliList) {
+        this.personasCliList = personasCliList;
+    }
+
+    @XmlTransient
     public List<ObjetosCli> getObjetosCliList() {
         return objetosCliList;
     }
@@ -167,15 +175,6 @@ public class EstadosCli implements Serializable {
     @Override
     public String toString() {
         return "Entities.EstadosCli[ idEstado=" + idEstado + " ]";
-    }
-
-    @XmlTransient
-    public List<PersonasCli> getPersonasCliList() {
-        return personasCliList;
-    }
-
-    public void setPersonasCliList(List<PersonasCli> personasCliList) {
-        this.personasCliList = personasCliList;
     }
     
 }

@@ -2,13 +2,12 @@ package Controllers.util;
 
 import Utils.Navigation;
 import java.util.List;
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
-import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 
 public class JsfUtil {
 
@@ -46,11 +45,13 @@ public class JsfUtil {
     }
 
     public static void addErrorMessage(String msg) {
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg);
         FacesContext.getCurrentInstance().addMessage(null, facesMsg);
     }
 
     public static void addSuccessMessage(String msg) {
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg);
         FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);
     }
@@ -84,16 +85,21 @@ public class JsfUtil {
     }
     
     public static void cancel() {
-        redirectTo(Navigation.PAGE_INDEX);
+        redirectTo("");
     }
 
     public static void redirectTo(String page) {
-
+        
         try {
             FacesContext contex = FacesContext.getCurrentInstance();
-            contex.getExternalContext().redirect(page);
+            contex.getExternalContext().redirect(Navigation.PAGE_REDIRECT_TO+page);
         } catch (Exception e) {
             System.out.println("Exception cancel " + e);
         }
+    }
+    
+    public static void showModal(String nombreModal){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('"+nombreModal+"').show();");
     }
 }
