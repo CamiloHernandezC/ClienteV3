@@ -50,10 +50,14 @@ public class EstadosCli implements Serializable {
     private List<VehiculosCli> vehiculosCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado", fetch = FetchType.LAZY)
     private List<EmpresaOrigenCli> empresaOrigenCliList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado", fetch = FetchType.LAZY)
+    private List<VehiculosSucursal> vehiculosSucursalList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
     private List<PersonasSucursalCli> personasSucursalCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
     private List<ClientesCli> clientesCliList;
+    @OneToMany(mappedBy = "idEstado", fetch = FetchType.LAZY)
+    private List<NotificacionesCli> notificacionesCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
     private List<PersonasCli> personasCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado", fetch = FetchType.LAZY)
@@ -108,6 +112,15 @@ public class EstadosCli implements Serializable {
     }
 
     @XmlTransient
+    public List<VehiculosSucursal> getVehiculosSucursalList() {
+        return vehiculosSucursalList;
+    }
+
+    public void setVehiculosSucursalList(List<VehiculosSucursal> vehiculosSucursalList) {
+        this.vehiculosSucursalList = vehiculosSucursalList;
+    }
+
+    @XmlTransient
     public List<PersonasSucursalCli> getPersonasSucursalCliList() {
         return personasSucursalCliList;
     }
@@ -123,6 +136,15 @@ public class EstadosCli implements Serializable {
 
     public void setClientesCliList(List<ClientesCli> clientesCliList) {
         this.clientesCliList = clientesCliList;
+    }
+
+    @XmlTransient
+    public List<NotificacionesCli> getNotificacionesCliList() {
+        return notificacionesCliList;
+    }
+
+    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
+        this.notificacionesCliList = notificacionesCliList;
     }
 
     @XmlTransient

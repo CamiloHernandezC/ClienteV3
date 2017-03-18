@@ -42,6 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "UsuariosCli.findByFechaDesde", query = "SELECT u FROM UsuariosCli u WHERE u.fechaDesde = :fechaDesde"),
     @NamedQuery(name = "UsuariosCli.findByFechaHasta", query = "SELECT u FROM UsuariosCli u WHERE u.fechaHasta = :fechaHasta"),
     @NamedQuery(name = "UsuariosCli.findBySesion", query = "SELECT u FROM UsuariosCli u WHERE u.sesion = :sesion"),
+    @NamedQuery(name = "UsuariosCli.findByIDSesion", query = "SELECT u FROM UsuariosCli u WHERE u.iDSesion = :iDSesion"),
+    @NamedQuery(name = "UsuariosCli.findByMail", query = "SELECT u FROM UsuariosCli u WHERE u.mail = :mail"),
     @NamedQuery(name = "UsuariosCli.findByFecha", query = "SELECT u FROM UsuariosCli u WHERE u.fecha = :fecha")})
 public class UsuariosCli implements Serializable {
 
@@ -77,6 +79,16 @@ public class UsuariosCli implements Serializable {
     private boolean sesion;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "ID_Sesion")
+    private String iDSesion;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "Mail")
+    private String mail;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "Fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
@@ -91,6 +103,8 @@ public class UsuariosCli implements Serializable {
     @JoinColumn(name = "Id_Persona", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli idPersona;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    private List<AccesoUsuario> accesoUsuarioList;
 
     public UsuariosCli() {
     }
@@ -99,13 +113,15 @@ public class UsuariosCli implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    public UsuariosCli(String idUsuario, short privilegios, String password, Date fechaDesde, Date fechaHasta, boolean sesion, Date fecha) {
+    public UsuariosCli(String idUsuario, short privilegios, String password, Date fechaDesde, Date fechaHasta, boolean sesion, String iDSesion, String mail, Date fecha) {
         this.idUsuario = idUsuario;
         this.privilegios = privilegios;
         this.password = password;
         this.fechaDesde = fechaDesde;
         this.fechaHasta = fechaHasta;
         this.sesion = sesion;
+        this.iDSesion = iDSesion;
+        this.mail = mail;
         this.fecha = fecha;
     }
 
@@ -157,6 +173,22 @@ public class UsuariosCli implements Serializable {
         this.sesion = sesion;
     }
 
+    public String getIDSesion() {
+        return iDSesion;
+    }
+
+    public void setIDSesion(String iDSesion) {
+        this.iDSesion = iDSesion;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
     public Date getFecha() {
         return fecha;
     }
@@ -196,6 +228,15 @@ public class UsuariosCli implements Serializable {
 
     public void setIdPersona(PersonasCli idPersona) {
         this.idPersona = idPersona;
+    }
+
+    @XmlTransient
+    public List<AccesoUsuario> getAccesoUsuarioList() {
+        return accesoUsuarioList;
+    }
+
+    public void setAccesoUsuarioList(List<AccesoUsuario> accesoUsuarioList) {
+        this.accesoUsuarioList = accesoUsuarioList;
     }
 
     @Override

@@ -1,12 +1,19 @@
 package Controllers.util;
 
+import Entities.UsuariosCli;
+import Utils.Constants;
 import Utils.Navigation;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 
 public class JsfUtil {
@@ -65,41 +72,46 @@ public class JsfUtil {
         return converter.getAsObject(FacesContext.getCurrentInstance(), component, theId);
     }
 
+    public static UsuariosCli getSessionAtribute(String string) {
+        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        return (UsuariosCli) httpSession.getAttribute(Constants.SESSION_USER);
+    }
+
     public static enum PersistAction {
         CREATE,
         DELETE,
         UPDATE
     }
-    
+
     @SuppressWarnings("unchecked")
     public static <T> T findBean(String beanName) {
         FacesContext context = FacesContext.getCurrentInstance();
         return (T) context.getApplication().evaluateExpressionGet(context, "#{" + beanName + "}", Object.class);
     }
-    
+
     public static String quitaEspacios(String texto) {
-        texto= texto.replaceAll(" ", "");
+        texto = texto.replaceAll(" ", "");
         texto = texto.trim();
         texto = texto.replaceAll("\u00A0", "");
         return texto;
     }
-    
+
     public static void cancel() {
         redirectTo("");
     }
 
     public static void redirectTo(String page) {
-        
+
         try {
             FacesContext contex = FacesContext.getCurrentInstance();
-            contex.getExternalContext().redirect(Navigation.PAGE_REDIRECT_TO+page);
+            contex.getExternalContext().redirect(Navigation.PAGE_REDIRECT_TO + page);
         } catch (Exception e) {
             System.out.println("Exception cancel " + e);
         }
     }
-    
-    public static void showModal(String nombreModal){
+
+    public static void showModal(String nombreModal) {
         RequestContext context = RequestContext.getCurrentInstance();
-        context.execute("PF('"+nombreModal+"').show();");
+        context.execute("PF('" + nombreModal + "').show();");
     }
 }

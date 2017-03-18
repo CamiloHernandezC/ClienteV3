@@ -2,24 +2,13 @@ package Controllers;
 
 import Entities.PersonasCli;
 import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
-import Entities.EmpresaOrigenCli;
-import Entities.PersonasSucursalCli;
-import Entities.TiposDocumentoCli;
 import Facade.PersonasCliFacade;
 import Querys.Querys;
-import Utils.BundleUtils;
 import Utils.Constants;
-import Utils.Navigation;
 import Utils.Result;
-import ViewControllers.PersonFormEntry;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -29,8 +18,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.event.ValueChangeEvent;
-import org.primefaces.context.RequestContext;
 
 @Named("personasCliController")
 @SessionScoped
@@ -107,15 +94,6 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         PersonasCli lastPerson = (PersonasCli) ejbFacade.findByQuery(Querys.PERSONA_CLI_PRIMARY_KEY, true).result;
         Long lastPrimaryKey = Long.valueOf(lastPerson.getIdPersona());
         return String.valueOf(lastPrimaryKey + 1L);
-    }
-
-    @Override
-    protected void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            selected.setUsuario("1");//TODO ASSIGN REAL USER
-            selected.setFecha(new Date());
-        }
-        super.persist(persistAction, successMessage);
     }
     //</editor-fold>
 

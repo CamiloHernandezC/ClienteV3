@@ -144,6 +144,8 @@ public class PersonasCli implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MovVehiculosCli> movVehiculosCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    private List<MaterialesSucursal> materialesSucursalList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<NotificacionesCli> notificacionesCliList;
     @OneToMany(mappedBy = "idPersona", fetch = FetchType.LAZY)
     private List<NotificacionesCli> notificacionesCliList1;
@@ -151,6 +153,8 @@ public class PersonasCli implements Serializable {
     private List<VisitasEsperadasCli> visitasEsperadasCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<VisitasEsperadasCli> visitasEsperadasCliList1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "funcionarioVisitado", fetch = FetchType.LAZY)
+    private List<VisitasEsperadasCli> visitasEsperadasCliList2;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MovDocumentosCli> movDocumentosCliList;
     @JoinColumn(name = "ARL", referencedColumnName = "ARL")
@@ -433,6 +437,15 @@ public class PersonasCli implements Serializable {
     }
 
     @XmlTransient
+    public List<MaterialesSucursal> getMaterialesSucursalList() {
+        return materialesSucursalList;
+    }
+
+    public void setMaterialesSucursalList(List<MaterialesSucursal> materialesSucursalList) {
+        this.materialesSucursalList = materialesSucursalList;
+    }
+
+    @XmlTransient
     public List<NotificacionesCli> getNotificacionesCliList() {
         return notificacionesCliList;
     }
@@ -466,6 +479,15 @@ public class PersonasCli implements Serializable {
 
     public void setVisitasEsperadasCliList1(List<VisitasEsperadasCli> visitasEsperadasCliList1) {
         this.visitasEsperadasCliList1 = visitasEsperadasCliList1;
+    }
+
+    @XmlTransient
+    public List<VisitasEsperadasCli> getVisitasEsperadasCliList2() {
+        return visitasEsperadasCliList2;
+    }
+
+    public void setVisitasEsperadasCliList2(List<VisitasEsperadasCli> visitasEsperadasCliList2) {
+        this.visitasEsperadasCliList2 = visitasEsperadasCliList2;
     }
 
     @XmlTransient

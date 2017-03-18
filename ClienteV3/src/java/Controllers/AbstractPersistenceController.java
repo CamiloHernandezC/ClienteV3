@@ -30,28 +30,28 @@ public abstract class AbstractPersistenceController<T> implements Serializable{
     protected abstract void prepareCreate();
     protected abstract void prepareUpdate();
     
-    protected void create() {
+    public void create() {
         prepareCreate();
-        persist(JsfUtil.PersistAction.CREATE, ResourceBundle.getBundle("Utils/Bundle").getString("SuccessfullyCreatedRegistry"));
+        persist(JsfUtil.PersistAction.CREATE);
         if (!JsfUtil.isValidationFailed()) {
             setItems(null);// Invalidate list of items to trigger re-query.
         }
     }
 
-    protected void update() {
+    public void update() {
         prepareUpdate();
-        persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("Utils/Bundle").getString("SuccessfullyUpdatedRegistry"));
+        persist(JsfUtil.PersistAction.UPDATE);
     }
 
-    protected void destroy() {
-        persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("Utils/Bundle").getString("SuccessfullyDeletedRegistry"));
+    public void destroy() {
+        persist(JsfUtil.PersistAction.DELETE);
         if (!JsfUtil.isValidationFailed()) {
             setSelected(null); // Remove selection
             setItems(null);// Invalidate list of items to trigger re-query.
         }
     }
     
-    protected void persist(JsfUtil.PersistAction persistAction, String successMessage) {
+    protected void persist(JsfUtil.PersistAction persistAction) {
         if (getSelected() != null) {
             setEmbeddableKeys();
             try {
@@ -60,7 +60,6 @@ public abstract class AbstractPersistenceController<T> implements Serializable{
                 } else {
                     getFacade().remove(getSelected());
                 }
-                JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
                 String msg = "";
                 Throwable cause = ex.getCause();

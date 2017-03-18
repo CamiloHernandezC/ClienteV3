@@ -24,13 +24,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author MAURICIO
  */
 @Entity
-@Table(name = "Privilegios_Cliente")
+@Table(name = "Acceso_Usuario")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PrivilegiosCliente.findAll", query = "SELECT p FROM PrivilegiosCliente p"),
-    @NamedQuery(name = "PrivilegiosCliente.findById", query = "SELECT p FROM PrivilegiosCliente p WHERE p.id = :id"),
-    @NamedQuery(name = "PrivilegiosCliente.findByVer", query = "SELECT p FROM PrivilegiosCliente p WHERE p.ver = :ver")})
-public class PrivilegiosCliente implements Serializable {
+    @NamedQuery(name = "AccesoUsuario.findAll", query = "SELECT a FROM AccesoUsuario a"),
+    @NamedQuery(name = "AccesoUsuario.findById", query = "SELECT a FROM AccesoUsuario a WHERE a.id = :id")})
+public class AccesoUsuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,27 +37,18 @@ public class PrivilegiosCliente implements Serializable {
     @NotNull
     @Column(name = "ID")
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Ver")
-    private boolean ver;
-    @JoinColumn(name = "Codigo_Menu", referencedColumnName = "Codigo")
+    @JoinColumn(name = "Sucursal", referencedColumnName = "Id_Sucursal")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private MenuCliente codigoMenu;
+    private SucursalesCli sucursal;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Usuario")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UsuariosCli usuario;
 
-    public PrivilegiosCliente() {
+    public AccesoUsuario() {
     }
 
-    public PrivilegiosCliente(Long id) {
+    public AccesoUsuario(Long id) {
         this.id = id;
-    }
-
-    public PrivilegiosCliente(Long id, boolean ver) {
-        this.id = id;
-        this.ver = ver;
     }
 
     public Long getId() {
@@ -69,20 +59,12 @@ public class PrivilegiosCliente implements Serializable {
         this.id = id;
     }
 
-    public boolean getVer() {
-        return ver;
+    public SucursalesCli getSucursal() {
+        return sucursal;
     }
 
-    public void setVer(boolean ver) {
-        this.ver = ver;
-    }
-
-    public MenuCliente getCodigoMenu() {
-        return codigoMenu;
-    }
-
-    public void setCodigoMenu(MenuCliente codigoMenu) {
-        this.codigoMenu = codigoMenu;
+    public void setSucursal(SucursalesCli sucursal) {
+        this.sucursal = sucursal;
     }
 
     public UsuariosCli getUsuario() {
@@ -103,10 +85,10 @@ public class PrivilegiosCliente implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PrivilegiosCliente)) {
+        if (!(object instanceof AccesoUsuario)) {
             return false;
         }
-        PrivilegiosCliente other = (PrivilegiosCliente) object;
+        AccesoUsuario other = (AccesoUsuario) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -115,7 +97,7 @@ public class PrivilegiosCliente implements Serializable {
 
     @Override
     public String toString() {
-        return "Entities.PrivilegiosCliente[ id=" + id + " ]";
+        return "Entities.AccesoUsuario[ id=" + id + " ]";
     }
     
 }

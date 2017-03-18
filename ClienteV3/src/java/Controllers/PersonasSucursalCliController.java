@@ -9,6 +9,7 @@ import Entities.PersonasCli;
 import Entities.PersonasSucursalCliPK;
 import Entities.SucursalesCli;
 import Facade.PersonasSucursalCliFacade;
+import GeneralControl.GeneralControl;
 import Querys.Querys;
 import Utils.Constants;
 import Utils.Result;
@@ -103,8 +104,9 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
     }
     
     public List<PersonasSucursalCli> getItemsByBranchOffice() {
-        if(items==null){
-            String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL+"WHERE"+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+"1'";//TODO ASSIGN REAL USER HERE
+        GeneralControl generalControl = JsfUtil.findBean("generalControl");
+        if(generalControl.getSelectedBranchOffice()!=null){
+            String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL+"WHERE"+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+generalControl.getSelectedBranchOffice().getIdSucursal()+"'";//TODO ASSIGN REAL USER HERE
             items = (List<PersonasSucursalCli>) getFacade().findByQueryArray(squery).result;
         }
         return items;

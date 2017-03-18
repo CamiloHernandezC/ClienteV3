@@ -8,6 +8,7 @@ package Entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -50,9 +51,7 @@ public class MenuCliente implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "Nombre")
     private String nombre;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 2147483647)
+    @Size(max = 2147483647)
     @Column(name = "URL")
     private String url;
     @Basic(optional = false)
@@ -69,7 +68,7 @@ public class MenuCliente implements Serializable {
     @NotNull
     @Column(name = "Estado")
     private boolean estado;
-    @OneToMany(mappedBy = "codigoMenu", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoMenu", fetch = FetchType.LAZY)
     private List<PrivilegiosCliente> privilegiosClienteList;
 
     public MenuCliente() {
@@ -79,10 +78,9 @@ public class MenuCliente implements Serializable {
         this.codigo = codigo;
     }
 
-    public MenuCliente(Long codigo, String nombre, String url, short tipo, short nivel, boolean estado) {
+    public MenuCliente(Long codigo, String nombre, short tipo, short nivel, boolean estado) {
         this.codigo = codigo;
         this.nombre = nombre;
-        this.url = url;
         this.tipo = tipo;
         this.nivel = nivel;
         this.estado = estado;
