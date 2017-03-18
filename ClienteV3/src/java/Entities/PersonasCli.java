@@ -212,6 +212,13 @@ public class PersonasCli implements Serializable {
         this.fecha = fecha;
     }
 
+    public String getSexoString() {
+        if(sexo){
+            return "M";
+        }
+        return "F";
+    }
+
     public String getIdPersona() {
         return idPersona;
     }

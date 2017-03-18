@@ -72,7 +72,7 @@ public class JsfUtil {
         return converter.getAsObject(FacesContext.getCurrentInstance(), component, theId);
     }
 
-    public static UsuariosCli getSessionAtribute(String string) {
+    public static UsuariosCli getSessionUser() {
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         return (UsuariosCli) httpSession.getAttribute(Constants.SESSION_USER);
     }

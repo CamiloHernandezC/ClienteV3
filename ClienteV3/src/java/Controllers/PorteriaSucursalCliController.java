@@ -126,11 +126,6 @@ public class PorteriaSucursalCliController implements Serializable {
         return getFacade().findAll();
     }
 
-    public Result findBranchOfficeByEntry(String entry) {
-        String squery = Querys.PORTERIA_SUCURSAL_CLI_PORTERIA + entry + "'";
-        return ejbFacade.findByQueryArray(squery);
-    }
-
     @FacesConverter(forClass = PorteriaSucursalCli.class)
     public static class PorteriaSucursalCliControllerConverter implements Converter {
 
