@@ -71,7 +71,7 @@ public class GeneralControl implements Serializable{
     
     public void loadBranchOffice(){
         branchOffices = new ArrayList<>();
-        UsuariosCli user = JsfUtil.getSessionAtribute(Constants.SESSION_USER);
+        UsuariosCli user = JsfUtil.getSessionUser();
         String squery = Querys.ACCESO_USUARIO_ALL+" WHERE"+Querys.ACCESO_USUARIO_USUARIO+user.getIdUsuario()+"'";
         Result result = ejbFacade.findByQueryArray(squery);
         if(result.errorCode==Constants.OK){

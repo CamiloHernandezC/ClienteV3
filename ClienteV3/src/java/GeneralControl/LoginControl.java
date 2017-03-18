@@ -44,7 +44,6 @@ public class LoginControl implements Serializable {
     }
 
     //TODO TENER BOTON DE ENVIAR EMAIL PARA RECORDAR LA CONTRASEÑA
-    //TODO VERIFY IF SESSION IS STARTED IN TEMPLATE.XHTML
     public void login() {
 
         //TODO CODIFICACION DE LA CLAVE

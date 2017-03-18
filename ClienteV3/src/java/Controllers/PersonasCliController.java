@@ -108,7 +108,7 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     
     @Override
     protected void prepareUpdate() {
-        selected.setUsuario(selected.getIdPersona());//TODO ASSIGN REAL USER HERE
+        selected.setUsuario(JsfUtil.getSessionUser().getIdPersona().getIdPersona());
         selected.setFecha(new Date());
     }
 

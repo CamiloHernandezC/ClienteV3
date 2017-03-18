@@ -63,6 +63,7 @@ public class MovPersonasCliController extends AbstractPersistenceController<MovP
     @Override
     public void prepareCreate() {
         selected.setIdMovimiento(calculatePrimaryKey());
+        prepareUpdate();
     }
 
     public List<MovPersonasCli> getItems() {
@@ -108,9 +109,8 @@ public class MovPersonasCliController extends AbstractPersistenceController<MovP
         selected.setFechaEntrada(actualDate);
         selected.setHoraEntrada(actualDate);
         //TODO PERSONA QUE AUTORIZA
-        selected.setUsuario(specificPerson.getPersonasCli());//TODO ASSIGN REAL USER
-        selected.setFecha(new Date());
         selected.setSalidaForzosa(false);
+        selected.setIngresoForzado(false);
     }
 
     public boolean verifyEntry(PersonasSucursalCli specificPerson){
@@ -149,7 +149,7 @@ public class MovPersonasCliController extends AbstractPersistenceController<MovP
 
     @Override
     protected void prepareUpdate() {
-        selected.setUsuario(new PersonasCli("1"));//TODO ASSIGN REAL USER HERE
+        selected.setUsuario(JsfUtil.getSessionUser().getIdPersona());
         selected.setFecha(new Date());
     }
 

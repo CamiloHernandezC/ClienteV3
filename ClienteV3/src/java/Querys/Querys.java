@@ -39,6 +39,7 @@ public class Querys {
     public static final String MOV_PERSONA_CLI_TIPO_DOC = " a.idPersona.tipoDocumento.tipodocumento = '";
     public static final String MOV_PERSONA_CLI_NUM_DOC = " a.idPersona.numDocumento = '";
     public static final String MOV_PERSONA_CLI_SALIDA_FORZADA=" a.salidaForzosa = '";
+    public static final String MOV_PERSONA_CLI_INGRESO_FORZADO=" a.ingresoForzado = '";
     //</editor-fold>
     //<editor-fold desc="MUNICIPIOS CLI QUERY" defaultstate="collapsed">
     public static final String MUNICIPIOS_CLI_DEPARTAMENTO= "SELECT a FROM MunicipiosCli a where a.idDepartamento.idDepartamento = '";
@@ -54,6 +55,7 @@ public class Querys {
     
     public static final String ACCESO_USUARIO_ALL ="SELECT a FROM AccesoUsuario a";
     public static final String ACCESO_USUARIO_USUARIO=" a.usuario.idUsuario = '";
+    
     
     
     

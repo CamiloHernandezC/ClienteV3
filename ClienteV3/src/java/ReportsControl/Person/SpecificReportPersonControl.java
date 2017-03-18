@@ -9,6 +9,7 @@ import Controllers.util.JsfUtil;
 import Entities.MovPersonasCli;
 import Entities.TiposDocumentoCli;
 import Querys.Querys;
+import Utils.BundleUtils;
 import Utils.Constants;
 import Utils.Result;
 import java.io.Serializable;
@@ -102,13 +103,13 @@ public class SpecificReportPersonControl implements Serializable{
     public void getMovs(){
             String branchOffice = "1";//TODO ASSIGN REAL BRANCH OFFICE HERE
             String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_SUCURSAL+
-                    branchOffice+"' AND"+Querys.MOV_PERSONA_CLI_SALIDA_FORZADA+"0' AND"+Querys.MOV_PERSONA_CLI_TIPO_DOC+
+                    branchOffice+"' AND"+Querys.MOV_PERSONA_CLI_SALIDA_FORZADA+"0' AND"+Querys.MOV_PERSONA_CLI_INGRESO_FORZADO+"0' AND"+Querys.MOV_PERSONA_CLI_TIPO_DOC+
                     docType.getTipodocumento()+
                     "' AND"+Querys.MOV_PERSONA_CLI_NUM_DOC+docNumber+
-                    "' AND"+Querys.MOV_PERSONA_CLI_FECHA_SALIDA_NOT_NULL;//TODO INGRESO FORZADO = 0, and dates filter
+                    "' AND"+Querys.MOV_PERSONA_CLI_FECHA_SALIDA_NOT_NULL;//TODO dates filter
            Result result =  ejbFacade.findByQueryArray(squery);
            if(result.errorCode==Constants.NO_RESULT_EXCEPTION){
-               JsfUtil.addErrorMessage("NO RESULT");//TODO CREATE BUNDLE PROPERTIE
+               JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("NoResult"));
                JsfUtil.redirectTo("");//TODO ASSIGN REAL PAGE HERE
            }
            items = (List<MovPersonasCli>) result.result;
@@ -179,9 +180,9 @@ public class SpecificReportPersonControl implements Serializable{
     
     private void loadBarModel() {
         barModel = new BarChartModel();
-        barModel.setTitle("INGRESO DE PERSONAS");//TODO CREATE BUNDLE PROPERTIE
+        barModel.setTitle(BundleUtils.getBundleProperty("ComparativeTime"));
         barModel.setLegendPosition("n");
-        barModel.setShowPointLabels(true);//Show value always
+        barModel.setShowPointLabels(false);//Show value always
         barModel.setShowDatatip(false);//Show value when mouse overlap
         barModel.setLegendPosition("e");
         barModel.setAnimate(true);
@@ -198,7 +199,7 @@ public class SpecificReportPersonControl implements Serializable{
             int day = c.get(Calendar.DAY_OF_MONTH);
             int month = c.get(Calendar.MONTH);
             if(month!=oldMonth){
-                chartSeries.setLabel("Horas trabajadas "+Constants.getMonthName(oldMonth));//TODO ASSIGN BUNDLE PROPERTIE FOR HORAS TRABAJADAS
+                chartSeries.setLabel(BundleUtils.getBundleProperty("WorkedHours")+" "+Constants.getMonthName(oldMonth));
                 barModel.addSeries(chartSeries);
                 oldMonth=month;
                 chartSeries = createSerie();
@@ -213,7 +214,7 @@ public class SpecificReportPersonControl implements Serializable{
             chartSeries.set(day, time[0]+ (float) time[1]/60);//Horas + minutos (en horas)
         }
         //Assign the last month serie, if only one month is available then it is assigned here too
-        chartSeries.setLabel("Horas trabajadas "+Constants.getMonthName(oldMonth));//TODO ASSIGN BUNDLE PROPERTIE FOR HORAS TRABAJADAS
+        chartSeries.setLabel(BundleUtils.getBundleProperty("WorkedHours")+" "+Constants.getMonthName(oldMonth));//TODO ASSIGN BUNDLE PROPERTIE FOR HORAS TRABAJADAS
         barModel.addSeries(chartSeries);
         
     }

@@ -81,7 +81,7 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
     @Override
     protected void prepareUpdate() {
         initializeEmbeddableKey();
-        selected.setUsuario(new PersonasCli("1"));//TODO ASSIGN REAL USER HERE
+        selected.setUsuario(JsfUtil.getSessionUser().getIdPersona());
         selected.setFecha(new Date());
     }
     
@@ -106,7 +106,7 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
     public List<PersonasSucursalCli> getItemsByBranchOffice() {
         GeneralControl generalControl = JsfUtil.findBean("generalControl");
         if(generalControl.getSelectedBranchOffice()!=null){
-            String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL+"WHERE"+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+generalControl.getSelectedBranchOffice().getIdSucursal()+"'";//TODO ASSIGN REAL USER HERE
+            String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL+"WHERE"+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+generalControl.getSelectedBranchOffice().getIdSucursal()+"'";
             items = (List<PersonasSucursalCli>) getFacade().findByQueryArray(squery).result;
         }
         return items;
@@ -120,26 +120,15 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
         assignPrimaryKey();
         String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL + "WHERE" + Querys.PERSONAS_SUCURSAL_CLI_PERSONA+ selected.getPersonasCli().getIdPersona()+
                 "' AND"+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+selected.getSucursalesCli().getIdSucursal()+
-                "' AND" + Querys.PERSONAS_SUCURSAL_CLI_NO_ESTADO + "4'";//TODO ASSIGN REAL STATUS HERE
+                "' AND" + Querys.PERSONAS_SUCURSAL_CLI_NO_ESTADO + Constants.STATUS_INACTIVE+"'";
         return ejbFacade.findByQuery(squery, false);//False because only one person should appear*/
     }
 
     private void assignPrimaryKey() {
         PersonasCliController personasCliController = JsfUtil.findBean("personasCliController");
         selected.setPersonasCli(personasCliController.getSelected());
-        ConfigFormCliController configFormCliController = JsfUtil.findBean("configFormCliController");
-        if (!configFormCliController.isMostrarSucursal()) {
-            PorteriaSucursalCliController porteriaSucursalCliController = JsfUtil.findBean("porteriaSucursalCliController");
-            SucursalesCli branchOffice = ((List<SucursalesCli>) porteriaSucursalCliController.findBranchOfficeByEntry("1").result).get(0);//TODO ASSIGN REAL ENTRY HERE
-            selected.setSucursalesCli(branchOffice);
-        }
+        //TODO ASSIGN BRANCH OFFICE
     }
-
-    public Result findPersonByIdExterno(String code) {
-        String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL+"WHERE"+Querys.PERSONAS_SUCURSAL_ID_EXTERNO+code+"'";
-        return ejbFacade.findByQuery(squery, false);//ID EXTERNO MUST BE UNIQUE FOR NOW
-    }
-
         
     public void preEdit(PersonasSucursalCli person){
         setSelected(person);
