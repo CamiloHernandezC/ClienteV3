@@ -153,7 +153,7 @@ public class VehiculosCliController implements Serializable {
             }
             if (object instanceof VehiculosCli) {
                 VehiculosCli o = (VehiculosCli) object;
-                return getStringKey(o.getIdVehiculo());
+                return getStringKey(o.getPlaca());
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), VehiculosCli.class.getName()});
                 return null;

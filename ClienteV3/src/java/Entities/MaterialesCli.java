@@ -39,7 +39,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MaterialesCli.findByIdMaterial", query = "SELECT m FROM MaterialesCli m WHERE m.idMaterial = :idMaterial"),
     @NamedQuery(name = "MaterialesCli.findByIdExterno", query = "SELECT m FROM MaterialesCli m WHERE m.idExterno = :idExterno"),
     @NamedQuery(name = "MaterialesCli.findByDescripcion", query = "SELECT m FROM MaterialesCli m WHERE m.descripcion = :descripcion"),
-    @NamedQuery(name = "MaterialesCli.findByAdministrar", query = "SELECT m FROM MaterialesCli m WHERE m.administrar = :administrar"),
     @NamedQuery(name = "MaterialesCli.findByFecha", query = "SELECT m FROM MaterialesCli m WHERE m.fecha = :fecha")})
 public class MaterialesCli implements Serializable {
 
@@ -60,22 +59,17 @@ public class MaterialesCli implements Serializable {
     private String descripcion;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Administrar")
-    private boolean administrar;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "Fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
-    @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private SucursalesCli idSucursal;
     @JoinColumn(name = "Unidad", referencedColumnName = "Id_Unidad")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UnidadesCli unidad;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaterial", fetch = FetchType.LAZY)
+    private List<MaterialesSucursal> materialesSucursalList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaterial", fetch = FetchType.LAZY)
     private List<MovMaterialesCli> movMaterialesCliList;
 
@@ -86,10 +80,9 @@ public class MaterialesCli implements Serializable {
         this.idMaterial = idMaterial;
     }
 
-    public MaterialesCli(String idMaterial, String descripcion, boolean administrar, Date fecha) {
+    public MaterialesCli(String idMaterial, String descripcion, Date fecha) {
         this.idMaterial = idMaterial;
         this.descripcion = descripcion;
-        this.administrar = administrar;
         this.fecha = fecha;
     }
 
@@ -117,14 +110,6 @@ public class MaterialesCli implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public boolean getAdministrar() {
-        return administrar;
-    }
-
-    public void setAdministrar(boolean administrar) {
-        this.administrar = administrar;
-    }
-
     public Date getFecha() {
         return fecha;
     }
@@ -141,20 +126,21 @@ public class MaterialesCli implements Serializable {
         this.usuario = usuario;
     }
 
-    public SucursalesCli getIdSucursal() {
-        return idSucursal;
-    }
-
-    public void setIdSucursal(SucursalesCli idSucursal) {
-        this.idSucursal = idSucursal;
-    }
-
     public UnidadesCli getUnidad() {
         return unidad;
     }
 
     public void setUnidad(UnidadesCli unidad) {
         this.unidad = unidad;
+    }
+
+    @XmlTransient
+    public List<MaterialesSucursal> getMaterialesSucursalList() {
+        return materialesSucursalList;
+    }
+
+    public void setMaterialesSucursalList(List<MaterialesSucursal> materialesSucursalList) {
+        this.materialesSucursalList = materialesSucursalList;
     }
 
     @XmlTransient

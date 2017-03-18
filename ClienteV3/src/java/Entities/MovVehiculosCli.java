@@ -97,9 +97,9 @@ public class MovVehiculosCli implements Serializable {
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
-    @JoinColumn(name = "Id_Vehiculo", referencedColumnName = "Id_Vehiculo")
+    @JoinColumn(name = "Placa", referencedColumnName = "Placa")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private VehiculosCli idVehiculo;
+    private VehiculosCli placa;
 
     public MovVehiculosCli() {
     }
@@ -229,12 +229,12 @@ public class MovVehiculosCli implements Serializable {
         this.idSucursal = idSucursal;
     }
 
-    public VehiculosCli getIdVehiculo() {
-        return idVehiculo;
+    public VehiculosCli getPlaca() {
+        return placa;
     }
 
-    public void setIdVehiculo(VehiculosCli idVehiculo) {
-        this.idVehiculo = idVehiculo;
+    public void setPlaca(VehiculosCli placa) {
+        this.placa = placa;
     }
 
     @Override

@@ -44,9 +44,18 @@ public class Querys {
     public static final String MUNICIPIOS_CLI_DEPARTAMENTO= "SELECT a FROM MunicipiosCli a where a.idDepartamento.idDepartamento = '";
     //</editor-fold>
     //<editor-fold desc="PORTERIA SUCURSAL CLI QUERY" defaultstate="collapsed">
-    public static String PORTERIA_SUCURSAL_CLI_PORTERIA= "SELECT a FROM PorteriaSucursalCli a WHERE a.porteriaSucursalCliPK.porteria =";
+    public static final String PORTERIA_SUCURSAL_CLI_PORTERIA= "SELECT a FROM PorteriaSucursalCli a WHERE a.porteriaSucursalCliPK.porteria =";
     //</editor-fold>
-
+    public static final String USUARIOS_ALL = "SELECT a FROM UsuariosCli a";
+    public static final String USUARIOS_ID=" a.idUsuario = '";
+    public static final String USUARIOS_PASSWORD=" a.password = '";
+    public static final String USUARIOS_SESION= " a.sesion = '";
+    public static final String USUARIOS_ID_SESION= " a.iDSesion = '";
+    
+    public static final String ACCESO_USUARIO_ALL ="SELECT a FROM AccesoUsuario a";
+    public static final String ACCESO_USUARIO_USUARIO=" a.usuario.idUsuario = '";
+    
+    
     
     
 }

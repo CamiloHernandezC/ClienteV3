@@ -36,9 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "VehiculosCli.findAll", query = "SELECT v FROM VehiculosCli v"),
-    @NamedQuery(name = "VehiculosCli.findByIdVehiculo", query = "SELECT v FROM VehiculosCli v WHERE v.idVehiculo = :idVehiculo"),
     @NamedQuery(name = "VehiculosCli.findByPlaca", query = "SELECT v FROM VehiculosCli v WHERE v.placa = :placa"),
-    @NamedQuery(name = "VehiculosCli.findByIdExterno", query = "SELECT v FROM VehiculosCli v WHERE v.idExterno = :idExterno"),
     @NamedQuery(name = "VehiculosCli.findByDescripcion", query = "SELECT v FROM VehiculosCli v WHERE v.descripcion = :descripcion"),
     @NamedQuery(name = "VehiculosCli.findByModelo", query = "SELECT v FROM VehiculosCli v WHERE v.modelo = :modelo"),
     @NamedQuery(name = "VehiculosCli.findByColor1", query = "SELECT v FROM VehiculosCli v WHERE v.color1 = :color1"),
@@ -53,17 +51,9 @@ public class VehiculosCli implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 14)
-    @Column(name = "Id_Vehiculo")
-    private String idVehiculo;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "Placa")
     private String placa;
-    @Size(max = 40)
-    @Column(name = "Id_Externo")
-    private String idExterno;
     @Size(max = 120)
     @Column(name = "Descripcion")
     private String descripcion;
@@ -90,12 +80,12 @@ public class VehiculosCli implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @JoinColumn(name = "Id_Entidad", referencedColumnName = "Id_Entidad")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private EntidadesCli idEntidad;
     @JoinColumn(name = "Id_Departamento", referencedColumnName = "Id_Departamento")
     @ManyToOne(fetch = FetchType.LAZY)
     private DepartamentosCli idDepartamento;
+    @JoinColumn(name = "Id_Entidad", referencedColumnName = "Id_Entidad")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private EntidadesCli idEntidad;
     @JoinColumn(name = "Id_Estado", referencedColumnName = "Id_Estado")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadosCli idEstado;
@@ -114,16 +104,15 @@ public class VehiculosCli implements Serializable {
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
-    @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private SucursalesCli idSucursal;
     @JoinColumn(name = "Unidad_Peso", referencedColumnName = "Id_Unidad")
     @ManyToOne(fetch = FetchType.LAZY)
     private UnidadesCli unidadPeso;
     @JoinColumn(name = "Unidad_Volumen", referencedColumnName = "Id_Unidad")
     @ManyToOne(fetch = FetchType.LAZY)
     private UnidadesCli unidadVolumen;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVehiculo", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vehiculosCli", fetch = FetchType.LAZY)
+    private List<VehiculosSucursal> vehiculosSucursalList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "placa", fetch = FetchType.LAZY)
     private List<MovVehiculosCli> movVehiculosCliList;
     @OneToMany(mappedBy = "idVehiculo", fetch = FetchType.LAZY)
     private List<NotificacionesCli> notificacionesCliList;
@@ -131,22 +120,13 @@ public class VehiculosCli implements Serializable {
     public VehiculosCli() {
     }
 
-    public VehiculosCli(String idVehiculo) {
-        this.idVehiculo = idVehiculo;
+    public VehiculosCli(String placa) {
+        this.placa = placa;
     }
 
-    public VehiculosCli(String idVehiculo, String placa, Date fecha) {
-        this.idVehiculo = idVehiculo;
+    public VehiculosCli(String placa, Date fecha) {
         this.placa = placa;
         this.fecha = fecha;
-    }
-
-    public String getIdVehiculo() {
-        return idVehiculo;
-    }
-
-    public void setIdVehiculo(String idVehiculo) {
-        this.idVehiculo = idVehiculo;
     }
 
     public String getPlaca() {
@@ -155,14 +135,6 @@ public class VehiculosCli implements Serializable {
 
     public void setPlaca(String placa) {
         this.placa = placa;
-    }
-
-    public String getIdExterno() {
-        return idExterno;
-    }
-
-    public void setIdExterno(String idExterno) {
-        this.idExterno = idExterno;
     }
 
     public String getDescripcion() {
@@ -229,20 +201,20 @@ public class VehiculosCli implements Serializable {
         this.fecha = fecha;
     }
 
-    public EntidadesCli getIdEntidad() {
-        return idEntidad;
-    }
-
-    public void setIdEntidad(EntidadesCli idEntidad) {
-        this.idEntidad = idEntidad;
-    }
-
     public DepartamentosCli getIdDepartamento() {
         return idDepartamento;
     }
 
     public void setIdDepartamento(DepartamentosCli idDepartamento) {
         this.idDepartamento = idDepartamento;
+    }
+
+    public EntidadesCli getIdEntidad() {
+        return idEntidad;
+    }
+
+    public void setIdEntidad(EntidadesCli idEntidad) {
+        this.idEntidad = idEntidad;
     }
 
     public EstadosCli getIdEstado() {
@@ -293,14 +265,6 @@ public class VehiculosCli implements Serializable {
         this.usuario = usuario;
     }
 
-    public SucursalesCli getIdSucursal() {
-        return idSucursal;
-    }
-
-    public void setIdSucursal(SucursalesCli idSucursal) {
-        this.idSucursal = idSucursal;
-    }
-
     public UnidadesCli getUnidadPeso() {
         return unidadPeso;
     }
@@ -315,6 +279,15 @@ public class VehiculosCli implements Serializable {
 
     public void setUnidadVolumen(UnidadesCli unidadVolumen) {
         this.unidadVolumen = unidadVolumen;
+    }
+
+    @XmlTransient
+    public List<VehiculosSucursal> getVehiculosSucursalList() {
+        return vehiculosSucursalList;
+    }
+
+    public void setVehiculosSucursalList(List<VehiculosSucursal> vehiculosSucursalList) {
+        this.vehiculosSucursalList = vehiculosSucursalList;
     }
 
     @XmlTransient
@@ -338,7 +311,7 @@ public class VehiculosCli implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idVehiculo != null ? idVehiculo.hashCode() : 0);
+        hash += (placa != null ? placa.hashCode() : 0);
         return hash;
     }
 
@@ -349,7 +322,7 @@ public class VehiculosCli implements Serializable {
             return false;
         }
         VehiculosCli other = (VehiculosCli) object;
-        if ((this.idVehiculo == null && other.idVehiculo != null) || (this.idVehiculo != null && !this.idVehiculo.equals(other.idVehiculo))) {
+        if ((this.placa == null && other.placa != null) || (this.placa != null && !this.placa.equals(other.placa))) {
             return false;
         }
         return true;
@@ -357,7 +330,7 @@ public class VehiculosCli implements Serializable {
 
     @Override
     public String toString() {
-        return "Entities.VehiculosCli[ idVehiculo=" + idVehiculo + " ]";
+        return "Entities.VehiculosCli[ placa=" + placa + " ]";
     }
     
 }

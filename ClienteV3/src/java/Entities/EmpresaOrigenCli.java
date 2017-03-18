@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "EmpresaOrigenCli.findAll", query = "SELECT e FROM EmpresaOrigenCli e"),
     @NamedQuery(name = "EmpresaOrigenCli.findByIdEmorigen", query = "SELECT e FROM EmpresaOrigenCli e WHERE e.idEmorigen = :idEmorigen"),
-    @NamedQuery(name = "EmpresaOrigenCli.findByIdTributario", query = "SELECT e FROM EmpresaOrigenCli e WHERE e.idTributario = :idTributario"),
+    @NamedQuery(name = "EmpresaOrigenCli.findByNit", query = "SELECT e FROM EmpresaOrigenCli e WHERE e.nit = :nit"),
     @NamedQuery(name = "EmpresaOrigenCli.findByNombre1", query = "SELECT e FROM EmpresaOrigenCli e WHERE e.nombre1 = :nombre1"),
     @NamedQuery(name = "EmpresaOrigenCli.findByNombre2", query = "SELECT e FROM EmpresaOrigenCli e WHERE e.nombre2 = :nombre2"),
     @NamedQuery(name = "EmpresaOrigenCli.findByDireccion", query = "SELECT e FROM EmpresaOrigenCli e WHERE e.direccion = :direccion"),
@@ -52,8 +52,8 @@ public class EmpresaOrigenCli implements Serializable {
     @Column(name = "Id_Emorigen")
     private String idEmorigen;
     @Size(max = 25)
-    @Column(name = "Id_Tributario")
-    private String idTributario;
+    @Column(name = "NIT")
+    private String nit;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -88,9 +88,6 @@ public class EmpresaOrigenCli implements Serializable {
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
-    @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private SucursalesCli idSucursal;
     @OneToMany(mappedBy = "idemorigen", fetch = FetchType.LAZY)
     private List<NovedadesCli> novedadesCliList;
     @OneToMany(mappedBy = "idEmpresaOrigen", fetch = FetchType.LAZY)
@@ -119,12 +116,12 @@ public class EmpresaOrigenCli implements Serializable {
         this.idEmorigen = idEmorigen;
     }
 
-    public String getIdTributario() {
-        return idTributario;
+    public String getNit() {
+        return nit;
     }
 
-    public void setIdTributario(String idTributario) {
-        this.idTributario = idTributario;
+    public void setNit(String nit) {
+        this.nit = nit;
     }
 
     public String getNombre1() {
@@ -205,14 +202,6 @@ public class EmpresaOrigenCli implements Serializable {
 
     public void setUsuario(PersonasCli usuario) {
         this.usuario = usuario;
-    }
-
-    public SucursalesCli getIdSucursal() {
-        return idSucursal;
-    }
-
-    public void setIdSucursal(SucursalesCli idSucursal) {
-        this.idSucursal = idSucursal;
     }
 
     @XmlTransient

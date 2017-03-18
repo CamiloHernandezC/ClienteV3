@@ -1,17 +1,12 @@
 package Controllers;
 
 import Entities.UsuariosCli;
-import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
 import Facade.UsuariosCliFacade;
 
-import java.io.Serializable;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -21,7 +16,7 @@ import javax.faces.convert.FacesConverter;
 
 @Named("usuariosCliController")
 @SessionScoped
-public class UsuariosCliController implements Serializable {
+public class UsuariosCliController extends AbstractPersistenceController<UsuariosCli>{
 
     @EJB
     private Facade.UsuariosCliFacade ejbFacade;
@@ -31,47 +26,50 @@ public class UsuariosCliController implements Serializable {
     public UsuariosCliController() {
     }
 
+    @Override
     public UsuariosCli getSelected() {
         return selected;
     }
 
+    @Override
     public void setSelected(UsuariosCli selected) {
         this.selected = selected;
     }
 
+    @Override
     protected void setEmbeddableKeys() {
+        //Nothing to do here
     }
 
+    @Override
     protected void initializeEmbeddableKey() {
     }
 
-    private UsuariosCliFacade getFacade() {
+    @Override
+    protected UsuariosCliFacade getFacade() {
         return ejbFacade;
     }
 
-    public UsuariosCli prepareCreate() {
+    @Override
+    public void prepareCreate() {
         selected = new UsuariosCli();
         initializeEmbeddableKey();
-        return selected;
+    }
+    
+    @Override
+    protected void setItems(List<UsuariosCli> items) {
+        this.items = items;
     }
 
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UsuariosCliCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+    @Override
+    protected Object calculatePrimaryKey() {
+        //TODO calculate primary key
+        return null;
     }
 
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("UsuariosCliUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("UsuariosCliDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+    @Override
+    protected void prepareUpdate() {
+        //Nothing to do here
     }
 
     public List<UsuariosCli> getItems() {
@@ -79,34 +77,6 @@ public class UsuariosCliController implements Serializable {
             items = getFacade().findAll();
         }
         return items;
-    }
-
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
     }
 
     public UsuariosCli getUsuariosCli(java.lang.String id) {

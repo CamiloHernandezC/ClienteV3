@@ -128,6 +128,9 @@ public class NotificacionesCli implements Serializable {
     @JoinColumn(name = "Id_Entidad", referencedColumnName = "Id_Entidad")
     @ManyToOne(fetch = FetchType.LAZY)
     private EntidadesCli idEntidad;
+    @JoinColumn(name = "Id_Estado", referencedColumnName = "Id_Estado")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private EstadosCli idEstado;
     @JoinColumn(name = "Id_Objeto", referencedColumnName = "Id_Objeto")
     @ManyToOne(fetch = FetchType.LAZY)
     private ObjetosCli idObjeto;
@@ -143,7 +146,7 @@ public class NotificacionesCli implements Serializable {
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
     @ManyToOne(fetch = FetchType.LAZY)
     private SucursalesCli idSucursal;
-    @JoinColumn(name = "Id_Vehiculo", referencedColumnName = "Id_Vehiculo")
+    @JoinColumn(name = "Id_Vehiculo", referencedColumnName = "Placa")
     @ManyToOne(fetch = FetchType.LAZY)
     private VehiculosCli idVehiculo;
 
@@ -314,6 +317,14 @@ public class NotificacionesCli implements Serializable {
 
     public void setIdEntidad(EntidadesCli idEntidad) {
         this.idEntidad = idEntidad;
+    }
+
+    public EstadosCli getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(EstadosCli idEstado) {
+        this.idEstado = idEstado;
     }
 
     public ObjetosCli getIdObjeto() {

@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "UnidadesCli.findAll", query = "SELECT u FROM UnidadesCli u"),
     @NamedQuery(name = "UnidadesCli.findByIdUnidad", query = "SELECT u FROM UnidadesCli u WHERE u.idUnidad = :idUnidad"),
     @NamedQuery(name = "UnidadesCli.findByTipoUnidad", query = "SELECT u FROM UnidadesCli u WHERE u.tipoUnidad = :tipoUnidad"),
-    @NamedQuery(name = "UnidadesCli.findByUnidadSI", query = "SELECT u FROM UnidadesCli u WHERE u.unidadSI = :unidadSI"),
+    @NamedQuery(name = "UnidadesCli.findByUnidadSIAB", query = "SELECT u FROM UnidadesCli u WHERE u.unidadSIAB = :unidadSIAB"),
     @NamedQuery(name = "UnidadesCli.findByDescripcion", query = "SELECT u FROM UnidadesCli u WHERE u.descripcion = :descripcion")})
 public class UnidadesCli implements Serializable {
 
@@ -46,12 +46,12 @@ public class UnidadesCli implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "Tipo_Unidad")
-    private boolean tipoUnidad;
+    private long tipoUnidad;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 4)
-    @Column(name = "Unidad_SI")
-    private String unidadSI;
+    @Size(min = 1, max = 15)
+    @Column(name = "Unidad_SI_AB")
+    private String unidadSIAB;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 60)
@@ -71,10 +71,10 @@ public class UnidadesCli implements Serializable {
         this.idUnidad = idUnidad;
     }
 
-    public UnidadesCli(Integer idUnidad, boolean tipoUnidad, String unidadSI, String descripcion) {
+    public UnidadesCli(Integer idUnidad, long tipoUnidad, String unidadSIAB, String descripcion) {
         this.idUnidad = idUnidad;
         this.tipoUnidad = tipoUnidad;
-        this.unidadSI = unidadSI;
+        this.unidadSIAB = unidadSIAB;
         this.descripcion = descripcion;
     }
 
@@ -86,20 +86,20 @@ public class UnidadesCli implements Serializable {
         this.idUnidad = idUnidad;
     }
 
-    public boolean getTipoUnidad() {
+    public long getTipoUnidad() {
         return tipoUnidad;
     }
 
-    public void setTipoUnidad(boolean tipoUnidad) {
+    public void setTipoUnidad(long tipoUnidad) {
         this.tipoUnidad = tipoUnidad;
     }
 
-    public String getUnidadSI() {
-        return unidadSI;
+    public String getUnidadSIAB() {
+        return unidadSIAB;
     }
 
-    public void setUnidadSI(String unidadSI) {
-        this.unidadSI = unidadSI;
+    public void setUnidadSIAB(String unidadSIAB) {
+        this.unidadSIAB = unidadSIAB;
     }
 
     public String getDescripcion() {
