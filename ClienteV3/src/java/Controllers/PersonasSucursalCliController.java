@@ -90,12 +90,6 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
         this.items = items;
     }
 
-    @Override
-    protected String calculatePrimaryKey() {
-        //Nothing to do here
-        return null;
-    }
-
     public List<PersonasSucursalCli> getItems() {
         if (items == null) {
             items = getFacade().findAll();
@@ -142,7 +136,7 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
     
     @FacesConverter(forClass = PersonasSucursalCli.class)
     public static class PersonasSucursalCliControllerConverter implements Converter {
-
+        //<editor-fold desc="Converter" defaultstate="collapsed">
         private static final String SEPARATOR = "#";
         private static final String SEPARATOR_ESCAPED = "\\#";
 
@@ -186,7 +180,7 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
                 return null;
             }
         }
-
+        //</editor-fold>
     }
 
 }

@@ -4,6 +4,7 @@ import Entities.NotificacionesCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
 import Facade.NotificacionesCliFacade;
+import Querys.Querys;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,7 +22,7 @@ import javax.faces.convert.FacesConverter;
 
 @Named("notificacionesCliController")
 @SessionScoped
-public class NotificacionesCliController implements Serializable {
+public class NotificacionesCliController extends AbstractPersistenceController<NotificacionesCli>{
 
     @EJB
     private Facade.NotificacionesCliFacade ejbFacade;
@@ -31,47 +32,36 @@ public class NotificacionesCliController implements Serializable {
     public NotificacionesCliController() {
     }
 
+    @Override
     public NotificacionesCli getSelected() {
+        if(selected == null){
+            selected = new NotificacionesCli();
+        }
         return selected;
     }
 
+    @Override
     public void setSelected(NotificacionesCli selected) {
         this.selected = selected;
     }
 
-    protected void setEmbeddableKeys() {
+    @Override
+    protected void setEmbeddableKeys() {//Nothing to do here
     }
 
-    protected void initializeEmbeddableKey() {
+    @Override
+    protected void initializeEmbeddableKey() {//Nothing to do here
     }
 
-    private NotificacionesCliFacade getFacade() {
+    @Override
+    protected NotificacionesCliFacade getFacade() {
         return ejbFacade;
     }
 
-    public NotificacionesCli prepareCreate() {
-        selected = new NotificacionesCli();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("NotificacionesCliCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("NotificacionesCliUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("NotificacionesCliDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+    @Override
+    public void prepareCreate() {
+        calculatePrimaryKey(Querys.NOTIFICACIONES_LAST_PRIMARY_KEY);
+        prepareUpdate();
     }
 
     public List<NotificacionesCli> getItems() {
@@ -81,49 +71,23 @@ public class NotificacionesCliController implements Serializable {
         return items;
     }
 
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
     public NotificacionesCli getNotificacionesCli(java.lang.Long id) {
         return getFacade().find(id);
     }
 
-    public List<NotificacionesCli> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
+    @Override
+    protected void setItems(List<NotificacionesCli> items) {
+        this.items = items;
     }
 
-    public List<NotificacionesCli> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
+    @Override
+    protected void prepareUpdate() {
+        assignParametersToUpdate();
     }
 
     @FacesConverter(forClass = NotificacionesCli.class)
     public static class NotificacionesCliControllerConverter implements Converter {
-
+        //<editor-fold desc="Converter" defaultstate="collapsed">
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -159,7 +123,7 @@ public class NotificacionesCliController implements Serializable {
                 return null;
             }
         }
-
+        //</editor-fold>
     }
 
 }

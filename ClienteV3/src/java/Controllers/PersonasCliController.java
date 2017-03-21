@@ -84,17 +84,6 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     protected void initializeEmbeddableKey() {
         //Nothing to do here
     }
-
-    @Override
-    protected String calculatePrimaryKey() {
-        Result result = ejbFacade.findByQuery(Querys.PERSONA_CLI_PRIMARY_KEY, true);
-        if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {//First record will be created
-            return "1";
-        }
-        PersonasCli lastPerson = (PersonasCli) ejbFacade.findByQuery(Querys.PERSONA_CLI_PRIMARY_KEY, true).result;
-        Long lastPrimaryKey = Long.valueOf(lastPerson.getIdPersona());
-        return String.valueOf(lastPrimaryKey + 1L);
-    }
     //</editor-fold>
 
     /**
@@ -102,14 +91,13 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
      */
     @Override
     public void prepareCreate() {
-        selected.setIdPersona(calculatePrimaryKey());
+        calculatePrimaryKey(Querys.PERSONA_CLI_LAST_PRIMARY_KEY);
         prepareUpdate();
     }
     
     @Override
     protected void prepareUpdate() {
-        selected.setUsuario(JsfUtil.getSessionUser().getIdPersona().getIdPersona());
-        selected.setFecha(new Date());
+        assignParametersToUpdate();
     }
 
     public List<PersonasCli> getItems() {
@@ -134,6 +122,13 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         //TODO CLEAN BRANCH AND AREA, MOV, EVERITHING
         JsfUtil.cancel();
     }
+
+    @Override
+    public void create() {
+        super.create(); //TODO CREATE PERSONA SUCURSAL TOO
+    }
+    
+    
 
     // <editor-fold desc="CONVERTER" defaultstate="collapsed">
     @FacesConverter(forClass = PersonasCli.class)

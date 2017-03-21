@@ -1,7 +1,9 @@
 package Controllers;
 
+import Controllers.util.JsfUtil;
 import Entities.UsuariosCli;
 import Facade.UsuariosCliFacade;
+import java.util.Date;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -43,6 +45,7 @@ public class UsuariosCliController extends AbstractPersistenceController<Usuario
 
     @Override
     protected void initializeEmbeddableKey() {
+        //Nothing to do here
     }
 
     @Override
@@ -52,8 +55,7 @@ public class UsuariosCliController extends AbstractPersistenceController<Usuario
 
     @Override
     public void prepareCreate() {
-        selected = new UsuariosCli();
-        initializeEmbeddableKey();
+        prepareUpdate();
     }
     
     @Override
@@ -62,14 +64,14 @@ public class UsuariosCliController extends AbstractPersistenceController<Usuario
     }
 
     @Override
-    protected Object calculatePrimaryKey() {
-        //TODO calculate primary key
-        return null;
-    }
-
-    @Override
     protected void prepareUpdate() {
-        //Nothing to do here
+        UsuariosCli actualUser = JsfUtil.getSessionUser();
+        if(actualUser!=null){
+            selected.setUsuario(actualUser.getIdPersona());
+        }else{
+            selected.setUsuario(selected.getUsuario());
+        }
+        selected.setFecha(new Date());
     }
 
     public List<UsuariosCli> getItems() {
@@ -83,17 +85,9 @@ public class UsuariosCliController extends AbstractPersistenceController<Usuario
         return getFacade().find(id);
     }
 
-    public List<UsuariosCli> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<UsuariosCli> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
-
     @FacesConverter(forClass = UsuariosCli.class)
     public static class UsuariosCliControllerConverter implements Converter {
-
+        //<editor-fold desc="Converter" defaultstate="collapsed">
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -129,7 +123,7 @@ public class UsuariosCliController extends AbstractPersistenceController<Usuario
                 return null;
             }
         }
-
+        //</editor-fold>
     }
 
 }

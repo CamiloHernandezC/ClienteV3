@@ -3,7 +3,9 @@ package Controllers;
 import Entities.AreasEmpresaCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
+import Facade.AbstractFacade;
 import Facade.AreasEmpresaCliFacade;
+import Querys.Querys;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,7 +23,7 @@ import javax.faces.convert.FacesConverter;
 
 @Named("areasEmpresaCliController")
 @SessionScoped
-public class AreasEmpresaCliController implements Serializable {
+public class AreasEmpresaCliController extends AbstractPersistenceController<AreasEmpresaCli>{
 
     @EJB
     private Facade.AreasEmpresaCliFacade ejbFacade;
@@ -31,49 +33,6 @@ public class AreasEmpresaCliController implements Serializable {
     public AreasEmpresaCliController() {
     }
 
-    public AreasEmpresaCli getSelected() {
-        return selected;
-    }
-
-    public void setSelected(AreasEmpresaCli selected) {
-        this.selected = selected;
-    }
-
-    protected void setEmbeddableKeys() {
-    }
-
-    protected void initializeEmbeddableKey() {
-    }
-
-    private AreasEmpresaCliFacade getFacade() {
-        return ejbFacade;
-    }
-
-    public AreasEmpresaCli prepareCreate() {
-        selected = new AreasEmpresaCli();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("AreasEmpresaCliCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("AreasEmpresaCliUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("AreasEmpresaCliDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
     public List<AreasEmpresaCli> getItems() {
         if (items == null) {
             items = getFacade().findAll();
@@ -81,49 +40,58 @@ public class AreasEmpresaCliController implements Serializable {
         return items;
     }
 
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
+ 
     public AreasEmpresaCli getAreasEmpresaCli(java.lang.String id) {
-        return getFacade().find(id);
+        return (AreasEmpresaCli) getFacade().find(id);
     }
 
-    public List<AreasEmpresaCli> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
+    @Override
+    protected AbstractFacade getFacade() {
+        return ejbFacade;
     }
 
-    public List<AreasEmpresaCli> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
+    @Override
+    protected AreasEmpresaCli getSelected() {
+        if(selected==null){
+            selected = new AreasEmpresaCli();
+        }
+        return selected;
     }
 
+    @Override
+    protected void setSelected(AreasEmpresaCli selected) {
+        this.selected = selected;
+    }
+
+    @Override
+    protected void setItems(List<AreasEmpresaCli> items) {
+        this.items = items;
+    }
+
+    @Override
+    protected void setEmbeddableKeys() {
+        //Nothing to do here
+    }
+
+    @Override
+    protected void initializeEmbeddableKey() {
+        //Nothing to do here
+    }
+
+    @Override
+    protected void prepareCreate() {
+        calculatePrimaryKey(Querys.AREAS_EMPRESA_LAST_PRIMARY_KEY);
+    }
+
+    @Override
+    protected void prepareUpdate() {
+        //assignParametersToUpdate();TODO create user and date field in entity and add this line
+    }
+
+   
     @FacesConverter(forClass = AreasEmpresaCli.class)
     public static class AreasEmpresaCliControllerConverter implements Converter {
-
+        //<editor-fold desc="Converter" defaultstate="collapsed">
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -159,6 +127,7 @@ public class AreasEmpresaCliController implements Serializable {
                 return null;
             }
         }
+        //</editor-fold>
 
     }
 

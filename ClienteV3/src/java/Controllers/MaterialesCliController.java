@@ -3,7 +3,9 @@ package Controllers;
 import Entities.MaterialesCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
+import Entities.EmpresaOrigenCli;
 import Facade.MaterialesCliFacade;
+import Querys.Querys;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,7 +23,7 @@ import javax.faces.convert.FacesConverter;
 
 @Named("materialesCliController")
 @SessionScoped
-public class MaterialesCliController implements Serializable {
+public class MaterialesCliController extends AbstractPersistenceController<MaterialesCli> {
 
     @EJB
     private Facade.MaterialesCliFacade ejbFacade;
@@ -31,47 +33,36 @@ public class MaterialesCliController implements Serializable {
     public MaterialesCliController() {
     }
 
+    @Override
     public MaterialesCli getSelected() {
+        if(selected==null){
+            selected = new MaterialesCli();
+        }
         return selected;
     }
 
+    @Override
     public void setSelected(MaterialesCli selected) {
         this.selected = selected;
     }
 
-    protected void setEmbeddableKeys() {
+    @Override
+    protected void setEmbeddableKeys() {//Nothing to do here
     }
 
-    protected void initializeEmbeddableKey() {
+    @Override
+    protected void initializeEmbeddableKey() {//Nothing to do here
     }
 
-    private MaterialesCliFacade getFacade() {
+    @Override
+    protected MaterialesCliFacade getFacade() {
         return ejbFacade;
     }
 
-    public MaterialesCli prepareCreate() {
-        selected = new MaterialesCli();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("MaterialesCliCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("MaterialesCliUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("MaterialesCliDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+    @Override
+    public void prepareCreate() {
+        calculatePrimaryKey(Querys.MATERIALES_LAST_PRIMARY_KEY);
+        prepareUpdate();
     }
 
     public List<MaterialesCli> getItems() {
@@ -81,49 +72,28 @@ public class MaterialesCliController implements Serializable {
         return items;
     }
 
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
     public MaterialesCli getMaterialesCli(java.lang.String id) {
         return getFacade().find(id);
     }
 
-    public List<MaterialesCli> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
+    @Override
+    protected void setItems(List<MaterialesCli> items) {
+        this.items = items;
     }
 
-    public List<MaterialesCli> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
+    @Override
+    protected void prepareUpdate() {
+        assignParametersToUpdate();
+    }
+
+    @Override
+    public void create() {
+        super.create(); //TODO create materiales sucursal too
     }
 
     @FacesConverter(forClass = MaterialesCli.class)
     public static class MaterialesCliControllerConverter implements Converter {
-
+        //<editor-fold desc="Converter" defaultstate="collapsed">
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -159,7 +129,7 @@ public class MaterialesCliController implements Serializable {
                 return null;
             }
         }
-
+        //</editor-fold>
     }
 
 }

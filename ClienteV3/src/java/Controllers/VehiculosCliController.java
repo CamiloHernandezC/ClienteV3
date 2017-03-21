@@ -6,6 +6,7 @@ import Controllers.util.JsfUtil.PersistAction;
 import Facade.VehiculosCliFacade;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -21,7 +22,7 @@ import javax.faces.convert.FacesConverter;
 
 @Named("vehiculosCliController")
 @SessionScoped
-public class VehiculosCliController implements Serializable {
+public class VehiculosCliController extends AbstractPersistenceController<VehiculosCli> {
 
     @EJB
     private Facade.VehiculosCliFacade ejbFacade;
@@ -31,47 +32,34 @@ public class VehiculosCliController implements Serializable {
     public VehiculosCliController() {
     }
 
+    @Override
     public VehiculosCli getSelected() {
         return selected;
     }
 
+    @Override
     public void setSelected(VehiculosCli selected) {
         this.selected = selected;
     }
 
+    @Override
     protected void setEmbeddableKeys() {
+        //Nothing to do here
     }
 
+    @Override
     protected void initializeEmbeddableKey() {
+        //Nothing to do here
     }
 
-    private VehiculosCliFacade getFacade() {
+    @Override
+    protected VehiculosCliFacade getFacade() {
         return ejbFacade;
     }
 
-    public VehiculosCli prepareCreate() {
-        selected = new VehiculosCli();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("VehiculosCliCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("VehiculosCliUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("VehiculosCliDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+    @Override
+    public void prepareCreate() {
+        prepareUpdate();
     }
 
     public List<VehiculosCli> getItems() {
@@ -81,49 +69,24 @@ public class VehiculosCliController implements Serializable {
         return items;
     }
 
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
     public VehiculosCli getVehiculosCli(java.lang.String id) {
         return getFacade().find(id);
     }
 
-    public List<VehiculosCli> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
+    @Override
+    protected void setItems(List<VehiculosCli> items) {
+        this.items = items;
     }
 
-    public List<VehiculosCli> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
+    @Override
+    protected void prepareUpdate() {
+        selected.setFecha(new Date());
+        selected.setUsuario(JsfUtil.getSessionUser().getIdPersona());
     }
 
     @FacesConverter(forClass = VehiculosCli.class)
     public static class VehiculosCliControllerConverter implements Converter {
-
+        //<editor-fold desc="Converter" defaultstate="collapsed">
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -159,7 +122,7 @@ public class VehiculosCliController implements Serializable {
                 return null;
             }
         }
-
+        //</editor-fold>
     }
 
 }

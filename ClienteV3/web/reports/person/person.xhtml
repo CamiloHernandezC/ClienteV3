@@ -22,7 +22,7 @@
             
             <p:outputLabel value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" for="tipoDocumento" />
             <p:selectOneMenu id="tipoDocumento" value="#{specificReportPersonControl.docType}" required="true" requiredMessage="#{bundle.EditPersonasCliRequiredMessage_tipoDocumento}">
-                <f:selectItems value="#{tiposDocumentoCliController.itemsAvailableSelectOne}" var="tipoDocumentoItem" itemValue="#{tipoDocumentoItem}" itemLabel="#{tipoDocumentoItem.descripcion}"/>
+                <f:selectItems value="#{tiposDocumentoCliController.items}" var="tipoDocumentoItem" itemValue="#{tipoDocumentoItem}" itemLabel="#{tipoDocumentoItem.descripcion}"/>
             </p:selectOneMenu>
             <p:commandButton title="#{bundle.GenerateReport}" action="#{specificReportPersonControl.generateReport()}" ajax="false"/>
             </h:panelGrid>

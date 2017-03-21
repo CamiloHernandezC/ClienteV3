@@ -3,7 +3,9 @@ package Controllers;
 import Entities.EmpresaOrigenCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
+import Entities.AreasEmpresaCli;
 import Facade.EmpresaOrigenCliFacade;
+import Querys.Querys;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,7 +23,7 @@ import javax.faces.convert.FacesConverter;
 
 @Named("empresaOrigenCliController")
 @SessionScoped
-public class EmpresaOrigenCliController implements Serializable {
+public class EmpresaOrigenCliController extends AbstractPersistenceController<EmpresaOrigenCli> {
 
     @EJB
     private Facade.EmpresaOrigenCliFacade ejbFacade;
@@ -31,47 +33,35 @@ public class EmpresaOrigenCliController implements Serializable {
     public EmpresaOrigenCliController() {
     }
 
+    @Override
     public EmpresaOrigenCli getSelected() {
+        if(selected==null){
+            selected = new EmpresaOrigenCli();
+        }
         return selected;
     }
 
+    @Override
     public void setSelected(EmpresaOrigenCli selected) {
         this.selected = selected;
     }
 
-    protected void setEmbeddableKeys() {
+    @Override
+    protected void setEmbeddableKeys() {//Nothing to do here
     }
 
-    protected void initializeEmbeddableKey() {
+    @Override
+    protected void initializeEmbeddableKey() {//Nothing to do here
     }
 
-    private EmpresaOrigenCliFacade getFacade() {
+    @Override
+    protected EmpresaOrigenCliFacade getFacade() {
         return ejbFacade;
     }
 
-    public EmpresaOrigenCli prepareCreate() {
-        selected = new EmpresaOrigenCli();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("EmpresaOrigenCliCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("EmpresaOrigenCliUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("EmpresaOrigenCliDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+    @Override
+    public void prepareCreate() {
+        calculatePrimaryKey(Querys.EMPRESA_ORIGEN_LAST_PRIMARY_KEY);
     }
 
     public List<EmpresaOrigenCli> getItems() {
@@ -81,49 +71,23 @@ public class EmpresaOrigenCliController implements Serializable {
         return items;
     }
 
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
     public EmpresaOrigenCli getEmpresaOrigenCli(java.lang.String id) {
         return getFacade().find(id);
     }
 
-    public List<EmpresaOrigenCli> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
+    @Override
+    protected void setItems(List<EmpresaOrigenCli> items) {
+        this.items = items;
     }
 
-    public List<EmpresaOrigenCli> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
+    @Override
+    protected void prepareUpdate() {
+        assignParametersToUpdate();
     }
 
     @FacesConverter(forClass = EmpresaOrigenCli.class)
     public static class EmpresaOrigenCliControllerConverter implements Converter {
-
+        //<editor-fold desc="Converter" defaultstate="collapsed">
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -159,7 +123,7 @@ public class EmpresaOrigenCliController implements Serializable {
                 return null;
             }
         }
-
+        //</editor-fold>
     }
 
 }

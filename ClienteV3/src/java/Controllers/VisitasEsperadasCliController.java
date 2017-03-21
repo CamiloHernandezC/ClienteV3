@@ -6,6 +6,7 @@ import Controllers.util.JsfUtil.PersistAction;
 import Facade.VisitasEsperadasCliFacade;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -21,7 +22,7 @@ import javax.faces.convert.FacesConverter;
 
 @Named("visitasEsperadasCliController")
 @SessionScoped
-public class VisitasEsperadasCliController implements Serializable {
+public class VisitasEsperadasCliController extends AbstractPersistenceController<VisitasEsperadasCli> {
 
     @EJB
     private Facade.VisitasEsperadasCliFacade ejbFacade;
@@ -31,50 +32,35 @@ public class VisitasEsperadasCliController implements Serializable {
     public VisitasEsperadasCliController() {
     }
 
+    @Override
     public VisitasEsperadasCli getSelected() {
         return selected;
     }
 
+    @Override
     public void setSelected(VisitasEsperadasCli selected) {
         this.selected = selected;
     }
 
+    @Override
     protected void setEmbeddableKeys() {
         selected.getVisitasEsperadasCliPK().setIdPersona(selected.getPersonasCli().getIdPersona());
         selected.getVisitasEsperadasCliPK().setIdSucursal(selected.getSucursalesCli().getIdSucursal());
     }
 
+    @Override
     protected void initializeEmbeddableKey() {
         selected.setVisitasEsperadasCliPK(new Entities.VisitasEsperadasCliPK());
     }
 
-    private VisitasEsperadasCliFacade getFacade() {
+    @Override
+    protected VisitasEsperadasCliFacade getFacade() {
         return ejbFacade;
     }
 
-    public VisitasEsperadasCli prepareCreate() {
-        selected = new VisitasEsperadasCli();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("VisitasEsperadasCliCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("VisitasEsperadasCliUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("VisitasEsperadasCliDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+    @Override
+    public void prepareCreate() {
+        prepareUpdate();
     }
 
     public List<VisitasEsperadasCli> getItems() {
@@ -84,49 +70,30 @@ public class VisitasEsperadasCliController implements Serializable {
         return items;
     }
 
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
     public VisitasEsperadasCli getVisitasEsperadasCli(Entities.VisitasEsperadasCliPK id) {
         return getFacade().find(id);
     }
 
-    public List<VisitasEsperadasCli> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
+    @Override
+    protected void setItems(List<VisitasEsperadasCli> items) {
+        this.items = items;
     }
 
-    public List<VisitasEsperadasCli> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
+    @Override
+    protected void prepareUpdate() {
+        selected.setFecha(new Date());
+        selected.setUsuario(JsfUtil.getSessionUser().getIdPersona());
     }
 
+    @Override
+    public void create() {
+        super.create(); //TODO create notif too and autorization if it's a special day
+    }
+
+    
     @FacesConverter(forClass = VisitasEsperadasCli.class)
     public static class VisitasEsperadasCliControllerConverter implements Converter {
-
+        //<editor-fold desc="Converter" defaultstate="collapsed">
         private static final String SEPARATOR = "#";
         private static final String SEPARATOR_ESCAPED = "\\#";
 
@@ -173,7 +140,7 @@ public class VisitasEsperadasCliController implements Serializable {
                 return null;
             }
         }
-
+        //</editor-fold>
     }
 
 }
