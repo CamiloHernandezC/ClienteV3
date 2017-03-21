@@ -6,6 +6,7 @@ import Controllers.util.JsfUtil.PersistAction;
 import Entities.PersonasCli;
 import Entities.PersonasSucursalCli;
 import Facade.MovPersonasCliFacade;
+import GeneralControl.GeneralControl;
 import Querys.Querys;
 import Utils.Constants;
 import Utils.Result;
@@ -52,6 +53,15 @@ public class MovPersonasCliController implements Serializable{
     public List<MovPersonasCli> getItems() {
         if (items == null) {
             items = getFacade().findAll();
+        }
+        return items;
+    }
+    
+    public List<MovPersonasCli> getItemsByBranchOffice() {//TODO DATES FILTER HERE
+        GeneralControl generalControl = JsfUtil.findBean("generalControl");
+        if(generalControl.getSelectedBranchOffice()!=null){
+            String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_SUCURSAL+generalControl.getSelectedBranchOffice().getIdSucursal()+"'";
+            items = (List<MovPersonasCli>) getFacade().findByQueryArray(squery).result;
         }
         return items;
     }
