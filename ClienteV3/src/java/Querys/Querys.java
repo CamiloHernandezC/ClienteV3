@@ -25,7 +25,7 @@ public class Querys {
     public static final String PERSONA_CLI_SUCURSAL= " a.idSucursal.idSucursal = '";
     public static final String PERSONA_CLI_ESTADO= " a.idEstado.idEstado = '";
     public static final String PERSONA_CLI_ESTADO_N= " a.idEstado.idEstado != '";
-    public static final String PERSONA_CLI_PRIMARY_KEY= "SELECT a FROM PersonasCli a ORDER BY a.idPersona DESC";
+    public static final String PERSONA_CLI_LAST_PRIMARY_KEY= "SELECT a FROM PersonasCli a ORDER BY a.idPersona DESC";
     public static final String PERSONA_CLI_IN_SUCURSAL= " a.idSucursal IN ";
     //</editor-fold>
     //<editor-fold desc="MOV PERSONAS CLI QUERY" defaultstate="collapsed">
@@ -56,7 +56,11 @@ public class Querys {
     public static final String ACCESO_USUARIO_ALL ="SELECT a FROM AccesoUsuario a";
     public static final String ACCESO_USUARIO_USUARIO=" a.usuario.idUsuario = '";
     
-    
+    public static final String AREAS_EMPRESA_LAST_PRIMARY_KEY="SELECT a FROM AreasEmpresaCli a ORDER BY a.idareaemp DESC";
+    public static final String EMPRESA_ORIGEN_LAST_PRIMARY_KEY="SELECT e FROM EmpresaOrigenCli e ORDER BY e.idEmorigen DESC";
+    public static final String MATERIALES_LAST_PRIMARY_KEY="SELECT m FROM MaterialesCli m ORDER BY m.idMaterial DESC";
+    public static final String NOTIFICACIONES_LAST_PRIMARY_KEY="SELECT n FROM NotificacionesCli n ORDER BY n.idNotificacion DESC";
+    public static final String OBJETOS_LAST_PRIMARY_KEY="SELECT o FROM ObjetosCli o ORDER BY o.idObjeto DESC";
     
     
     

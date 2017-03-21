@@ -41,39 +41,8 @@ public class MunicipiosCliController implements Serializable {
         this.selected = selected;
     }
 
-    protected void setEmbeddableKeys() {
-    }
-
-    protected void initializeEmbeddableKey() {
-    }
-
     private MunicipiosCliFacade getFacade() {
         return ejbFacade;
-    }
-
-    public MunicipiosCli prepareCreate() {
-        selected = new MunicipiosCli();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("MunicipiosCliCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("MunicipiosCliUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("MunicipiosCliDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
     }
 
     public List<MunicipiosCli> getItems() {
@@ -83,44 +52,8 @@ public class MunicipiosCliController implements Serializable {
         return items;
     }
 
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
     public MunicipiosCli getMunicipiosCli(java.lang.String id) {
         return getFacade().find(id);
-    }
-
-    public List<MunicipiosCli> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<MunicipiosCli> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
     
     public List<MunicipiosCli> getItemsOfDepartment(DepartamentosCli department) {
@@ -135,7 +68,7 @@ public class MunicipiosCliController implements Serializable {
 
     @FacesConverter(forClass = MunicipiosCli.class)
     public static class MunicipiosCliControllerConverter implements Converter {
-
+        //<editor-fold desc="Converter" defaultstate="collapsed">
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -171,7 +104,7 @@ public class MunicipiosCliController implements Serializable {
                 return null;
             }
         }
-
+        //</editor-fold>
     }
 
 }

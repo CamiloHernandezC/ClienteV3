@@ -6,8 +6,12 @@
 package Controllers;
 
 import Controllers.util.JsfUtil;
+import Entities.AbstractEntity;
 import Facade.AbstractFacade;
+import Utils.Constants;
+import Utils.Result;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -17,18 +21,39 @@ import javax.ejb.EJBException;
 /**
  *
  * @author MAURICIO
+ * @param <AbstractEntity>
  */
 public abstract class AbstractPersistenceController<T> implements Serializable{
-
+    
     protected abstract AbstractFacade getFacade();
     protected abstract T getSelected();
     protected abstract void setSelected(T selected);
     protected abstract void setItems(List<T> items);
     protected abstract void setEmbeddableKeys();
     protected abstract void initializeEmbeddableKey();
-    protected abstract Object calculatePrimaryKey();
     protected abstract void prepareCreate();
     protected abstract void prepareUpdate();
+    
+    public void calculatePrimaryKey(String squery){
+        Result result = getFacade().findByQuery(squery, true);//Only need the first result
+        if(result.errorCode==Constants.NO_RESULT_EXCEPTION){
+            AbstractEntity entity = (AbstractEntity) getSelected();
+            entity.setPrimaryKey(((AbstractEntity) result.result).getPrimaryKey()+1L);
+            setSelected((T) entity);
+        }else{
+            AbstractEntity entity = (AbstractEntity) getSelected();
+            entity.setPrimaryKey(((AbstractEntity) result.result).getPrimaryKey()+1L);
+            setSelected((T) entity);
+        }
+        //In previous section we need get and set selected because all data are already loaded
+    }
+    
+    public void assignParametersToUpdate(){
+        AbstractEntity entity = (AbstractEntity) getSelected();
+        entity.setUser(JsfUtil.getSessionUser().getIdPersona());
+        entity.setDate(new Date());
+        setSelected((T) entity);
+    }
     
     public void create() {
         prepareCreate();
