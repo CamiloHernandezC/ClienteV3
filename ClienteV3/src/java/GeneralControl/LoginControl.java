@@ -63,8 +63,8 @@ public class LoginControl implements Serializable {
 
     private void successfulLogin() {
         //IF MAC PROBLEMS SEE http://stackoverflow.com/questions/4467905/getting-mac-address-on-a-web-page-using-a-java-applet
-        String Mac = getMac();
-        selected.setIDSesion(Mac);
+        String IDSesion = String.valueOf(Math.random());
+        selected.setIDSesion(IDSesion);
         selected.setSesion(true);
         usuariosCliController.setSelected(selected);
         usuariosCliController.update();
@@ -82,75 +82,7 @@ public class LoginControl implements Serializable {
             return;
         }
         JsfUtil.redirectTo("");//Redirect to login
-    }
-    
-    public String getMac() {
-        String macAddr = "";
-        InetAddress addr;
-        try {
-            addr = InetAddress.getLocalHost();
-
-            NetworkInterface dir = NetworkInterface.getByInetAddress(addr);
-            byte[] dirMac = dir.getHardwareAddress();
-
-            int count = 0;
-            for (int b : dirMac) {
-                if (b < 0) {
-                    b = 256 + b;
-                }
-                if (b == 0) {
-                    macAddr = macAddr.concat("00");
-                }
-                if (b > 0) {
-
-                    int a = b / 16;
-                    if (a == 10) {
-                        macAddr = macAddr.concat("A");
-                    } else if (a == 11) {
-                        macAddr = macAddr.concat("B");
-                    } else if (a == 12) {
-                        macAddr = macAddr.concat("C");
-                    } else if (a == 13) {
-                        macAddr = macAddr.concat("D");
-                    } else if (a == 14) {
-                        macAddr = macAddr.concat("E");
-                    } else if (a == 15) {
-                        macAddr = macAddr.concat("F");
-                    } else {
-                        macAddr = macAddr.concat(String.valueOf(a));
-                    }
-                    a = (b % 16);
-                    if (a == 10) {
-                        macAddr = macAddr.concat("A");
-                    } else if (a == 11) {
-                        macAddr = macAddr.concat("B");
-                    } else if (a == 12) {
-                        macAddr = macAddr.concat("C");
-                    } else if (a == 13) {
-                        macAddr = macAddr.concat("D");
-                    } else if (a == 14) {
-                        macAddr = macAddr.concat("E");
-                    } else if (a == 15) {
-                        macAddr = macAddr.concat("F");
-                    } else {
-                        macAddr = macAddr.concat(String.valueOf(a));
-                    }
-                }
-                if (count < dirMac.length - 1) {
-                    macAddr = macAddr.concat("-");
-                }
-                count++;
-            }
-
-        } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            macAddr = e.getMessage();
-        } catch (SocketException e) {
-            // TODO Auto-generated catch block
-            macAddr = e.getMessage();
-        }
-        return macAddr;
-    }
+    }   
 
     //TODO LOGOUT
 }
