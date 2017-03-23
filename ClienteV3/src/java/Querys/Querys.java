@@ -38,8 +38,8 @@ public class Querys {
     public static final String MOV_PERSONA_CLI_FECHA_SALIDA_NOT_NULL= " a.fechaSalida IS NOT NULL";
     public static final String MOV_PERSONA_CLI_PRIMARY_KEY= "SELECT a FROM MovPersonasCli a ORDER BY a.idMovimiento DESC";
     public static String MOV_PERSONA_CLI_ORDER_BY_ID = " ORDER BY a.idMovimiento DESC";
-    public static final String MOV_PERSONA_CLI_TIPO_DOC = " a.idPersona.tipoDocumento.tipodocumento = '";
-    public static final String MOV_PERSONA_CLI_NUM_DOC = " a.idPersona.numDocumento = '";
+    public static final String MOV_PERSONA_CLI_TIPO_DOC = " a.personasSucursalCli.personasCli.tipoDocumento.tipodocumento = '";
+    public static final String MOV_PERSONA_CLI_NUM_DOC = " a.personasSucursalCli.personasCli.numDocumento = '";
     public static final String MOV_PERSONA_CLI_SALIDA_FORZADA=" a.salidaForzosa = '";
     public static final String MOV_PERSONA_CLI_INGRESO_FORZADO=" a.ingresoForzado = '";
     public static String MOV_PERSONA_CLI_FECHA_INGRESO_BETWEEN=" a.fechaEntrada BETWEEN '";
