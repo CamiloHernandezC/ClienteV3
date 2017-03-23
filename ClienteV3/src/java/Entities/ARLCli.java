@@ -110,4 +110,5 @@ public class ARLCli implements Serializable {
     public String toString() {
         return "Entities.ARLCli[ arl=" + arl + " ]";
     }
+    
 }

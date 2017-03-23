@@ -32,9 +32,7 @@
                 </p:selectOneMenu>            
             </h:panelGrid>
             <p:commandButton title="#{bundle.GenerateReport}" action="#{specificReportPersonControl.generateReport()}" ajax="false"/>
-            <p:chart id="chartPerson" type="bar" model="#{specificReportPersonControl.barModel}" rendered="true" widgetVar="chart" style="width:100%;height:300px">
-                <p:ajax event="itemSelect" listener="#{generalReportControl.drillDown}"/>
-            </p:chart>
+            <p:chart id="chartPerson" type="bar" model="#{specificReportPersonControl.barModel}" rendered="true" widgetVar="chart" style="width:100%;height:300px"/>
 
         </h:form>
     </ui:define>

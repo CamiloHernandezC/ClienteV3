@@ -89,8 +89,6 @@ public class SucursalesCli implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSucursal", fetch = FetchType.LAZY)
     private List<ObjetosCli> objetosCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSucursal", fetch = FetchType.LAZY)
-    private List<MovPersonasCli> movPersonasCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSucursal", fetch = FetchType.LAZY)
     private List<MovMaterialesCli> movMaterialesCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSucursal", fetch = FetchType.LAZY)
     private List<MovHerramientasCli> movHerramientasCliList;
@@ -263,15 +261,6 @@ public class SucursalesCli implements Serializable {
 
     public void setObjetosCliList(List<ObjetosCli> objetosCliList) {
         this.objetosCliList = objetosCliList;
-    }
-
-    @XmlTransient
-    public List<MovPersonasCli> getMovPersonasCliList() {
-        return movPersonasCliList;
-    }
-
-    public void setMovPersonasCliList(List<MovPersonasCli> movPersonasCliList) {
-        this.movPersonasCliList = movPersonasCliList;
     }
 
     @XmlTransient

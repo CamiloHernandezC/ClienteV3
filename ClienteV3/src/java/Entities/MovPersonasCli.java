@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -94,15 +95,14 @@ public class MovPersonasCli implements Serializable {
     @JoinColumn(name = "Id_Area", referencedColumnName = "Id_areaemp")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private AreasEmpresaCli idArea;
-    @JoinColumn(name = "Id_Persona", referencedColumnName = "Id_Persona")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private PersonasCli idPersona;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasCli usuario;
-    @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
+    @JoinColumns({
+        @JoinColumn(name = "Id_Persona", referencedColumnName = "Id_Persona"),
+        @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Sucursal")})
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private SucursalesCli idSucursal;
+    private PersonasSucursalCli personasSucursalCli;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovPersona", fetch = FetchType.LAZY)
     private List<MovMaterialesCli> movMaterialesCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMovEntrada", fetch = FetchType.LAZY)
@@ -233,14 +233,6 @@ public class MovPersonasCli implements Serializable {
         this.idArea = idArea;
     }
 
-    public PersonasCli getIdPersona() {
-        return idPersona;
-    }
-
-    public void setIdPersona(PersonasCli idPersona) {
-        this.idPersona = idPersona;
-    }
-
     public PersonasCli getUsuario() {
         return usuario;
     }
@@ -249,12 +241,12 @@ public class MovPersonasCli implements Serializable {
         this.usuario = usuario;
     }
 
-    public SucursalesCli getIdSucursal() {
-        return idSucursal;
+    public PersonasSucursalCli getPersonasSucursalCli() {
+        return personasSucursalCli;
     }
 
-    public void setIdSucursal(SucursalesCli idSucursal) {
-        this.idSucursal = idSucursal;
+    public void setPersonasSucursalCli(PersonasSucursalCli personasSucursalCli) {
+        this.personasSucursalCli = personasSucursalCli;
     }
 
     @XmlTransient
