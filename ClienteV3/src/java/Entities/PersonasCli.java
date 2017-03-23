@@ -187,10 +187,8 @@ public class PersonasCli implements Serializable {
     private List<UsuariosCli> usuariosCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersona", fetch = FetchType.LAZY)
     private List<UsuariosCli> usuariosCliList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersona", fetch = FetchType.LAZY)
-    private List<MovPersonasCli> movPersonasCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
-    private List<MovPersonasCli> movPersonasCliList1;
+    private List<MovPersonasCli> movPersonasCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MovMaterialesCli> movMaterialesCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
@@ -199,6 +197,13 @@ public class PersonasCli implements Serializable {
     public PersonasCli() {
     }
 
+    public String getSexoString() {
+        if(sexo){
+            return "M";
+        }
+        return "F";
+    }
+    
     public PersonasCli(String idPersona) {
         this.idPersona = idPersona;
     }
@@ -210,13 +215,6 @@ public class PersonasCli implements Serializable {
         this.apellido1 = apellido1;
         this.usuario = usuario;
         this.fecha = fecha;
-    }
-
-    public String getSexoString() {
-        if(sexo){
-            return "M";
-        }
-        return "F";
     }
 
     public String getIdPersona() {
@@ -604,15 +602,6 @@ public class PersonasCli implements Serializable {
 
     public void setMovPersonasCliList(List<MovPersonasCli> movPersonasCliList) {
         this.movPersonasCliList = movPersonasCliList;
-    }
-
-    @XmlTransient
-    public List<MovPersonasCli> getMovPersonasCliList1() {
-        return movPersonasCliList1;
-    }
-
-    public void setMovPersonasCliList1(List<MovPersonasCli> movPersonasCliList1) {
-        this.movPersonasCliList1 = movPersonasCliList1;
     }
 
     @XmlTransient

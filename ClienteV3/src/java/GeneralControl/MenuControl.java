@@ -62,6 +62,10 @@ public class MenuControl implements Serializable{
         item = new DefaultMenuItem("Persona");
         item.setUrl(Navigation.PAGE_REPORT_PERSON);
         secondSubmenu.addElement(item);
+        
+        item = new DefaultMenuItem("Resumen de Ingresos");
+        item.setUrl(Navigation.PAGE_REPORT_RESUME);
+        secondSubmenu.addElement(item);
          
         menu.addElement(secondSubmenu);
          

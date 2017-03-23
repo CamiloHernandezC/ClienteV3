@@ -5,6 +5,8 @@
  */
 package Querys;
 
+import java.sql.Date;
+
 /**
  *
  * @author MAURICIO
@@ -30,8 +32,8 @@ public class Querys {
     //</editor-fold>
     //<editor-fold desc="MOV PERSONAS CLI QUERY" defaultstate="collapsed">
     public static final String MOV_PERSONA_CLI_ALL= "SELECT a FROM MovPersonasCli a ";
-    public static final String MOV_PERSONA_CLI_PERSONA= " a.idPersona.idPersona = '";
-    public static String MOV_PERSONA_CLI_SUCURSAL=" a.idSucursal.idSucursal = '";
+    public static final String MOV_PERSONA_CLI_PERSONA= " a.personasSucursalCli.personasCli.idPersona = '";
+    public static String MOV_PERSONA_CLI_SUCURSAL=" a.personasSucursalCli.sucursalesCli.idSucursal = '";
     public static final String MOV_PERSONA_CLI_FECHA_SALIDA_NULL= " a.fechaSalida IS NULL";
     public static final String MOV_PERSONA_CLI_FECHA_SALIDA_NOT_NULL= " a.fechaSalida IS NOT NULL";
     public static final String MOV_PERSONA_CLI_PRIMARY_KEY= "SELECT a FROM MovPersonasCli a ORDER BY a.idMovimiento DESC";
@@ -40,6 +42,7 @@ public class Querys {
     public static final String MOV_PERSONA_CLI_NUM_DOC = " a.idPersona.numDocumento = '";
     public static final String MOV_PERSONA_CLI_SALIDA_FORZADA=" a.salidaForzosa = '";
     public static final String MOV_PERSONA_CLI_INGRESO_FORZADO=" a.ingresoForzado = '";
+    public static String MOV_PERSONA_CLI_FECHA_INGRESO_BETWEEN=" a.fechaEntrada BETWEEN '";
     //</editor-fold>
     //<editor-fold desc="MUNICIPIOS CLI QUERY" defaultstate="collapsed">
     public static final String MUNICIPIOS_CLI_DEPARTAMENTO= "SELECT a FROM MunicipiosCli a where a.idDepartamento.idDepartamento = '";
@@ -61,6 +64,8 @@ public class Querys {
     public static final String MATERIALES_LAST_PRIMARY_KEY="SELECT m FROM MaterialesCli m ORDER BY m.idMaterial DESC";
     public static final String NOTIFICACIONES_LAST_PRIMARY_KEY="SELECT n FROM NotificacionesCli n ORDER BY n.idNotificacion DESC";
     public static final String OBJETOS_LAST_PRIMARY_KEY="SELECT o FROM ObjetosCli o ORDER BY o.idObjeto DESC";
+    
+    
     
     
     

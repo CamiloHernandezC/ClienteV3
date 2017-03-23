@@ -1,10 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./../../template.xhtml">
+                template="./../../template.xhtml"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
-        content
+        <ui:include src="formTemplate.xhtm"/>
+        <ui:define name="saveButton">
+            <p:commandButton actionListener="#{personasCliController.create}" value="#{bundle.Save}" update="display,:PersonasCliListForm:datalist,:growl" oncomplete="handleSubmit(args,'PersonasCliCreateDialog');"/>
+        </ui:define>
     </ui:define>
 
 </ui:composition>

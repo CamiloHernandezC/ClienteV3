@@ -16,4 +16,6 @@ public class Navigation {
     public static String PAGE_REPORT_GENERAL_PERSON="/reports/person/list.xhtml?faces-redirect=true";
     public static String PAGE_REPORT_PERSON="/reports/person/person.xhtml?faces-redirect=true";
     public static String PAGE_EXCEPTION_HANDLER="/exceptionHandler.xhtml?faces-redirect=true";
+    public static String PAGE_REPORT_RESUME="/reports/person/resume.xhtml?faces-redirect=true";
+    public static String PAGE_PERSONAS_CREATE="/master_data/person/create.xhtml?faces-redirect=true";
 }

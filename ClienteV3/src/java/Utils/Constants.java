@@ -66,6 +66,7 @@ public class Constants {
     // <editor-fold desc="HTTP SESSION" defaultstate="collapsed">
     public static final String SESSION_USER="USER";
     //</editor-fold>
+    public static int NUMBER_OF_PERSON_TYPES=3;
     
     public static String getMonthName(int monthNumber){
         switch(monthNumber){

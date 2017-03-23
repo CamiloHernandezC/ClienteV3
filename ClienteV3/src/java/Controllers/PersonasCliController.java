@@ -5,6 +5,7 @@ import Controllers.util.JsfUtil;
 import Facade.PersonasCliFacade;
 import Querys.Querys;
 import Utils.Constants;
+import Utils.Navigation;
 import Utils.Result;
 
 import java.util.Date;
@@ -18,6 +19,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.context.RequestContext;
 
 @Named("personasCliController")
 @SessionScoped
@@ -29,11 +31,17 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
     private PersonasCli selected;
     private String code;//Store code reader value
     private String otherOriginEnterpriseName;
+    private boolean showError;
 
     public PersonasCliController() {
     }
 
     //<editor-fold desc="GETTER AND SETTER" defaultstate="collapsed">
+    
+    public boolean isShowError() {
+        return showError;
+    }
+
     public String getOtherOriginEnterpriseName() {
         return otherOriginEnterpriseName;
     }
@@ -128,7 +136,9 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
         super.create(); //TODO CREATE PERSONA SUCURSAL TOO
     }
     
-    
+    public String changeViewToCreate(){
+         return Navigation.PAGE_PERSONAS_CREATE;
+    }
 
     // <editor-fold desc="CONVERTER" defaultstate="collapsed">
     @FacesConverter(forClass = PersonasCli.class)

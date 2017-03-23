@@ -7,7 +7,9 @@ package Entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -16,12 +18,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -67,6 +71,8 @@ public class PersonasSucursalCli implements Serializable {
     @JoinColumn(name = "Sucursal", referencedColumnName = "Id_Sucursal", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SucursalesCli sucursalesCli;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personasSucursalCli", fetch = FetchType.LAZY)
+    private List<MovPersonasCli> movPersonasCliList;
 
     public PersonasSucursalCli() {
     }
@@ -154,6 +160,15 @@ public class PersonasSucursalCli implements Serializable {
 
     public void setSucursalesCli(SucursalesCli sucursalesCli) {
         this.sucursalesCli = sucursalesCli;
+    }
+
+    @XmlTransient
+    public List<MovPersonasCli> getMovPersonasCliList() {
+        return movPersonasCliList;
+    }
+
+    public void setMovPersonasCliList(List<MovPersonasCli> movPersonasCliList) {
+        this.movPersonasCliList = movPersonasCliList;
     }
 
     @Override
