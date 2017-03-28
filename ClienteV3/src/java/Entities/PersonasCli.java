@@ -55,7 +55,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PersonasCli.findByFechaNacimiento", query = "SELECT p FROM PersonasCli p WHERE p.fechaNacimiento = :fechaNacimiento"),
     @NamedQuery(name = "PersonasCli.findByUsuario", query = "SELECT p FROM PersonasCli p WHERE p.usuario = :usuario"),
     @NamedQuery(name = "PersonasCli.findByFecha", query = "SELECT p FROM PersonasCli p WHERE p.fecha = :fecha")})
-public class PersonasCli implements Serializable {
+public class PersonasCli extends AbstractEntity{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -169,6 +169,7 @@ public class PersonasCli implements Serializable {
     @JoinColumn(name = "EPS", referencedColumnName = "EPS")
     @ManyToOne(fetch = FetchType.LAZY)
     private EPSCli eps;
+    @NotNull
     @JoinColumn(name = "Estado", referencedColumnName = "Id_Estado")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadosCli estado;
@@ -198,6 +199,9 @@ public class PersonasCli implements Serializable {
     }
 
     public String getSexoString() {
+        if(sexo==null){
+            return "-";
+        }
         if(sexo){
             return "M";
         }
@@ -645,6 +649,26 @@ public class PersonasCli implements Serializable {
     @Override
     public String toString() {
         return "Entities.PersonasCli[ idPersona=" + idPersona + " ]";
+    }
+
+    @Override
+    public Long getPrimaryKey() {
+        return Long.valueOf(idPersona);
+    }
+
+    @Override
+    public void setPrimaryKey(Long primaryKey) {
+        idPersona = String.valueOf(primaryKey);
+    }
+
+    @Override
+    public void setUser(PersonasCli user) {
+        usuario = user.getIdPersona();
+    }
+
+    @Override
+    public void setDate(Date date) {
+        fecha = date;
     }
     
 }

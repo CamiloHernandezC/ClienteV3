@@ -4,6 +4,7 @@ import Entities.EntidadesCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
 import Facade.EntidadesCliFacade;
+import Querys.Querys;
 
 import java.io.Serializable;
 import java.util.List;
@@ -46,6 +47,14 @@ public class EntidadesCliController implements Serializable {
     public List<EntidadesCli> getItems() {
         if (items == null) {
             items = getFacade().findAll();
+        }
+        return items;
+    }
+    
+    public List<EntidadesCli> getItemsByCategory(String category) {
+        if (items == null) {
+            String squery = Querys.ENTIDADES_ALL+" WHERE"+Querys.ENTIDADES_CATEGORIA+category+"'";
+            items = (List<EntidadesCli>) getFacade().findByQueryArray(squery).result;
         }
         return items;
     }

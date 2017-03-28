@@ -6,6 +6,7 @@ import Controllers.util.JsfUtil.PersistAction;
 import Entities.EmpresaOrigenCli;
 import Facade.MaterialesCliFacade;
 import Querys.Querys;
+import Utils.Result;
 
 import java.io.Serializable;
 import java.util.List;
@@ -87,8 +88,13 @@ public class MaterialesCliController extends AbstractPersistenceController<Mater
     }
 
     @Override
-    public void create() {
-        super.create(); //TODO create materiales sucursal too
+    public Result create() {
+        return super.create(); //TODO create materiales sucursal too
+    }
+
+    @Override
+    protected void clean() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @FacesConverter(forClass = MaterialesCli.class)

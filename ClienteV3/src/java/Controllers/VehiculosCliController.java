@@ -84,6 +84,11 @@ public class VehiculosCliController extends AbstractPersistenceController<Vehicu
         selected.setUsuario(JsfUtil.getSessionUser().getIdPersona());
     }
 
+    @Override
+    protected void clean() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     @FacesConverter(forClass = VehiculosCli.class)
     public static class VehiculosCliControllerConverter implements Converter {
         //<editor-fold desc="Converter" defaultstate="collapsed">

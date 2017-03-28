@@ -10,62 +10,77 @@ import Entities.AbstractEntity;
 import Facade.AbstractFacade;
 import Utils.Constants;
 import Utils.Result;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 /**
  *
  * @author MAURICIO
  * @param <AbstractEntity>
  */
-public abstract class AbstractPersistenceController<T> implements Serializable{
+public abstract class AbstractPersistenceController<T> implements Serializable {
     
+    protected String validationErrorObservation;
+
     protected abstract AbstractFacade getFacade();
+
     protected abstract T getSelected();
+
     protected abstract void setSelected(T selected);
+
     protected abstract void setItems(List<T> items);
+
     protected abstract void setEmbeddableKeys();
+
     protected abstract void initializeEmbeddableKey();
+
     protected abstract void prepareCreate();
+
     protected abstract void prepareUpdate();
     
-    public void calculatePrimaryKey(String squery){
+    protected abstract void clean();
+
+    public void calculatePrimaryKey(String squery) {
         Result result = getFacade().findByQuery(squery, true);//Only need the first result
-        if(result.errorCode==Constants.NO_RESULT_EXCEPTION){
+        if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {
             AbstractEntity entity = (AbstractEntity) getSelected();
-            entity.setPrimaryKey(((AbstractEntity) result.result).getPrimaryKey()+1L);
+            entity.setPrimaryKey(1L);
             setSelected((T) entity);
-        }else{
+        } else {
             AbstractEntity entity = (AbstractEntity) getSelected();
-            entity.setPrimaryKey(((AbstractEntity) result.result).getPrimaryKey()+1L);
+            entity.setPrimaryKey(((AbstractEntity) result.result).getPrimaryKey() + 1L);
             setSelected((T) entity);
         }
         //In previous section we need get and set selected because all data are already loaded
     }
-    
-    public void assignParametersToUpdate(){
+
+    public void assignParametersToUpdate() {
         AbstractEntity entity = (AbstractEntity) getSelected();
         entity.setUser(JsfUtil.getSessionUser().getIdPersona());
         entity.setDate(new Date());
         setSelected((T) entity);
     }
-    
-    public void create() {
+
+    public Result create() {
         prepareCreate();
-        persist(JsfUtil.PersistAction.CREATE);
-        if (!JsfUtil.isValidationFailed()) {
-            setItems(null);// Invalidate list of items to trigger re-query.
-        }
+        return persist(JsfUtil.PersistAction.CREATE);
     }
 
-    public void update() {
+    public Result update() {
         prepareUpdate();
-        persist(JsfUtil.PersistAction.UPDATE);
+        return persist(JsfUtil.PersistAction.UPDATE);
     }
 
     public void destroy() {
@@ -75,16 +90,36 @@ public abstract class AbstractPersistenceController<T> implements Serializable{
             setItems(null);// Invalidate list of items to trigger re-query.
         }
     }
-    
-    protected void persist(JsfUtil.PersistAction persistAction) {
+
+    protected Result persist(JsfUtil.PersistAction persistAction) {
         if (getSelected() != null) {
             setEmbeddableKeys();
+            
+            //Fields validation for entity
+            T entity = getSelected();
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<T>> constraintViolations = validator.validate(entity);
+            if (constraintViolations.size() > 0) {
+                validationErrorObservation = "";
+                Iterator<ConstraintViolation<T>> iterator = constraintViolations.iterator();
+                while (iterator.hasNext()) {
+                    ConstraintViolation<T> cv = iterator.next();
+                    validationErrorObservation += cv.getPropertyPath() + " " + cv.getMessage();
+                }
+                return new Result(validationErrorObservation, Constants.VALIDATION_ERROR);
+            }
             try {
-                if (persistAction != JsfUtil.PersistAction.DELETE) {
+                if (persistAction == JsfUtil.PersistAction.UPDATE) {
                     getFacade().edit(getSelected());
-                } else {
+                }
+                if (persistAction == JsfUtil.PersistAction.CREATE) {
+                    getFacade().create(getSelected());
+                }
+                if (persistAction == JsfUtil.PersistAction.DELETE) {
                     getFacade().remove(getSelected());
                 }
+                return new Result(null, Constants.OK);
             } catch (EJBException ex) {
                 String msg = "";
                 Throwable cause = ex.getCause();
@@ -92,14 +127,15 @@ public abstract class AbstractPersistenceController<T> implements Serializable{
                     msg = cause.getLocalizedMessage();
                 }
                 if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
+                    return new Result(msg, Constants.PERSISTANCE_EXCEPTION);
                 } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("Utils/Bundle").getString("PersistenceErrorOccured"));
+                    return new Result(ex, Constants.PERSISTANCE_EXCEPTION);
                 }
             } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("Utils/Bundle").getString("PersistenceErrorOccured"));
+                return new Result(ex, Constants.PERSISTANCE_EXCEPTION);
             }
         }
+        return new Result(null, Constants.UNKNOWN_EXCEPTION);//This should never happen
     }
 }

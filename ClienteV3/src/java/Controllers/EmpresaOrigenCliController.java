@@ -85,6 +85,11 @@ public class EmpresaOrigenCliController extends AbstractPersistenceController<Em
         assignParametersToUpdate();
     }
 
+    @Override
+    protected void clean() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     @FacesConverter(forClass = EmpresaOrigenCli.class)
     public static class EmpresaOrigenCliControllerConverter implements Converter {
         //<editor-fold desc="Converter" defaultstate="collapsed">

@@ -73,14 +73,14 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
     @Override
     public void prepareCreate() {
         assignPrimaryKey();
-        selected.setEntidad(new EntidadesCli(Constants.ENTITY_VISITANT));
-        selected.setEstado(new EstadosCli(Constants.STATUS_ENTRY));
+        selected.setEstado(new EstadosCli(Constants.STATUS_ACTIVE));
         prepareUpdate();
     }
     
     @Override
     protected void prepareUpdate() {
         initializeEmbeddableKey();
+        
         selected.setUsuario(JsfUtil.getSessionUser().getIdPersona());
         selected.setFecha(new Date());
     }
@@ -118,10 +118,11 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
         return ejbFacade.findByQuery(squery, false);//False because only one person should appear*/
     }
 
-    private void assignPrimaryKey() {
+    public void assignPrimaryKey() {
         PersonasCliController personasCliController = JsfUtil.findBean("personasCliController");
         selected.setPersonasCli(personasCliController.getSelected());
-        //TODO ASSIGN BRANCH OFFICE
+        GeneralControl generalControl = JsfUtil.findBean("generalControl");
+        selected.setSucursalesCli(generalControl.getSelectedBranchOffice());
     }
         
     public void preEdit(PersonasSucursalCli person){
@@ -132,6 +133,12 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
     public void blockPerson(PersonasSucursalCli person){
         setSelected(person);
         //TODO BLOCK PERSON AND RELOAD
+    }
+
+    @Override
+    protected void clean() {
+        selected = null;
+        items = null;
     }
     
     @FacesConverter(forClass = PersonasSucursalCli.class)
