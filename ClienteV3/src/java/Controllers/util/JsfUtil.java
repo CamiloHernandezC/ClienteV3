@@ -96,7 +96,7 @@ public class JsfUtil {
         return texto;
     }
 
-    public static void cancel() {
+    public static void goToIndex() {
         redirectTo("");
     }
 

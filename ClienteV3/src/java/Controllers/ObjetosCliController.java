@@ -86,6 +86,11 @@ public class ObjetosCliController extends AbstractPersistenceController<ObjetosC
         selected.setUsuario(JsfUtil.getSessionUser().getIdPersona());
     }
 
+    @Override
+    protected void clean() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     @FacesConverter(forClass = ObjetosCli.class)
     public static class ObjetosCliControllerConverter implements Converter {
         //<editor-fold desc="Converter" defaultstate="collapsed">

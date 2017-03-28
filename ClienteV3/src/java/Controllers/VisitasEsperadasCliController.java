@@ -4,6 +4,7 @@ import Entities.VisitasEsperadasCli;
 import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
 import Facade.VisitasEsperadasCliFacade;
+import Utils.Result;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -86,8 +87,13 @@ public class VisitasEsperadasCliController extends AbstractPersistenceController
     }
 
     @Override
-    public void create() {
-        super.create(); //TODO create notif too and autorization if it's a special day
+    public Result create() {
+        return super.create(); //TODO create notif too and autorization if it's a special day
+    }
+
+    @Override
+    protected void clean() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     

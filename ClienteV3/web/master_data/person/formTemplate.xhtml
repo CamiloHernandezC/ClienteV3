@@ -19,11 +19,23 @@
 
         <p:outputLabel for="tipoDoc" value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" />
         <p:selectOneMenu id="tipoDoc" value="#{personasCliController.selected.tipoDocumento}" disabled="#{personFormEntry.disableNoEditableField}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_tipoDocumento}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="tipoDoc">
-            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}"/>
             <f:selectItems  value="#{tiposDocumentoCliController.items}" var="tipoDoc" itemLabel="#{tipoDoc.descripcion}" itemValue="#{tipoDoc}" />
         </p:selectOneMenu>
         <p:outputLabel for="numDocum" value="#{bundle.CreatePersonasCliLabel_numDocumento}"   style="width: 200px"/>
         <p:inputText id="numDocum" value="#{personasCliController.selected.numDocumento}"  disabled="#{personFormEntry.disableNoEditableField}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" style="text-transform:uppercase;width: 200px" maxlength="20"/>
+        
+        <p:outputLabel for="personType" value="#{bundle.CreatePersonasCliLabel_idEntidad}" />
+        <p:selectOneMenu id="personType" value="#{personasSucursalCliController.selected.entidad}" disabled="#{personFormEntry.disableNoEditableField}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idEntidad}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="personType">
+            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}"/>
+            <f:selectItems  value="#{entidadesCliController.items}" var="tipoDoc" itemLabel="#{tipoDoc.descripcion}" itemValue="#{tipoDoc}" />
+        </p:selectOneMenu>
+        
+        <p:outputLabel for="areaEmpresa" value="#{bundle.CreatePersonasCliLabel_area}" />
+        <p:selectOneMenu id="areaEmpresa" value="#{personasSucursalCliController.selected.area}" required="true" requiredMessage="#{bundle.EditPersonasCliRequiredMessage_area}" filter="true" filterMatchMode="contains"  autoWidth="false" style=" width: 170px">
+            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+            <f:selectItems value="#{areasEmpresaCliController.itemsByBranchOffice}" var="areas" itemLabel="#{areas.descripcion}" itemValue="#{areas}"/>
+        </p:selectOneMenu>
 
         <p:outputLabel for="sexo" value="#{bundle.CreatePersonasCliLabel_sexo}"/>
         <p:selectOneRadio style="width: 200px" id="sexo" value="#{personasCliController.selected.sexo}" disabled="#{personFormEntry.disableNoEditableField}" widgetVar="wv_sexo">
@@ -60,8 +72,6 @@
         <p:inputText id="phoneContactPerson" value="#{personasCliController.selected.telPersonaContacto}"  style="text-transform:uppercase; width: 200px" maxlength="15"/>
         <p:outputLabel style="width: 200px" value="#{bundle.CreatePersonasCliLabel_direccion}" for="address"/>
         <p:inputText  id="address" value="#{personasCliController.selected.direccion}" style="text-transform:uppercase;width: 200px" maxlength="120"/>
-
-
 
         <p:outputLabel for="idDepartamento" value="#{bundle.CreatePersonasCliLabel_idDepartamento}"/>
         <p:selectOneMenu id="idDepartamento" value="#{personasCliController.selected.idDepartamento}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="idDepartamento">                
@@ -105,18 +115,6 @@
         </p:selectOneMenu>
         <p:outputLabel for="vigenciaARL" value="#{bundle.CreatePersonasCliLabel_fechavigenciaARL}"/>
         <p:calendar id="vigenciaARL" value="#{personasCliController.selected.fechavigenciaARL}"  yearRange="c-100:c+0" navigator="true"  style="width: 200px"  mindate="#{generalViewControl.actualDate}"/>
-
-        <p:outputLabel for="areaEmpresa" value="#{bundle.CreatePersonasCliLabel_area}" />
-        <p:selectOneMenu id="areaEmpresa" value="#{personasSucursalCliController.selected.area}"  filter="true" filterMatchMode="contains"  autoWidth="false" style=" width: 170px">
-            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-            <f:selectItems value="#{areasEmpresaCliController.items}" var="areas" itemLabel="#{areas.descripcion}" itemValue="#{areas}"/>
-        </p:selectOneMenu>
-
-        <p:outputLabel for="sucursales" value="#{bundle.CreatePersonasCliLabel_idSucursal}"/>
-        <p:selectOneMenu id="sucursales" value="#{personasSucursalCliController.selected.sucursalesCli}" autoWidth="false" style=" width: 170px">
-            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
-            <f:selectItems  value="#{sucursalesCliController.items}" var="sucursales" itemLabel="#{sucursales.nombre}" itemValue="#{sucursales}"/>
-        </p:selectOneMenu>
 
         <p:outputLabel for="idExterno" value="#{bundle.CreatePersonasCliLabel_idExterno}"/>
         <p:inputText id="idExterno" value="#{personasSucursalCliController.selected.idExterno}" style="text-transform:uppercase;width: 200px" maxlength="15"/>

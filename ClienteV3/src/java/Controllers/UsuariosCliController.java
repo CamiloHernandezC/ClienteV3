@@ -85,6 +85,11 @@ public class UsuariosCliController extends AbstractPersistenceController<Usuario
         return getFacade().find(id);
     }
 
+    @Override
+    protected void clean() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     @FacesConverter(forClass = UsuariosCli.class)
     public static class UsuariosCliControllerConverter implements Converter {
         //<editor-fold desc="Converter" defaultstate="collapsed">

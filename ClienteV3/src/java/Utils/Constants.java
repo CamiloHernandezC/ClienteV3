@@ -25,6 +25,8 @@ public class Constants {
     public static final int NO_RESULT_EXCEPTION = 3;
     public static final int NO_UNIQUE_RESULT_EXCEPTION = 4;
     public static final int VALIDATION_ERROR = 5;
+    public static final int PERSISTANCE_EXCEPTION= 6;
+    public static final int REPEATED_RECORD=7;
     //</editor-fold>
     
     //THIS ERRORS MESSAGES ARE ONLY FOR INTERNAL USE
@@ -52,6 +54,7 @@ public class Constants {
     public static final Long STATUS_ENTRY = 3L;
     public static final Long STATUS_BLOCKED= 2L;
     public static final Long STATUS_INACTIVE= 4L;
+    public static final Long STATUS_ACTIVE=1L;
     //</editor-fold>
     
     // <editor-fold desc="DOCUMENT_TYPE" defaultstate="collapsed">
@@ -67,6 +70,8 @@ public class Constants {
     public static final String SESSION_USER="USER";
     //</editor-fold>
     public static int NUMBER_OF_PERSON_TYPES=3;
+    
+    
     
     public static String getMonthName(int monthNumber){
         switch(monthNumber){

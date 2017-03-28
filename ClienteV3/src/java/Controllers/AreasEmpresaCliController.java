@@ -5,6 +5,7 @@ import Controllers.util.JsfUtil;
 import Controllers.util.JsfUtil.PersistAction;
 import Facade.AbstractFacade;
 import Facade.AreasEmpresaCliFacade;
+import GeneralControl.GeneralControl;
 import Querys.Querys;
 
 import java.io.Serializable;
@@ -20,6 +21,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.util.BeanUtils;
 
 @Named("areasEmpresaCliController")
 @SessionScoped
@@ -28,6 +30,7 @@ public class AreasEmpresaCliController extends AbstractPersistenceController<Are
     @EJB
     private Facade.AreasEmpresaCliFacade ejbFacade;
     private List<AreasEmpresaCli> items = null;
+    private List<AreasEmpresaCli> itemsByBranchOffice = null;
     private AreasEmpresaCli selected;
 
     public AreasEmpresaCliController() {
@@ -40,7 +43,15 @@ public class AreasEmpresaCliController extends AbstractPersistenceController<Are
         return items;
     }
 
- 
+    public List<AreasEmpresaCli> getItemsByBranchOffice() {
+        GeneralControl generalControl = JsfUtil.findBean("generalControl");
+        if(generalControl.getSelectedBranchOffice()!=null){
+            String squery = Querys.AREAS_EMPRESA_ALL+" WHERE"+Querys.AREAS_EMPRESA_SUCURSAL+generalControl.getSelectedBranchOffice().getIdSucursal()+"'";
+            return (List<AreasEmpresaCli>) ejbFacade.findByQueryArray(squery).result;
+        }
+        return null;
+    }
+
     public AreasEmpresaCli getAreasEmpresaCli(java.lang.String id) {
         return (AreasEmpresaCli) getFacade().find(id);
     }
@@ -86,6 +97,11 @@ public class AreasEmpresaCliController extends AbstractPersistenceController<Are
     @Override
     protected void prepareUpdate() {
         //assignParametersToUpdate();TODO create user and date field in entity and add this line
+    }
+
+    @Override
+    protected void clean() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
    

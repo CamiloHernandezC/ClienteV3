@@ -59,6 +59,7 @@ public class PersonasSucursalCli implements Serializable {
     @JoinColumn(name = "Entidad", referencedColumnName = "Id_Entidad")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EntidadesCli entidad;
+    @NotNull
     @JoinColumn(name = "Estado", referencedColumnName = "Id_Estado")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadosCli estado;

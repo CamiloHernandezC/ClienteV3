@@ -50,6 +50,10 @@ public class Querys {
     //<editor-fold desc="PORTERIA SUCURSAL CLI QUERY" defaultstate="collapsed">
     public static final String PORTERIA_SUCURSAL_CLI_PORTERIA= "SELECT a FROM PorteriaSucursalCli a WHERE a.porteriaSucursalCliPK.porteria =";
     //</editor-fold>
+    
+    public static final String AREAS_EMPRESA_ALL="SELECT a FROM AreasEmpresaCli a";
+    public static final String AREAS_EMPRESA_SUCURSAL=" a.idSucursal.idSucursal = '";
+    
     public static final String USUARIOS_ALL = "SELECT a FROM UsuariosCli a";
     public static final String USUARIOS_ID=" a.idUsuario = '";
     public static final String USUARIOS_PASSWORD=" a.password = '";
@@ -64,6 +68,9 @@ public class Querys {
     public static final String MATERIALES_LAST_PRIMARY_KEY="SELECT m FROM MaterialesCli m ORDER BY m.idMaterial DESC";
     public static final String NOTIFICACIONES_LAST_PRIMARY_KEY="SELECT n FROM NotificacionesCli n ORDER BY n.idNotificacion DESC";
     public static final String OBJETOS_LAST_PRIMARY_KEY="SELECT o FROM ObjetosCli o ORDER BY o.idObjeto DESC";
+    public static final String ENTIDADES_ALL="SELECT e FROM EntidadesCli e";
+    public static final String ENTIDADES_CATEGORIA=" e.idCategoria.idCategoria = '";
+    
     
     
     

@@ -85,6 +85,11 @@ public class NotificacionesCliController extends AbstractPersistenceController<N
         assignParametersToUpdate();
     }
 
+    @Override
+    protected void clean() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     @FacesConverter(forClass = NotificacionesCli.class)
     public static class NotificacionesCliControllerConverter implements Converter {
         //<editor-fold desc="Converter" defaultstate="collapsed">
