@@ -19,4 +19,5 @@ public class Navigation {
     public static String PAGE_REPORT_RESUME="/reports/person/resume.xhtml?faces-redirect=true";
     public static String PAGE_PERSONAS_CREATE="/master_data/person/create.xhtml?faces-redirect=true";
     public static String PAGE_SEARCH_PERSON_TO_CREATE="/master_data/person/searchToCreate.xhtml?faces-redirect=true";
+    public static String PAGE_PERSONAS_EDIT="/master_data/person/edit.xhtml?faces-redirect=true";
 }

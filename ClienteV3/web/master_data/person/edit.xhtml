@@ -2,13 +2,18 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../../template.xhtml"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml">
 
     <ui:define name="content">
-        <ui:include src="formTemplate.xhtm"/>
-        <ui:define name="saveButton">
-            <p:commandButton actionListener="#{personasCliController.create}" value="#{bundle.Save}" update="display,:PersonasCliListForm:datalist,:growl" oncomplete="handleSubmit(args,'PersonasCliCreateDialog');"/>
-        </ui:define>
+
+        <h:form>
+            <h1>#{bundle.EditPersonasCliTitle}</h1>
+            <ui:include src="formTemplate.xhtml"/>
+            <p:commandButton action="#{personasCliController.updateFromForm()}" label="#{bundle.Edit}" ajax="false"/>
+            <p:commandButton action="#{personasCliController.cancel()}" label="#{bundle.Cancel}" immediate="true" ajax="false"/>
+        </h:form>
     </ui:define>
 
 </ui:composition>

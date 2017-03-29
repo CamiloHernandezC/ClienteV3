@@ -3,6 +3,7 @@ package Controllers;
 import Entities.PersonasCli;
 import Controllers.util.JsfUtil;
 import Entities.EstadosCli;
+import Entities.PersonasSucursalCli;
 import Facade.PersonasCliFacade;
 import Querys.Querys;
 import Utils.BundleUtils;
@@ -120,7 +121,8 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
 
     public void cancel() {
         clean();
-        JsfUtil.goToIndex();
+        personasSucursalCliController.clean();
+        JsfUtil.redirectTo(Navigation.PAGE_MASTER_DATA_PERSON);
     }
     
     public String searchToCreate(){
@@ -129,6 +131,12 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
             selected = (PersonasCli) result.result;
             Result specificResult = personasSucursalCliController.findSpecificPerson();
             if(specificResult.errorCode==Constants.OK){
+                PersonasSucursalCli specificPerson = (PersonasSucursalCli) specificResult.result;
+                if(specificPerson.getEstado().getIdEstado().equals(Constants.STATUS_INACTIVE)){
+                    personasSucursalCliController.setSelected(specificPerson);
+                    JsfUtil.showModal("inactiveDialog");
+                    return null;
+                }
                 JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("RepeatedRecord"));
                 return null;
             }
@@ -195,6 +203,15 @@ public class PersonasCliController extends AbstractPersistenceController<Persona
                 JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("Tecnical_Failure"));
                 return null;
         }
+    }
+    
+    public String updateFromForm(){
+        update();
+        personasSucursalCliController.update();
+        clean();
+        personasSucursalCliController.clean();
+        JsfUtil.addSuccessMessage(BundleUtils.getBundleProperty("SuccessfullyUpdatedRegistry"));
+        return Navigation.PAGE_MASTER_DATA_PERSON;
     }
     
     @Override

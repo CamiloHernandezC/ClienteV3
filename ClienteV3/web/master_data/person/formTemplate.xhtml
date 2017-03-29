@@ -8,25 +8,25 @@
     <h:panelGrid columns="4" cellpadding="5" >
 
         <p:outputLabel for="nombre1" value="#{bundle.CreatePersonasCliLabel_nombre1}"/>
-        <p:inputText id="nombre1" style="text-transform:uppercase ;width: 200px" disabled="#{personFormEntry.disableNoEditableField}" maxlength="30"  required ="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_nombre1}"  value="#{personasCliController.selected.nombre1}"/>
+        <p:inputText id="nombre1" style="text-transform:uppercase ;width: 200px"  maxlength="30"  required ="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_nombre1}"  value="#{personasCliController.selected.nombre1}"/>
         <p:outputLabel for="nombre2" value="#{bundle.CreatePersonasCliLabel_nombre2}" />
-        <p:inputText id="nombre2" value="#{personasCliController.selected.nombre2}" disabled="#{personFormEntry.disableNoEditableField}" style="text-transform:uppercase;width: 200px" maxlength="30"/>
+        <p:inputText id="nombre2" value="#{personasCliController.selected.nombre2}"  style="text-transform:uppercase;width: 200px" maxlength="30"/>
 
         <p:outputLabel for="apellido1" value="#{bundle.CreatePersonasCliLabel_apellido1}" />
-        <p:inputText id="apellido1" value="#{personasCliController.selected.apellido1}" disabled="#{personFormEntry.disableNoEditableField}" required ="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_apellido1}"  style="text-transform:uppercase;width: 200px" maxlength="30"/>
+        <p:inputText id="apellido1" value="#{personasCliController.selected.apellido1}"  required ="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_apellido1}"  style="text-transform:uppercase;width: 200px" maxlength="30"/>
         <p:outputLabel for="apellido2" value="#{bundle.CreatePersonasCliLabel_apellido2}" />
-        <p:inputText id="apellido2" value="#{personasCliController.selected.apellido2}" disabled="#{personFormEntry.disableNoEditableField}" style="text-transform:uppercase;width: 200px"   maxlength="30" />
+        <p:inputText id="apellido2" value="#{personasCliController.selected.apellido2}"  style="text-transform:uppercase;width: 200px"   maxlength="30" />
 
         <p:outputLabel for="tipoDoc" value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" />
-        <p:selectOneMenu id="tipoDoc" value="#{personasCliController.selected.tipoDocumento}" disabled="#{personFormEntry.disableNoEditableField}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_tipoDocumento}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="tipoDoc">
+        <p:selectOneMenu id="tipoDoc" value="#{personasCliController.selected.tipoDocumento}"  required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_tipoDocumento}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="tipoDoc">
             <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}"/>
             <f:selectItems  value="#{tiposDocumentoCliController.items}" var="tipoDoc" itemLabel="#{tipoDoc.descripcion}" itemValue="#{tipoDoc}" />
         </p:selectOneMenu>
         <p:outputLabel for="numDocum" value="#{bundle.CreatePersonasCliLabel_numDocumento}"   style="width: 200px"/>
-        <p:inputText id="numDocum" value="#{personasCliController.selected.numDocumento}"  disabled="#{personFormEntry.disableNoEditableField}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" style="text-transform:uppercase;width: 200px" maxlength="20"/>
+        <p:inputText id="numDocum" value="#{personasCliController.selected.numDocumento}"   required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" style="text-transform:uppercase;width: 200px" maxlength="20"/>
         
         <p:outputLabel for="personType" value="#{bundle.CreatePersonasCliLabel_idEntidad}" />
-        <p:selectOneMenu id="personType" value="#{personasSucursalCliController.selected.entidad}" disabled="#{personFormEntry.disableNoEditableField}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idEntidad}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="personType">
+        <p:selectOneMenu id="personType" value="#{personasSucursalCliController.selected.entidad}"  required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idEntidad}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="personType">
             <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}"/>
             <f:selectItems  value="#{entidadesCliController.items}" var="tipoDoc" itemLabel="#{tipoDoc.descripcion}" itemValue="#{tipoDoc}" />
         </p:selectOneMenu>
@@ -38,15 +38,15 @@
         </p:selectOneMenu>
 
         <p:outputLabel for="sexo" value="#{bundle.CreatePersonasCliLabel_sexo}"/>
-        <p:selectOneRadio style="width: 200px" id="sexo" value="#{personasCliController.selected.sexo}" disabled="#{personFormEntry.disableNoEditableField}" widgetVar="wv_sexo">
+        <p:selectOneRadio style="width: 200px" id="sexo" value="#{personasCliController.selected.sexo}"  widgetVar="wv_sexo">
             <f:selectItem itemLabel="Femenino" itemValue="false" />
             <f:selectItem itemLabel="Masculino" itemValue="true" />
         </p:selectOneRadio>
         <p:outputLabel for="nacimiento" value="#{bundle.CreatePersonasCliLabel_fechaNacimiento}"/>
-        <p:calendar id="nacimiento" value="#{personasCliController.selected.fechaNacimiento}" disabled="#{personFormEntry.disableNoEditableField}"  maxdate="#{generalViewControl.actualDate}" navigator="true" yearRange="c-100:c+0" style="text-transform:uppercase;width: 210px"/>
+        <p:calendar id="nacimiento" value="#{personasCliController.selected.fechaNacimiento}"   maxdate="#{generalViewControl.actualDate}" navigator="true" yearRange="c-100:c+0" style="text-transform:uppercase;width: 210px"/>
 
         <p:outputLabel for="gsang" value="#{bundle.CreatePersonasCliLabel_rh}"/>
-        <p:selectOneMenu id="gsang" value="#{personasCliController.selected.rh}" disabled="#{personFormEntry.disableNoEditableField}" autoWidth="false" style=" width: 170px" widgetVar="wv_tipoSanguineo">
+        <p:selectOneMenu id="gsang" value="#{personasCliController.selected.rh}"  autoWidth="false" style=" width: 170px" widgetVar="wv_tipoSanguineo">
             <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" noSelectionOption="true" />
             <f:selectItem  itemLabel="A+" itemValue="A+"/>
             <f:selectItem  itemLabel="A-" itemValue="A-"/>
@@ -58,7 +58,7 @@
             <f:selectItem  itemLabel="O-" itemValue="O-"/>
         </p:selectOneMenu>
         <p:outputLabel for="idPais" value="#{bundle.CreatePersonasCliLabel_idPais}"/>
-        <p:selectOneMenu id="idPais" value="#{personasCliController.selected.idPais}" disabled="#{personFormEntry.disableNoEditableField}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="idPais">
+        <p:selectOneMenu id="idPais" value="#{personasCliController.selected.idPais}"  filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="idPais">
             <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
             <f:selectItems  value="#{paisesCliController.items}" var="pais" itemLabel="#{pais.descripcion}" itemValue="#{pais}" />
         </p:selectOneMenu>

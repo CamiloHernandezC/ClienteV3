@@ -2,26 +2,20 @@ package Controllers;
 
 import Entities.PersonasSucursalCli;
 import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
-import Entities.EntidadesCli;
 import Entities.EstadosCli;
-import Entities.PersonasCli;
-import Entities.PersonasSucursalCliPK;
-import Entities.SucursalesCli;
 import Facade.PersonasSucursalCliFacade;
 import GeneralControl.GeneralControl;
 import Querys.Querys;
+import Utils.BundleUtils;
 import Utils.Constants;
+import Utils.Navigation;
 import Utils.Result;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -89,7 +83,7 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
     protected void setItems(List<PersonasSucursalCli> items) {
         this.items = items;
     }
-
+    
     public List<PersonasSucursalCli> getItems() {
         if (items == null) {
             items = getFacade().findAll();
@@ -97,10 +91,15 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
         return items;
     }
     
-    public List<PersonasSucursalCli> getItemsByBranchOffice() {
+    /**
+     * Load person where branch office is equal to selected and status is different of inactive
+     * @return List of people belonging to selected branch office
+     * */
+    public List<PersonasSucursalCli> getItemsByBranchOffice() {//TODO LOAD ITEMS ONCE BECAUSE WHEN CHANGE PAGE TO SEE MORE PERSONS IT WILL RELOAD, SO MAKE A BUTTON TO RELOAD OR TRY WITH C:IF LIKE VALID SESSION METHOD
         GeneralControl generalControl = JsfUtil.findBean("generalControl");
         if(generalControl.getSelectedBranchOffice()!=null){
-            String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL+"WHERE"+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+generalControl.getSelectedBranchOffice().getIdSucursal()+"'";
+            String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL+"WHERE"+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+generalControl.getSelectedBranchOffice().getIdSucursal()+
+                    "' AND"+Querys.PERSONAS_SUCURSAL_CLI_NO_ESTADO+Constants.STATUS_INACTIVE+"'";
             items = (List<PersonasSucursalCli>) getFacade().findByQueryArray(squery).result;
         }
         return items;
@@ -113,13 +112,15 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
     Result findSpecificPerson() {
         assignPrimaryKey();
         String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL + "WHERE" + Querys.PERSONAS_SUCURSAL_CLI_PERSONA+ selected.getPersonasCli().getIdPersona()+
-                "' AND"+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+selected.getSucursalesCli().getIdSucursal()+
-                "' AND" + Querys.PERSONAS_SUCURSAL_CLI_NO_ESTADO + Constants.STATUS_INACTIVE+"'";
+                "' AND"+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+selected.getSucursalesCli().getIdSucursal()+"'";//Here we doesn't filter by status, because this method is used when search to create
         return ejbFacade.findByQuery(squery, false);//False because only one person should appear*/
     }
 
     public void assignPrimaryKey() {
         PersonasCliController personasCliController = JsfUtil.findBean("personasCliController");
+        if(selected==null){
+            selected = new PersonasSucursalCli();
+        }
         selected.setPersonasCli(personasCliController.getSelected());
         GeneralControl generalControl = JsfUtil.findBean("generalControl");
         selected.setSucursalesCli(generalControl.getSelectedBranchOffice());
@@ -127,18 +128,38 @@ public class PersonasSucursalCliController extends AbstractPersistenceController
         
     public void preEdit(PersonasSucursalCli person){
         setSelected(person);
-        //TODO SHOW EDIT DIALOG
+        PersonasCliController personasCliController = JsfUtil.findBean("personasCliController");
+        personasCliController.setSelected(person.getPersonasCli());
+        JsfUtil.redirectTo(Navigation.PAGE_PERSONAS_EDIT);
     }
     
     public void blockPerson(PersonasSucursalCli person){
+        person.setEstado(new EstadosCli(Constants.STATUS_BLOCKED));
         setSelected(person);
-        //TODO BLOCK PERSON AND RELOAD
+        update();
+        //TODO WHEN BLOCK PERSON CHANGE BUTTON TO UNBLOCK PERSON
+        //TODO SHOW DIALOG TO BLOCK PERSON FOR OTHER BRANCH OFICCES WHERE USER HAS ACCESS
+    }
+    
+    public void unlockPerson(PersonasSucursalCli person){
+        person.setEstado(new EstadosCli(Constants.STATUS_ACTIVE));
+        setSelected(person);
+        update();
+        //TODO WHEN UNLOCK PERSON CHANGE BUTTON TO BLOCK PERSON
+        //TODO SHOW DIALOG TO BLOCK PERSON FOR OTHER BRANCH OFICCES WHERE USER HAS ACCESS
     }
 
     @Override
     protected void clean() {
         selected = null;
         items = null;
+    }
+    
+    public void activePerson(){
+        selected.setEstado(new EstadosCli(Constants.STATUS_ACTIVE));
+        update();
+        JsfUtil.addSuccessMessage(BundleUtils.getBundleProperty("SuccessfullyUpdatedRegistry"));
+        JsfUtil.redirectTo(Navigation.PAGE_MASTER_DATA_PERSON);
     }
     
     @FacesConverter(forClass = PersonasSucursalCli.class)
