@@ -5,9 +5,11 @@
  */
 package Entities;
 
+import Utils.Constants;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -74,6 +76,10 @@ public class PersonasSucursalCli implements Serializable {
     private SucursalesCli sucursalesCli;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personasSucursalCli", fetch = FetchType.LAZY)
     private List<MovPersonasCli> movPersonasCliList;
+    
+    public boolean isLocked(){
+        return Objects.equals(estado.getIdEstado(), Constants.STATUS_BLOCKED);
+    }
 
     public PersonasSucursalCli() {
     }

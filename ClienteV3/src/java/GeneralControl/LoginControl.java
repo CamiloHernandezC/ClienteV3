@@ -9,10 +9,6 @@ import Utils.Constants;
 import Utils.Navigation;
 import Utils.Result;
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 

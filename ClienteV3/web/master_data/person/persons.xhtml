@@ -39,9 +39,8 @@
 
 
             <p:dataTable id="datalist" value="#{personasSucursalCliController.itemsByBranchOffice}" var="item"
-                         selectionMode="single" selection="#{personasSucursalCliController.selected}"
                          paginator="true"
-                         rowKey="#{item.personasCli.idPersona}"
+                         rowKey="#{item.personasCli.apellido1}"
                          rows="10"
                          rowsPerPageTemplate="10,20,30,40,50"
                          scrollable="true" scrollWidth="200%"
@@ -198,7 +197,8 @@
                 <p:column headerText="#{bundle.Options}" styleClass="centerElem" id="columA" exportable="false" width="100">
                     <h:panelGroup style="white-space: nowrap">
                         <p:commandButton id="editButtonn" resetValues="true" actionListener="#{personasSucursalCliController.preEdit(item)}" icon="ui-icon-pencil" />
-                        <p:commandButton id="blockButton" resetValues="true" actionListener="#{personasSucursalCliController.blockPerson(item)}" icon="ui-icon-cancel" />
+                        <p:commandButton id="blockButton" rendered="#{!item.locked}" resetValues="true" actionListener="#{personasSucursalCliController.blockPerson(item)}" icon="ui-icon-locked" ajax="false" />
+                        <p:commandButton id="unlockButton" rendered="#{item.locked}" resetValues="true" actionListener="#{personasSucursalCliController.unlockPerson(item)}" icon="ui-icon-unlocked" ajax="false" />
                     </h:panelGroup>
                 </p:column>
             </p:dataTable>

@@ -8,6 +8,17 @@
                 xmlns="http://www.w3.org/1999/xhtml">
 
     <ui:define name="content">
+        
+        <!-- Dialog to active person-->
+        <p:confirmDialog id="inactiveDialog" appendTo="@(body)" message="#{bundle.ActivePerson}" severity="alert" showEffect="fade" hideEffect="fade" widgetVar="inactiveDialog" closable="false">
+            <h:form>
+                <h:panelGrid columns="2">
+                    <p:commandButton id="confirm" value="#{constantes.ACCEPT}" onclick="PF('dialogDelete').hide();" action="#{personasSucursalCliController.activePerson}" ajax="false"/>
+                    <p:commandButton id="decline" value="#{constantes.CANCEL}" onclick="PF('dialogDelete').hide();"/>
+                </h:panelGrid>
+            </h:form>
+        </p:confirmDialog>
+        <!--*****************************************************************-->
 
         <h:form>
             <h1>#{bundle.CreatePersonasCliTitle}</h1>
