@@ -6,8 +6,8 @@
 package ReportsControl.Person;
 
 import Controllers.util.JsfUtil;
-import Entities.MovPersonasCli;
-import Entities.TiposDocumentoCli;
+import Entities.MovPersonas;
+import Entities.TiposDocumento;
 import GeneralControl.GeneralControl;
 import Querys.Querys;
 import Utils.BundleUtils;
@@ -40,8 +40,8 @@ import org.primefaces.model.chart.ChartSeries;
 public class PersonResumeReportControl implements Serializable {
 
     @EJB
-    private Facade.MovPersonasCliFacade ejbFacade;
-    private List<MovPersonasCli> items = null;
+    private Facade.MovPersonasFacade ejbFacade;
+    private List<MovPersonas> items = null;
 
     private BarChartModel barModel = new BarChartModel();
     private Date startDate;
@@ -97,7 +97,7 @@ public class PersonResumeReportControl implements Serializable {
         if (generalControl.getSelectedBranchOffice() == null) {
             return;
         }
-        Long branchOffice = generalControl.getSelectedBranchOffice().getIdSucursal();
+        int branchOffice = generalControl.getSelectedBranchOffice().getIdSucursal();
         java.sql.Date sqlStartDate = new java.sql.Date(startDate.getTime());
         java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
         String squery = Querys.MOV_PERSONA_CLI_ALL + "WHERE" + Querys.MOV_PERSONA_CLI_SUCURSAL + branchOffice
@@ -105,7 +105,7 @@ public class PersonResumeReportControl implements Serializable {
                 + " AND" + Querys.MOV_PERSONA_CLI_FECHA_INGRESO_BETWEEN + sqlStartDate + "' AND '" + sqlEndDate + "'";
 
         Result result = ejbFacade.findByQueryArray(squery);
-        items = (List<MovPersonasCli>) result.result;
+        items = (List<MovPersonas>) result.result;
     }
 
     private void initBar() {
@@ -151,7 +151,7 @@ public class PersonResumeReportControl implements Serializable {
             case 1:
                 entrysByTypePerson = new HashMap();
                 years = new int[numberOfYears + 1];
-                for (MovPersonasCli mov : items) {
+                for (MovPersonas mov : items) {
                     Calendar cal = Calendar.getInstance();
                     Date date = mov.getFechaEntrada();
                     cal.setTime(date);
@@ -159,7 +159,7 @@ public class PersonResumeReportControl implements Serializable {
                     years[year]++;
 
                     //COUNTER TO DIFERENCE TYPES OF PERSON 
-                    String personType = mov.getPersonasSucursalCli().getEntidad().getIdEntidad();
+                    int personType = mov.getPersonasSucursal().getEntidad().getIdEntidad();
                     int[] arrayForSpecificType = (int[]) entrysByTypePerson.get(personType);
                     if (arrayForSpecificType == null) {
                         arrayForSpecificType = new int[numberOfYears + 1];
@@ -171,7 +171,7 @@ public class PersonResumeReportControl implements Serializable {
             case 2:
                 entrysByTypePerson = new HashMap();
                 months = new int[12];
-                for (MovPersonasCli mov : items) {
+                for (MovPersonas mov : items) {
                     Calendar cal = Calendar.getInstance();
                     Date date = mov.getFechaEntrada();
                     cal.setTime(date);
@@ -182,7 +182,7 @@ public class PersonResumeReportControl implements Serializable {
                     months[month]++;
 
                     //COUNTER TO DIFERENCE TYPES OF PERSON 
-                    String personType = mov.getPersonasSucursalCli().getEntidad().getIdEntidad();
+                    int personType = mov.getPersonasSucursal().getEntidad().getIdEntidad();
                     int[] arrayForSpecificType = (int[]) entrysByTypePerson.get(personType);
                     if (arrayForSpecificType == null) {
                         arrayForSpecificType = new int[12];
@@ -194,7 +194,7 @@ public class PersonResumeReportControl implements Serializable {
             case 3:
                 entrysByTypePerson = new HashMap();
                 days = new int[31];
-                for (MovPersonasCli mov : items) {
+                for (MovPersonas mov : items) {
                     Calendar cal = Calendar.getInstance();
                     Date date = mov.getFechaEntrada();
                     cal.setTime(date);
@@ -205,7 +205,7 @@ public class PersonResumeReportControl implements Serializable {
                     days[day - 1]++;//Calendar.DAY_OF_MONTH start in 1
 
                     //COUNTER TO DIFERENCE TYPES OF PERSON 
-                    String personType = mov.getPersonasSucursalCli().getEntidad().getIdEntidad();
+                    int personType = mov.getPersonasSucursal().getEntidad().getIdEntidad();
                     int[] arrayForSpecificType = (int[]) entrysByTypePerson.get(personType);
                     if (arrayForSpecificType == null) {
                         arrayForSpecificType = new int[31];

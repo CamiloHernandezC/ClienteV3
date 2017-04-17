@@ -11,8 +11,8 @@
         <h:form>
             <h1>#{bundle.EditPersonasCliTitle}</h1>
             <ui:include src="formTemplate.xhtml"/>
-            <p:commandButton action="#{personasCliController.updateFromForm()}" label="#{bundle.Edit}" ajax="false"/>
-            <p:commandButton action="#{personasCliController.cancel()}" label="#{bundle.Cancel}" immediate="true" ajax="false"/>
+            <p:commandButton action="#{personasController.updateFromForm()}" label="#{bundle.Edit}" ajax="false"/>
+            <p:commandButton action="#{personasController.cancel()}" label="#{bundle.Cancel}" immediate="true" ajax="false"/>
         </h:form>
     </ui:define>
 

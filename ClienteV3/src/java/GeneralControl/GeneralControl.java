@@ -7,8 +7,8 @@ package GeneralControl;
 
 import Controllers.util.JsfUtil;
 import Entities.AccesoUsuario;
-import Entities.SucursalesCli;
-import Entities.UsuariosCli;
+import Entities.Sucursales;
+import Entities.Usuarios;
 import Facade.AccesoUsuarioFacade;
 import Querys.Querys;
 import Utils.Constants;
@@ -31,8 +31,8 @@ public class GeneralControl implements Serializable{
     
     @EJB
     private AccesoUsuarioFacade ejbFacade;
-    private ArrayList<SucursalesCli> branchOffices = null;
-    private SucursalesCli selectedBranchOffice = null;
+    private ArrayList<Sucursales> branchOffices = null;
+    private Sucursales selectedBranchOffice = null;
 
     /**
      * Creates a new instance of MenuController
@@ -43,7 +43,7 @@ public class GeneralControl implements Serializable{
     public boolean isShowBranchOffice() {
         loadBranchOffice();
         if(branchOffices==null || branchOffices.isEmpty()){
-            selectedBranchOffice = new SucursalesCli(0L);//query whit brachOffice = 0 will return no result
+            selectedBranchOffice = new Sucursales(0);//query whit brachOffice = 0 will return no result
             return false;
         }
         if(branchOffices.size()==1){
@@ -53,25 +53,25 @@ public class GeneralControl implements Serializable{
         return true;
     }
 
-    public SucursalesCli getSelectedBranchOffice() {
+    public Sucursales getSelectedBranchOffice() {
         return selectedBranchOffice;
     }
 
-    public void setSelectedBranchOffice(SucursalesCli selectedBranchOffice) {
+    public void setSelectedBranchOffice(Sucursales selectedBranchOffice) {
         this.selectedBranchOffice = selectedBranchOffice;
     }
 
-    public ArrayList<SucursalesCli> getBranchOffices() {
+    public ArrayList<Sucursales> getBranchOffices() {
         return branchOffices;
     }
 
-    public void setBranchOffices(ArrayList<SucursalesCli> branchOffices) {
+    public void setBranchOffices(ArrayList<Sucursales> branchOffices) {
         this.branchOffices = branchOffices;
     }
     
     public void loadBranchOffice(){
         branchOffices = new ArrayList<>();
-        UsuariosCli user = JsfUtil.getSessionUser();
+        Usuarios user = JsfUtil.getSessionUser();
         String squery = Querys.ACCESO_USUARIO_ALL+" WHERE"+Querys.ACCESO_USUARIO_USUARIO+user.getIdUsuario()+"'";
         Result result = ejbFacade.findByQueryArray(squery);
         if(result.errorCode==Constants.OK){

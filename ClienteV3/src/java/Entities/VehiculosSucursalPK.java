@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author MAURICIO
+ * @author Kmilo
  */
 @Embeddable
 public class VehiculosSucursalPK implements Serializable {
@@ -26,15 +26,15 @@ public class VehiculosSucursalPK implements Serializable {
     private String placa;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Id_Sucursal")
-    private long idSucursal;
+    @Column(name = "Sucursal")
+    private int sucursal;
 
     public VehiculosSucursalPK() {
     }
 
-    public VehiculosSucursalPK(String placa, long idSucursal) {
+    public VehiculosSucursalPK(String placa, int sucursal) {
         this.placa = placa;
-        this.idSucursal = idSucursal;
+        this.sucursal = sucursal;
     }
 
     public String getPlaca() {
@@ -45,19 +45,19 @@ public class VehiculosSucursalPK implements Serializable {
         this.placa = placa;
     }
 
-    public long getIdSucursal() {
-        return idSucursal;
+    public int getSucursal() {
+        return sucursal;
     }
 
-    public void setIdSucursal(long idSucursal) {
-        this.idSucursal = idSucursal;
+    public void setSucursal(int sucursal) {
+        this.sucursal = sucursal;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (placa != null ? placa.hashCode() : 0);
-        hash += (int) idSucursal;
+        hash += (int) sucursal;
         return hash;
     }
 
@@ -71,7 +71,7 @@ public class VehiculosSucursalPK implements Serializable {
         if ((this.placa == null && other.placa != null) || (this.placa != null && !this.placa.equals(other.placa))) {
             return false;
         }
-        if (this.idSucursal != other.idSucursal) {
+        if (this.sucursal != other.sucursal) {
             return false;
         }
         return true;
@@ -79,7 +79,7 @@ public class VehiculosSucursalPK implements Serializable {
 
     @Override
     public String toString() {
-        return "Entities.VehiculosSucursalPK[ placa=" + placa + ", idSucursal=" + idSucursal + " ]";
+        return "Entities.VehiculosSucursalPK[ placa=" + placa + ", sucursal=" + sucursal + " ]";
     }
     
 }

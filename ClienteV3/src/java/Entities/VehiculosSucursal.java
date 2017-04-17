@@ -6,6 +6,7 @@
 package Entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -16,44 +17,55 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author MAURICIO
+ * @author Kmilo
  */
 @Entity
-@Table(name = "Vehiculos_Sucursal")
+@Table(name = "vehiculos_sucursal")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "VehiculosSucursal.findAll", query = "SELECT v FROM VehiculosSucursal v"),
     @NamedQuery(name = "VehiculosSucursal.findByPlaca", query = "SELECT v FROM VehiculosSucursal v WHERE v.vehiculosSucursalPK.placa = :placa"),
-    @NamedQuery(name = "VehiculosSucursal.findByIdSucursal", query = "SELECT v FROM VehiculosSucursal v WHERE v.vehiculosSucursalPK.idSucursal = :idSucursal"),
+    @NamedQuery(name = "VehiculosSucursal.findBySucursal", query = "SELECT v FROM VehiculosSucursal v WHERE v.vehiculosSucursalPK.sucursal = :sucursal"),
     @NamedQuery(name = "VehiculosSucursal.findByIdExterno", query = "SELECT v FROM VehiculosSucursal v WHERE v.idExterno = :idExterno"),
-    @NamedQuery(name = "VehiculosSucursal.findByIngresoAutomatico", query = "SELECT v FROM VehiculosSucursal v WHERE v.ingresoAutomatico = :ingresoAutomatico")})
+    @NamedQuery(name = "VehiculosSucursal.findByIngresoAutomatico", query = "SELECT v FROM VehiculosSucursal v WHERE v.ingresoAutomatico = :ingresoAutomatico"),
+    @NamedQuery(name = "VehiculosSucursal.findByFecha", query = "SELECT v FROM VehiculosSucursal v WHERE v.fecha = :fecha")})
 public class VehiculosSucursal implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected VehiculosSucursalPK vehiculosSucursalPK;
-    @Size(max = 40)
+    @Size(max = 32)
     @Column(name = "Id_Externo")
     private String idExterno;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Ingreso_Automatico")
     private boolean ingresoAutomatico;
-    @JoinColumn(name = "Id_Estado", referencedColumnName = "Id_Estado")
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Fecha")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
+    @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private EstadosCli idEstado;
-    @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal", insertable = false, updatable = false)
+    private Personas usuario;
+    @JoinColumn(name = "Estado", referencedColumnName = "Id_Estado")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private SucursalesCli sucursalesCli;
+    private Estados estado;
+    @JoinColumn(name = "Sucursal", referencedColumnName = "Id_Sucursal", insertable = false, updatable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Sucursales sucursales;
     @JoinColumn(name = "Placa", referencedColumnName = "Placa", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private VehiculosCli vehiculosCli;
+    private Vehiculos vehiculos;
 
     public VehiculosSucursal() {
     }
@@ -62,13 +74,14 @@ public class VehiculosSucursal implements Serializable {
         this.vehiculosSucursalPK = vehiculosSucursalPK;
     }
 
-    public VehiculosSucursal(VehiculosSucursalPK vehiculosSucursalPK, boolean ingresoAutomatico) {
+    public VehiculosSucursal(VehiculosSucursalPK vehiculosSucursalPK, boolean ingresoAutomatico, Date fecha) {
         this.vehiculosSucursalPK = vehiculosSucursalPK;
         this.ingresoAutomatico = ingresoAutomatico;
+        this.fecha = fecha;
     }
 
-    public VehiculosSucursal(String placa, long idSucursal) {
-        this.vehiculosSucursalPK = new VehiculosSucursalPK(placa, idSucursal);
+    public VehiculosSucursal(String placa, int sucursal) {
+        this.vehiculosSucursalPK = new VehiculosSucursalPK(placa, sucursal);
     }
 
     public VehiculosSucursalPK getVehiculosSucursalPK() {
@@ -95,28 +108,44 @@ public class VehiculosSucursal implements Serializable {
         this.ingresoAutomatico = ingresoAutomatico;
     }
 
-    public EstadosCli getIdEstado() {
-        return idEstado;
+    public Date getFecha() {
+        return fecha;
     }
 
-    public void setIdEstado(EstadosCli idEstado) {
-        this.idEstado = idEstado;
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
-    public SucursalesCli getSucursalesCli() {
-        return sucursalesCli;
+    public Personas getUsuario() {
+        return usuario;
     }
 
-    public void setSucursalesCli(SucursalesCli sucursalesCli) {
-        this.sucursalesCli = sucursalesCli;
+    public void setUsuario(Personas usuario) {
+        this.usuario = usuario;
     }
 
-    public VehiculosCli getVehiculosCli() {
-        return vehiculosCli;
+    public Estados getEstado() {
+        return estado;
     }
 
-    public void setVehiculosCli(VehiculosCli vehiculosCli) {
-        this.vehiculosCli = vehiculosCli;
+    public void setEstado(Estados estado) {
+        this.estado = estado;
+    }
+
+    public Sucursales getSucursales() {
+        return sucursales;
+    }
+
+    public void setSucursales(Sucursales sucursales) {
+        this.sucursales = sucursales;
+    }
+
+    public Vehiculos getVehiculos() {
+        return vehiculos;
+    }
+
+    public void setVehiculos(Vehiculos vehiculos) {
+        this.vehiculos = vehiculos;
     }
 
     @Override

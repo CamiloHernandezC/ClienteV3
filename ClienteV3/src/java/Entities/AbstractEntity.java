@@ -12,10 +12,10 @@ import java.util.Date;
  * @author MAURICIO
  */
 public abstract class AbstractEntity {
-    
-    public abstract Long getPrimaryKey();
-    public abstract void setPrimaryKey(Long primaryKey);
-    public abstract void setUser(PersonasCli user);
+    /*Primary key used to calculate autoincremental primary key*/
+    public abstract int getPrimaryKey();
+    public abstract void setPrimaryKey(int primaryKey);
+    public abstract void setUser(Personas user);
     public abstract void setDate(Date date);
     
 }

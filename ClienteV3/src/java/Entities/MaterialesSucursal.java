@@ -9,9 +9,9 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -24,24 +24,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author MAURICIO
+ * @author Kmilo
  */
 @Entity
-@Table(name = "Materiales_Sucursal")
+@Table(name = "materiales_sucursal")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MaterialesSucursal.findAll", query = "SELECT m FROM MaterialesSucursal m"),
-    @NamedQuery(name = "MaterialesSucursal.findById", query = "SELECT m FROM MaterialesSucursal m WHERE m.id = :id"),
+    @NamedQuery(name = "MaterialesSucursal.findByIdMaterial", query = "SELECT m FROM MaterialesSucursal m WHERE m.materialesSucursalPK.idMaterial = :idMaterial"),
+    @NamedQuery(name = "MaterialesSucursal.findByIdSucursal", query = "SELECT m FROM MaterialesSucursal m WHERE m.materialesSucursalPK.idSucursal = :idSucursal"),
     @NamedQuery(name = "MaterialesSucursal.findByAdministrar", query = "SELECT m FROM MaterialesSucursal m WHERE m.administrar = :administrar"),
     @NamedQuery(name = "MaterialesSucursal.findByFecha", query = "SELECT m FROM MaterialesSucursal m WHERE m.fecha = :fecha")})
 public class MaterialesSucursal implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID")
-    private Long id;
+    @EmbeddedId
+    protected MaterialesSucursalPK materialesSucursalPK;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Administrar")
@@ -49,37 +47,41 @@ public class MaterialesSucursal implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "Fecha")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @JoinColumn(name = "Id_Material", referencedColumnName = "Id_Material")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private MaterialesCli idMaterial;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private PersonasCli usuario;
-    @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal")
+    private Personas usuario;
+    @JoinColumn(name = "Id_Material", referencedColumnName = "Id_Material", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private SucursalesCli idSucursal;
+    private Materiales materiales;
+    @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal", insertable = false, updatable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Sucursales sucursales;
 
     public MaterialesSucursal() {
     }
 
-    public MaterialesSucursal(Long id) {
-        this.id = id;
+    public MaterialesSucursal(MaterialesSucursalPK materialesSucursalPK) {
+        this.materialesSucursalPK = materialesSucursalPK;
     }
 
-    public MaterialesSucursal(Long id, boolean administrar, Date fecha) {
-        this.id = id;
+    public MaterialesSucursal(MaterialesSucursalPK materialesSucursalPK, boolean administrar, Date fecha) {
+        this.materialesSucursalPK = materialesSucursalPK;
         this.administrar = administrar;
         this.fecha = fecha;
     }
 
-    public Long getId() {
-        return id;
+    public MaterialesSucursal(int idMaterial, int idSucursal) {
+        this.materialesSucursalPK = new MaterialesSucursalPK(idMaterial, idSucursal);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public MaterialesSucursalPK getMaterialesSucursalPK() {
+        return materialesSucursalPK;
+    }
+
+    public void setMaterialesSucursalPK(MaterialesSucursalPK materialesSucursalPK) {
+        this.materialesSucursalPK = materialesSucursalPK;
     }
 
     public boolean getAdministrar() {
@@ -98,34 +100,34 @@ public class MaterialesSucursal implements Serializable {
         this.fecha = fecha;
     }
 
-    public MaterialesCli getIdMaterial() {
-        return idMaterial;
-    }
-
-    public void setIdMaterial(MaterialesCli idMaterial) {
-        this.idMaterial = idMaterial;
-    }
-
-    public PersonasCli getUsuario() {
+    public Personas getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(PersonasCli usuario) {
+    public void setUsuario(Personas usuario) {
         this.usuario = usuario;
     }
 
-    public SucursalesCli getIdSucursal() {
-        return idSucursal;
+    public Materiales getMateriales() {
+        return materiales;
     }
 
-    public void setIdSucursal(SucursalesCli idSucursal) {
-        this.idSucursal = idSucursal;
+    public void setMateriales(Materiales materiales) {
+        this.materiales = materiales;
+    }
+
+    public Sucursales getSucursales() {
+        return sucursales;
+    }
+
+    public void setSucursales(Sucursales sucursales) {
+        this.sucursales = sucursales;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (materialesSucursalPK != null ? materialesSucursalPK.hashCode() : 0);
         return hash;
     }
 
@@ -136,7 +138,7 @@ public class MaterialesSucursal implements Serializable {
             return false;
         }
         MaterialesSucursal other = (MaterialesSucursal) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.materialesSucursalPK == null && other.materialesSucursalPK != null) || (this.materialesSucursalPK != null && !this.materialesSucursalPK.equals(other.materialesSucursalPK))) {
             return false;
         }
         return true;
@@ -144,7 +146,7 @@ public class MaterialesSucursal implements Serializable {
 
     @Override
     public String toString() {
-        return "Entities.MaterialesSucursal[ id=" + id + " ]";
+        return "Entities.MaterialesSucursal[ materialesSucursalPK=" + materialesSucursalPK + " ]";
     }
     
 }

@@ -9,10 +9,10 @@
     <ui:define name="content">
         <h:form id="TiposDocumentoCliListForm">
                 <p:panel header="#{bundle.ListTiposDocumentoCliTitle}">
-                    <p:dataTable id="datalist" value="#{tiposDocumentoCliController.items}" var="item"
-                                 selectionMode="single" selection="#{tiposDocumentoCliController.selected}"
+                    <p:dataTable id="datalist" value="#{tiposDocumentoController.items}" var="item"
+                                 selectionMode="single" selection="#{tiposDocumentoController.selected}"
                                  paginator="true"
-                                 rowKey="#{item.tipodocumento}"
+                                 rowKey="#{item.tipoDocumento}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
@@ -21,7 +21,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTiposDocumentoCliTitle_tipodocumento}"/>
                             </f:facet>
-                            <h:outputText value="#{item.tipodocumento}"/>
+                            <h:outputText value="#{item.tipoDocumento}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">

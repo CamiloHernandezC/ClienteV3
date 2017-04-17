@@ -5,12 +5,12 @@
  */
 package Controllers;
 
+
 import Controllers.util.JsfUtil;
 import Entities.AbstractEntity;
 import Facade.AbstractFacade;
 import Utils.Constants;
 import Utils.Result;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Iterator;
@@ -28,7 +28,7 @@ import javax.validation.ValidatorFactory;
 /**
  *
  * @author MAURICIO
- * @param <AbstractEntity>
+ * @param <T> Entity class
  */
 public abstract class AbstractPersistenceController<T> implements Serializable {
     
@@ -56,11 +56,11 @@ public abstract class AbstractPersistenceController<T> implements Serializable {
         Result result = getFacade().findByQuery(squery, true);//Only need the first result
         if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {
             AbstractEntity entity = (AbstractEntity) getSelected();
-            entity.setPrimaryKey(1L);
+            entity.setPrimaryKey(1);
             setSelected((T) entity);
         } else {
             AbstractEntity entity = (AbstractEntity) getSelected();
-            entity.setPrimaryKey(((AbstractEntity) result.result).getPrimaryKey() + 1L);
+            entity.setPrimaryKey(((AbstractEntity) result.result).getPrimaryKey() + 1);
             setSelected((T) entity);
         }
         //In previous section we need get and set selected because all data are already loaded
@@ -68,7 +68,7 @@ public abstract class AbstractPersistenceController<T> implements Serializable {
 
     public void assignParametersToUpdate() {
         AbstractEntity entity = (AbstractEntity) getSelected();
-        entity.setUser(JsfUtil.getSessionUser().getIdPersona());
+        entity.setUser(JsfUtil.getSessionUser().getPersona());
         entity.setDate(new Date());
         setSelected((T) entity);
     }

@@ -51,10 +51,10 @@ public class Constants {
     //</editor-fold>
     
     // <editor-fold desc="STATUS" defaultstate="collapsed">
-    public static final Long STATUS_ENTRY = 3L;
-    public static final Long STATUS_BLOCKED= 2L;
-    public static final Long STATUS_INACTIVE= 4L;
-    public static final Long STATUS_ACTIVE=1L;
+    public static final Integer STATUS_ENTRY = 3;
+    public static final Integer STATUS_BLOCKED= 2;
+    public static final Integer STATUS_INACTIVE= 4;
+    public static final Integer STATUS_ACTIVE=1;
     //</editor-fold>
     
     // <editor-fold desc="DOCUMENT_TYPE" defaultstate="collapsed">

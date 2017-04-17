@@ -21,14 +21,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author MAURICIO
+ * @author Kmilo
  */
 @Entity
-@Table(name = "Privilegios_Cliente")
+@Table(name = "privilegios_cliente")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PrivilegiosCliente.findAll", query = "SELECT p FROM PrivilegiosCliente p"),
-    @NamedQuery(name = "PrivilegiosCliente.findById", query = "SELECT p FROM PrivilegiosCliente p WHERE p.id = :id"),
+    @NamedQuery(name = "PrivilegiosCliente.findByIdPrivilegiosCliente", query = "SELECT p FROM PrivilegiosCliente p WHERE p.idPrivilegiosCliente = :idPrivilegiosCliente"),
     @NamedQuery(name = "PrivilegiosCliente.findByVer", query = "SELECT p FROM PrivilegiosCliente p WHERE p.ver = :ver")})
 public class PrivilegiosCliente implements Serializable {
 
@@ -36,8 +36,8 @@ public class PrivilegiosCliente implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID")
-    private Long id;
+    @Column(name = "Id_Privilegios_Cliente")
+    private Integer idPrivilegiosCliente;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Ver")
@@ -47,26 +47,26 @@ public class PrivilegiosCliente implements Serializable {
     private MenuCliente codigoMenu;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Usuario")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private UsuariosCli usuario;
+    private Usuarios usuario;
 
     public PrivilegiosCliente() {
     }
 
-    public PrivilegiosCliente(Long id) {
-        this.id = id;
+    public PrivilegiosCliente(Integer idPrivilegiosCliente) {
+        this.idPrivilegiosCliente = idPrivilegiosCliente;
     }
 
-    public PrivilegiosCliente(Long id, boolean ver) {
-        this.id = id;
+    public PrivilegiosCliente(Integer idPrivilegiosCliente, boolean ver) {
+        this.idPrivilegiosCliente = idPrivilegiosCliente;
         this.ver = ver;
     }
 
-    public Long getId() {
-        return id;
+    public Integer getIdPrivilegiosCliente() {
+        return idPrivilegiosCliente;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdPrivilegiosCliente(Integer idPrivilegiosCliente) {
+        this.idPrivilegiosCliente = idPrivilegiosCliente;
     }
 
     public boolean getVer() {
@@ -85,18 +85,18 @@ public class PrivilegiosCliente implements Serializable {
         this.codigoMenu = codigoMenu;
     }
 
-    public UsuariosCli getUsuario() {
+    public Usuarios getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(UsuariosCli usuario) {
+    public void setUsuario(Usuarios usuario) {
         this.usuario = usuario;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (idPrivilegiosCliente != null ? idPrivilegiosCliente.hashCode() : 0);
         return hash;
     }
 
@@ -107,7 +107,7 @@ public class PrivilegiosCliente implements Serializable {
             return false;
         }
         PrivilegiosCliente other = (PrivilegiosCliente) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.idPrivilegiosCliente == null && other.idPrivilegiosCliente != null) || (this.idPrivilegiosCliente != null && !this.idPrivilegiosCliente.equals(other.idPrivilegiosCliente))) {
             return false;
         }
         return true;
@@ -115,7 +115,7 @@ public class PrivilegiosCliente implements Serializable {
 
     @Override
     public String toString() {
-        return "Entities.PrivilegiosCliente[ id=" + id + " ]";
+        return "Entities.PrivilegiosCliente[ idPrivilegiosCliente=" + idPrivilegiosCliente + " ]";
     }
     
 }

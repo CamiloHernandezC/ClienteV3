@@ -24,15 +24,14 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author MAURICIO
+ * @author Kmilo
  */
 @Entity
-@Table(name = "Porterias")
+@Table(name = "porterias")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Porterias.findAll", query = "SELECT p FROM Porterias p"),
     @NamedQuery(name = "Porterias.findByIdPorteria", query = "SELECT p FROM Porterias p WHERE p.idPorteria = :idPorteria"),
-    @NamedQuery(name = "Porterias.findByEquipoAsignado", query = "SELECT p FROM Porterias p WHERE p.equipoAsignado = :equipoAsignado"),
     @NamedQuery(name = "Porterias.findByDescripcion", query = "SELECT p FROM Porterias p WHERE p.descripcion = :descripcion")})
 public class Porterias implements Serializable {
 
@@ -41,51 +40,37 @@ public class Porterias implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "Id_Porteria")
-    private Long idPorteria;
+    private Integer idPorteria;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2147483647)
-    @Column(name = "Equipo_Asignado")
-    private String equipoAsignado;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 2147483647)
+    @Size(min = 1, max = 140)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "idPorteria", fetch = FetchType.LAZY)
-    private List<NotificacionesCli> notificacionesCliList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "porteria", fetch = FetchType.LAZY)
-    private List<ConfigFormCli> configFormCliList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "porterias", fetch = FetchType.LAZY)
-    private List<PorteriaSucursalCli> porteriaSucursalCliList;
+    private List<PorteriasSucursal> porteriasSucursalList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "porteria", fetch = FetchType.LAZY)
+    private List<ConfigForm> configFormList;
+    @OneToMany(mappedBy = "porteria", fetch = FetchType.LAZY)
+    private List<Notificaciones> notificacionesList;
 
     public Porterias() {
     }
 
-    public Porterias(Long idPorteria) {
+    public Porterias(Integer idPorteria) {
         this.idPorteria = idPorteria;
     }
 
-    public Porterias(Long idPorteria, String equipoAsignado, String descripcion) {
+    public Porterias(Integer idPorteria, String descripcion) {
         this.idPorteria = idPorteria;
-        this.equipoAsignado = equipoAsignado;
         this.descripcion = descripcion;
     }
 
-    public Long getIdPorteria() {
+    public Integer getIdPorteria() {
         return idPorteria;
     }
 
-    public void setIdPorteria(Long idPorteria) {
+    public void setIdPorteria(Integer idPorteria) {
         this.idPorteria = idPorteria;
-    }
-
-    public String getEquipoAsignado() {
-        return equipoAsignado;
-    }
-
-    public void setEquipoAsignado(String equipoAsignado) {
-        this.equipoAsignado = equipoAsignado;
     }
 
     public String getDescripcion() {
@@ -97,30 +82,30 @@ public class Porterias implements Serializable {
     }
 
     @XmlTransient
-    public List<NotificacionesCli> getNotificacionesCliList() {
-        return notificacionesCliList;
+    public List<PorteriasSucursal> getPorteriasSucursalList() {
+        return porteriasSucursalList;
     }
 
-    public void setNotificacionesCliList(List<NotificacionesCli> notificacionesCliList) {
-        this.notificacionesCliList = notificacionesCliList;
-    }
-
-    @XmlTransient
-    public List<ConfigFormCli> getConfigFormCliList() {
-        return configFormCliList;
-    }
-
-    public void setConfigFormCliList(List<ConfigFormCli> configFormCliList) {
-        this.configFormCliList = configFormCliList;
+    public void setPorteriasSucursalList(List<PorteriasSucursal> porteriasSucursalList) {
+        this.porteriasSucursalList = porteriasSucursalList;
     }
 
     @XmlTransient
-    public List<PorteriaSucursalCli> getPorteriaSucursalCliList() {
-        return porteriaSucursalCliList;
+    public List<ConfigForm> getConfigFormList() {
+        return configFormList;
     }
 
-    public void setPorteriaSucursalCliList(List<PorteriaSucursalCli> porteriaSucursalCliList) {
-        this.porteriaSucursalCliList = porteriaSucursalCliList;
+    public void setConfigFormList(List<ConfigForm> configFormList) {
+        this.configFormList = configFormList;
+    }
+
+    @XmlTransient
+    public List<Notificaciones> getNotificacionesList() {
+        return notificacionesList;
+    }
+
+    public void setNotificacionesList(List<Notificaciones> notificacionesList) {
+        this.notificacionesList = notificacionesList;
     }
 
     @Override

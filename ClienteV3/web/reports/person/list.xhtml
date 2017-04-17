@@ -17,8 +17,8 @@
                 <f:selectItems value="#{generalControl.branchOffices}" var="branchOffice" itemValue="#{branchOffice}" itemLabel="#{branchOffice.nombre}"/>
             </p:selectOneMenu>
             <p:panel header="#{bundle.ListMovPersonasCliTitle}">
-                <p:dataTable id="datalist" value="#{movPersonasCliController.itemsByBranchOffice}" var="item"
-                             selectionMode="single" selection="#{movPersonasCliController.selected}"
+                <p:dataTable id="datalist" value="#{movPersonasController.itemsByBranchOffice}" var="item"
+                             selectionMode="single" selection="#{movPersonasController.selected}"
                              paginator="true"
                              rowKey="#{item.idMovimiento}"
                              rows="10"

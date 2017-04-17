@@ -5,6 +5,7 @@
  */
 package Facade;
 
+import Facade.AbstractFacade;
 import Entities.Porterias;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -12,7 +13,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author MAURICIO
+ * @author Kmilo
  */
 @Stateless
 public class PorteriasFacade extends AbstractFacade<Porterias> {

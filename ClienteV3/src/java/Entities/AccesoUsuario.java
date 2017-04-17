@@ -21,64 +21,64 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author MAURICIO
+ * @author Kmilo
  */
 @Entity
-@Table(name = "Acceso_Usuario")
+@Table(name = "acceso_usuario")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "AccesoUsuario.findAll", query = "SELECT a FROM AccesoUsuario a"),
-    @NamedQuery(name = "AccesoUsuario.findById", query = "SELECT a FROM AccesoUsuario a WHERE a.id = :id")})
+    @NamedQuery(name = "AccesoUsuario.findByIDAccesoUsuario", query = "SELECT a FROM AccesoUsuario a WHERE a.iDAccesoUsuario = :iDAccesoUsuario")})
 public class AccesoUsuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID")
-    private Long id;
-    @JoinColumn(name = "Sucursal", referencedColumnName = "Id_Sucursal")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private SucursalesCli sucursal;
+    @Column(name = "ID_Acceso_Usuario")
+    private Integer iDAccesoUsuario;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Usuario")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private UsuariosCli usuario;
+    private Usuarios usuario;
+    @JoinColumn(name = "Sucursal", referencedColumnName = "Id_Sucursal")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Sucursales sucursal;
 
     public AccesoUsuario() {
     }
 
-    public AccesoUsuario(Long id) {
-        this.id = id;
+    public AccesoUsuario(Integer iDAccesoUsuario) {
+        this.iDAccesoUsuario = iDAccesoUsuario;
     }
 
-    public Long getId() {
-        return id;
+    public Integer getIDAccesoUsuario() {
+        return iDAccesoUsuario;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIDAccesoUsuario(Integer iDAccesoUsuario) {
+        this.iDAccesoUsuario = iDAccesoUsuario;
     }
 
-    public SucursalesCli getSucursal() {
-        return sucursal;
-    }
-
-    public void setSucursal(SucursalesCli sucursal) {
-        this.sucursal = sucursal;
-    }
-
-    public UsuariosCli getUsuario() {
+    public Usuarios getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(UsuariosCli usuario) {
+    public void setUsuario(Usuarios usuario) {
         this.usuario = usuario;
+    }
+
+    public Sucursales getSucursal() {
+        return sucursal;
+    }
+
+    public void setSucursal(Sucursales sucursal) {
+        this.sucursal = sucursal;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (iDAccesoUsuario != null ? iDAccesoUsuario.hashCode() : 0);
         return hash;
     }
 
@@ -89,7 +89,7 @@ public class AccesoUsuario implements Serializable {
             return false;
         }
         AccesoUsuario other = (AccesoUsuario) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.iDAccesoUsuario == null && other.iDAccesoUsuario != null) || (this.iDAccesoUsuario != null && !this.iDAccesoUsuario.equals(other.iDAccesoUsuario))) {
             return false;
         }
         return true;
@@ -97,7 +97,7 @@ public class AccesoUsuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Entities.AccesoUsuario[ id=" + id + " ]";
+        return "Entities.AccesoUsuario[ iDAccesoUsuario=" + iDAccesoUsuario + " ]";
     }
     
 }

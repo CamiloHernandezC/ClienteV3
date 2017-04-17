@@ -5,7 +5,7 @@
  */
 package Themes;
 
-import Entities.PersonasCli;
+import Entities.Personas;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
@@ -79,7 +79,7 @@ public class ThemeController implements Serializable{
                 Theme o = (Theme) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), PersonasCli.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Personas.class.getName()});
                 return null;
             }
         }

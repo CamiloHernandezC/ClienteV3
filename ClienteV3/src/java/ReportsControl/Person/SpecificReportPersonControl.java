@@ -6,8 +6,8 @@
 package ReportsControl.Person;
 
 import Controllers.util.JsfUtil;
-import Entities.MovPersonasCli;
-import Entities.TiposDocumentoCli;
+import Entities.MovPersonas;
+import Entities.TiposDocumento;
 import GeneralControl.GeneralControl;
 import Querys.Querys;
 import Utils.BundleUtils;
@@ -36,10 +36,10 @@ import org.primefaces.model.chart.ChartSeries;
 public class SpecificReportPersonControl implements Serializable {
 
     @EJB
-    private Facade.MovPersonasCliFacade ejbFacade;
-    private List<MovPersonasCli> items = null;
-    private MovPersonasCli selected;
-    private TiposDocumentoCli docType;
+    private Facade.MovPersonasFacade ejbFacade;
+    private List<MovPersonas> items = null;
+    private MovPersonas selected;
+    private TiposDocumento docType;
     private String docNumber;
 
     private BarChartModel barModel = new BarChartModel();
@@ -69,11 +69,11 @@ public class SpecificReportPersonControl implements Serializable {
         this.endDate = endDate;
     }
 
-    public TiposDocumentoCli getDocType() {
+    public TiposDocumento getDocType() {
         return docType;
     }
 
-    public void setDocType(TiposDocumentoCli docType) {
+    public void setDocType(TiposDocumento docType) {
         this.docType = docType;
     }
 
@@ -85,11 +85,11 @@ public class SpecificReportPersonControl implements Serializable {
         this.docNumber = docNumber;
     }
 
-    public MovPersonasCli getSelected() {
+    public MovPersonas getSelected() {
         return selected;
     }
 
-    public void setSelected(MovPersonasCli selected) {
+    public void setSelected(MovPersonas selected) {
         this.selected = selected;
     }
 
@@ -108,24 +108,24 @@ public class SpecificReportPersonControl implements Serializable {
         if(generalControl.getSelectedBranchOffice()==null){
             return;
         }
-        Long branchOffice = generalControl.getSelectedBranchOffice().getIdSucursal();
+        int branchOffice = generalControl.getSelectedBranchOffice().getIdSucursal();
         String squery = Querys.MOV_PERSONA_CLI_ALL + "WHERE" + Querys.MOV_PERSONA_CLI_SUCURSAL
                 + branchOffice + "' AND" + Querys.MOV_PERSONA_CLI_SALIDA_FORZADA + "0' AND" + Querys.MOV_PERSONA_CLI_INGRESO_FORZADO + "0' AND" + Querys.MOV_PERSONA_CLI_TIPO_DOC
-                + docType.getTipodocumento()
+                + docType.getTipoDocumento()
                 + "' AND" + Querys.MOV_PERSONA_CLI_NUM_DOC + docNumber
                 + "' AND" + Querys.MOV_PERSONA_CLI_FECHA_SALIDA_NOT_NULL;//TODO dates filter
         Result result = ejbFacade.findByQueryArray(squery);
         if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {//No matter if no result, items = result
             JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("NoResult"));
         }
-        items = (List<MovPersonasCli>) result.result;
+        items = (List<MovPersonas>) result.result;
     }
 
     public void countWorkedHours() {
 
         boolean firstTime = true;
         workedHours = new HashMap();
-        for (MovPersonasCli mov : items) {
+        for (MovPersonas mov : items) {
             if (mov.getFechaSalida().before(mov.getFechaEntrada())) {
                 continue;
             }

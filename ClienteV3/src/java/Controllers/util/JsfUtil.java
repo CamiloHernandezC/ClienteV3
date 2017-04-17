@@ -1,6 +1,6 @@
 package Controllers.util;
 
-import Entities.UsuariosCli;
+import Entities.Usuarios;
 import Utils.Constants;
 import Utils.Navigation;
 import java.net.InetAddress;
@@ -72,9 +72,9 @@ public class JsfUtil {
         return converter.getAsObject(FacesContext.getCurrentInstance(), component, theId);
     }
 
-    public static UsuariosCli getSessionUser() {
+    public static Usuarios getSessionUser() {
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        return (UsuariosCli) httpSession.getAttribute(Constants.SESSION_USER);
+        return (Usuarios) httpSession.getAttribute(Constants.SESSION_USER);
     }
 
     public static enum PersistAction {

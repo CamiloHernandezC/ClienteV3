@@ -19,10 +19,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author MAURICIO
+ * @author Kmilo
  */
 @Entity
-@Table(name = "Menu_Porteria")
+@Table(name = "menu_porteria")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MenuPorteria.findAll", query = "SELECT m FROM MenuPorteria m"),
@@ -40,25 +40,25 @@ public class MenuPorteria implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "Codigo")
-    private Long codigo;
+    private Integer codigo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 20)
     @Column(name = "Nombre")
     private String nombre;
-    @Size(max = 2147483647)
+    @Size(max = 140)
     @Column(name = "URL")
     private String url;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Tipo")
-    private short tipo;
+    private int tipo;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Nivel")
-    private short nivel;
+    private int nivel;
     @Column(name = "Padre")
-    private Long padre;
+    private Integer padre;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Estado")
@@ -67,11 +67,11 @@ public class MenuPorteria implements Serializable {
     public MenuPorteria() {
     }
 
-    public MenuPorteria(Long codigo) {
+    public MenuPorteria(Integer codigo) {
         this.codigo = codigo;
     }
 
-    public MenuPorteria(Long codigo, String nombre, short tipo, short nivel, boolean estado) {
+    public MenuPorteria(Integer codigo, String nombre, int tipo, int nivel, boolean estado) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.tipo = tipo;
@@ -79,11 +79,11 @@ public class MenuPorteria implements Serializable {
         this.estado = estado;
     }
 
-    public Long getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(Long codigo) {
+    public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
 
@@ -103,27 +103,27 @@ public class MenuPorteria implements Serializable {
         this.url = url;
     }
 
-    public short getTipo() {
+    public int getTipo() {
         return tipo;
     }
 
-    public void setTipo(short tipo) {
+    public void setTipo(int tipo) {
         this.tipo = tipo;
     }
 
-    public short getNivel() {
+    public int getNivel() {
         return nivel;
     }
 
-    public void setNivel(short nivel) {
+    public void setNivel(int nivel) {
         this.nivel = nivel;
     }
 
-    public Long getPadre() {
+    public Integer getPadre() {
         return padre;
     }
 
-    public void setPadre(Long padre) {
+    public void setPadre(Integer padre) {
         this.padre = padre;
     }
 
