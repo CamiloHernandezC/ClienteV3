@@ -20,7 +20,7 @@
                 <p:dataTable id="datalist" value="#{movPersonasController.itemsByBranchOffice}" var="item"
                              selectionMode="single" selection="#{movPersonasController.selected}"
                              paginator="true"
-                             rowKey="#{item.idMovimiento}"
+                             rowKey="#{item.idMovPersona}"
                              rows="10"
                              rowsPerPageTemplate="10,20,30,40,50"
                              >
@@ -81,43 +81,43 @@
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListMovPersonasCliTitle_idArea}"/>
                         </f:facet>
-                        <h:outputText value="#{item.idArea.descripcion}"/>
+                        <h:outputText value="#{item.area.descripcion}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListMovPersonasCliTitle_vehiclesIn}"/>
                         </f:facet>
-                        <h:outputText value="#{item.movVehiculosCliList.size()}"/>
+                        <h:outputText value="#{item.movVehiculosList.size()}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListMovPersonasCliTitle_vehiclesOut}"/>
                         </f:facet>
-                        <h:outputText value="#{item.movVehiculosCliList1.size()}"/>
+                        <h:outputText value="#{item.movVehiculosList1.size()}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListMovPersonasCliTitle_toolsIn}"/>
                         </f:facet>
-                        <h:outputText value="#{item.movHerramientasCliList.size()}"/>
+                        <h:outputText value="#{item.movObjetosList.size()}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListMovPersonasCliTitle_toolsOut}"/>
                         </f:facet>
-                        <h:outputText value="#{item.movHerramientasCliList.size()}"/>
+                        <h:outputText value="#{item.movObjetosList1.size()}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListMovPersonasCliTitle_materials}"/>
                         </f:facet>
-                        <h:outputText value="#{item.movMaterialesCliList.size()}"/>
+                        <h:outputText value="#{item.movMaterialesList.size()}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListMovPersonasCliTitle_documents}"/>
                         </f:facet>
-                        <h:outputText value="#{item.movDocumentosCliList.size()}"/>
+                        <h:outputText value="#{item.movDocumentosList.size()}"/>
                     </p:column>
                 </p:dataTable>
             </p:panel>
