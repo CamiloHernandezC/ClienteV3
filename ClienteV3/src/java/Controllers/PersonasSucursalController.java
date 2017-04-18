@@ -66,6 +66,7 @@ public class PersonasSucursalController extends AbstractPersistenceController<Pe
 
     @Override
     public void prepareCreate() {
+        initializeEmbeddableKey();
         assignPrimaryKey();
         selected.setEstado(new Estados(Constants.STATUS_ACTIVE));
         prepareUpdate();
@@ -73,8 +74,6 @@ public class PersonasSucursalController extends AbstractPersistenceController<Pe
     
     @Override
     protected void prepareUpdate() {
-        initializeEmbeddableKey();
-        
         selected.setUsuario(JsfUtil.getSessionUser().getPersona());
         selected.setFecha(new Date());
     }

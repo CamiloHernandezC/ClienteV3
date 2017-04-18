@@ -41,7 +41,7 @@ public class MenuControl implements Serializable{
          
         ResourceBundle rb = ResourceBundle.getBundle("Utils/Bundle");
         
-        //ENTRY SUBMENU
+        //Master Data
         DefaultSubMenu firstSubmenu = new DefaultSubMenu("Datos Maestros");
         
         
@@ -51,7 +51,7 @@ public class MenuControl implements Serializable{
          
         menu.addElement(firstSubmenu);
         
-        //ENTRY SUBMENU
+        //Reports
         DefaultSubMenu secondSubmenu = new DefaultSubMenu("Reportes");
         
         
@@ -65,6 +65,10 @@ public class MenuControl implements Serializable{
         
         item = new DefaultMenuItem("Resumen de Ingresos");
         item.setUrl(Navigation.PAGE_REPORT_RESUME);
+        secondSubmenu.addElement(item);
+        
+        item = new DefaultMenuItem("Asistencia");
+        item.setUrl(Navigation.PAGE_REPORT_ASSISTANCE);
         secondSubmenu.addElement(item);
          
         menu.addElement(secondSubmenu);
