@@ -6,6 +6,7 @@ import Entities.Usuarios;
 import Querys.Querys;
 import Utils.BundleUtils;
 import Utils.Constants;
+import Utils.Email;
 import Utils.Navigation;
 import Utils.Result;
 import java.io.Serializable;
@@ -56,13 +57,13 @@ public class LoginControl implements Serializable {
             Long milisPerDay = 24*60*60*1000L;
             if(selected.getFechaDesde().getTime()<=jd.getTime()  && (selected.getFechaHasta().getTime()+milisPerDay)>=jd.getTime()){
                 successfulLogin();
+                return;
             }
-            selected = null;
-            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("ExpiredError"));
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("ExpiredError"));//Unreachable if successful login
         } else {//If no user was found
-            selected = null;
             JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("LoginError"));
         }
+        selected = null;
     }
 
     private void successfulLogin() {
@@ -74,18 +75,36 @@ public class LoginControl implements Serializable {
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         httpSession.setAttribute(Constants.SESSION_USER, selected);
         JsfUtil.redirectTo(Navigation.PAGE_INDEX);
+        selected = null;
     }
     
     public void validSession(){
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         Usuarios httpUser = (Usuarios) httpSession.getAttribute(Constants.SESSION_USER);
+        if(httpUser==null){
+            JsfUtil.redirectTo("");//Redirect to login
+            return;
+        }
         String squery = Querys.USUARIOS_ALL + " WHERE" + Querys.USUARIOS_ID + httpUser.getIdUsuario() + "' AND" + Querys.USUARIOS_SESION + "true" + "' AND"+ Querys.USUARIOS_ID_SESION + httpUser.getIDSesion()+"'";
         Result result = ejbFacade.findByQuery(squery, false);
         if(result.errorCode==Constants.OK){//VALID SESSION
             return;
         }
         JsfUtil.redirectTo("");//Redirect to login
-    }   
+    }
+    
+    public String recoverPassword(){
+        String squery = Querys.USUARIOS_ALL + " WHERE" + Querys.USUARIOS_ID + selected.getIdUsuario()+"'";
+        Result result = ejbFacade.findByQuery(squery, false);
+        if(result.errorCode==Constants.OK){//VALID USER
+            Usuarios user = (Usuarios) result.result;
+            Email.crearEmail(user);
+            JsfUtil.addSuccessMessage("REVISE SU CORREO ELECTRÓNICO: "+user.getMail());//TODO CREATE BUNDLE PROPERTIE HERE
+            return Navigation.PAGE_LOGIN;
+        }
+        JsfUtil.addErrorMessage("EL ID DE USUARIO NO SE ENCUENTRA");
+        return "";
+    }
 
     //TODO LOGOUT
 }
