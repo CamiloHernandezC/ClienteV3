@@ -16,13 +16,13 @@
                 <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}"/>
                 <f:selectItems value="#{generalControl.branchOffices}" var="branchOffice" itemValue="#{branchOffice}" itemLabel="#{branchOffice.nombre}"/>
             </p:selectOneMenu>
-            <p:panel header="#{bundle.ListMovPersonasCliTitle}">
                 <p:dataTable id="datalist" value="#{movPersonasController.itemsByBranchOffice}" var="item"
                              selectionMode="single" selection="#{movPersonasController.selected}"
                              paginator="true"
                              rowKey="#{item.idMovPersona}"
                              rows="10"
                              rowsPerPageTemplate="10,20,30,40,50"
+                            scrollable="true" scrollHeight="150"
                              >
 
                     <p:column>
@@ -120,7 +120,6 @@
                         <h:outputText value="#{item.movDocumentosList.size()}"/>
                     </p:column>
                 </p:dataTable>
-            </p:panel>
         </h:form>
     </ui:define>
 

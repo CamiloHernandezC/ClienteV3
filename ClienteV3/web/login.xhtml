@@ -4,30 +4,47 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        
+
     </h:head>
-    
+
     <!--***************Código para evitar que pueda ir hacia atras***********-->
     <meta http-equiv="Expires" content="0" /> 
     <meta http-equiv="Pragma" content="no-cache" />
     <script type="text/javascript">
-        if(history.forward(1)){
-            location.replace( history.forward(1) );
+        if (history.forward(1)) {
+            location.replace(history.forward(1));
         }
     </script>
     <!--*********************************************************************-->
-    
+
     <h:body>
- 
+
 
         <div id="loginForm" style="position: absolute;top: 50%; left: 50%;  transform: translate(-50%, -50%)">
+
+            <p:confirmDialog id="confirmDialog" appendTo="@(body)" header="#{bundle.recoverPassword}" severity="alert" showEffect="fade" hideEffect="fade" widgetVar="dialogRecoverPassword" closable="false">
+                
+                <h:form>
+                    <p:messages id="errorMsg" autoUpdate="true" closable="true"/>
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel for="usuario" value="#{bundle.User}" />
+                        <p:inputText value="#{loginControl.selected.idUsuario}" id="usuario" autocomplete="off"/>
+                        <br/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2">
+                        <p:commandButton icon="ui-icon-mail-closed" value="#{bundle.sendMail}" action="#{loginControl.recoverPassword()}" ajax="true" update="errorMsg"/>
+                        <p:commandButton id="decline" value="#{bundle.Cancel}" onclick="PF('dialogRecoverPassword').hide();"/>
+                    </h:panelGrid>
+                </h:form>
+            </p:confirmDialog>
+
             <h:form>
 
                 <p:panel style="width:620px; border-color: blue" >
                     <h:graphicImage url="resources\Image\Firma_Seracis.png"/>
                     <p:panel style="border-color: blue">
                         <p:growl id="growl" showDetail="true" />
-                        
+
                         <h:panelGrid columns="2" cellpadding="5">
                             <p:outputLabel for="usuario" value="#{bundle.User}" />
                             <p:inputText value="#{loginControl.selected.idUsuario}" id="usuario" autocomplete="off"/>
@@ -39,8 +56,9 @@
                             <p:column/>
                             <p:commandButton icon="ui-icon-key" id="loginButton" value="#{bundle.InitSession}"
                                              action="#{loginControl.login()}" update="growl" /> 
-                            
+
                         </h:panelGrid>
+                        <p:commandLink value="#{bundle.forgotPassword}" oncomplete="PF('dialogRecoverPassword').show();" immediate="true"/>
                     </p:panel>
                 </p:panel>
             </h:form>
