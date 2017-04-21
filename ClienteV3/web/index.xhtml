@@ -10,7 +10,7 @@
         <h:form id="TiposDocumentoCliListForm">
                 <p:panel header="#{bundle.ListTiposDocumentoCliTitle}">
                     <p:dataTable id="datalist" value="#{tiposDocumentoController.items}" var="item"
-                                 selectionMode="single" selection="#{tiposDocumentoController.selected}"
+                                 selectionMode="single"
                                  paginator="true"
                                  rowKey="#{item.tipoDocumento}"
                                  rows="10"
