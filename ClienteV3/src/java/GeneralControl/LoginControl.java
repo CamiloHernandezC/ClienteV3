@@ -1,7 +1,7 @@
 package GeneralControl;
 
-import Controllers.UsuariosController;
 import Controllers.util.JsfUtil;
+import Converters.UsuariosController;
 import Entities.Usuarios;
 import Querys.Querys;
 import Utils.BundleUtils;
