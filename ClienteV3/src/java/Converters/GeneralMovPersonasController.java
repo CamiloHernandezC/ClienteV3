@@ -1,32 +1,24 @@
 package Converters;
 
-import Controllers.*;
 import Entities.MovPersonas;
-import Controllers.util.JsfUtil;
-import Facade.MovPersonasFacade;
-import GeneralControl.GeneralControl;
-import Querys.Querys;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("movPersonasController")
-@SessionScoped
-public class MovPersonasController implements Serializable {
+
+public class GeneralMovPersonasController implements Serializable {
 
     @EJB
-    private Facade.MovPersonasFacade ejbFacade;
-    private List<MovPersonas> items = null;
-    private MovPersonas selected;
+    protected Facade.MovPersonasFacade ejbFacade;
+    protected List<MovPersonas> items = null;
+    protected MovPersonas selected;
     
     public MovPersonas getSelected() {
         return selected;
@@ -36,28 +28,7 @@ public class MovPersonasController implements Serializable {
         this.selected = selected;
     }
     
-    public MovPersonasController() {
-    }
-    /*
-    protected MovPersonasFacade getFacade() {
-        return ejbFacade;
-    }
-
-    public List<MovPersonas> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-        return items;
-    }
-    */
-    
-    public List<MovPersonas> getItemsByBranchOffice() {//TODO DATES FILTER HERE
-        GeneralControl generalControl = JsfUtil.findBean("generalControl");
-        if(generalControl.getSelectedBranchOffice()!=null){
-            String squery = Querys.MOV_PERSONA_CLI_ALL+"WHERE"+Querys.MOV_PERSONA_CLI_SUCURSAL+generalControl.getSelectedBranchOffice().getIdSucursal()+"'";
-            items = (List<MovPersonas>) ejbFacade.findByQueryArray(squery).result;
-        }
-        return items;
+    public GeneralMovPersonasController() {
     }
     
     public MovPersonas getMovPersonas(java.lang.Integer id) {
@@ -72,7 +43,7 @@ public class MovPersonasController implements Serializable {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            MovPersonasController controller = (MovPersonasController) facesContext.getApplication().getELResolver().
+            GeneralMovPersonasController controller = (GeneralMovPersonasController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "movPersonasController");
             return controller.getMovPersonas(getKey(value));
         }
