@@ -16,7 +16,7 @@ import javax.enterprise.context.SessionScoped;
 
 @Named("personasSucursalController")
 @SessionScoped
-public class PersonasSucursalController extends Converters.GeneralPersonasSucursalController{
+public class PersonasSucursalController extends Converters.PersonasSucursalController{
 
     public PersonasSucursalController() {
     }
@@ -44,6 +44,7 @@ public class PersonasSucursalController extends Converters.GeneralPersonasSucurs
         
     public void preEdit(PersonasSucursal person){
         setSelected(person);
+        personasController = JsfUtil.findBean("personasController");
         personasController.setSelected(person.getPersonas());
         JsfUtil.redirectTo(Navigation.PAGE_PERSONAS_EDIT);
     }
@@ -52,26 +53,27 @@ public class PersonasSucursalController extends Converters.GeneralPersonasSucurs
         person.setEstado(new Estados(Constants.STATUS_BLOCKED));
         setSelected(person);
         update();
+        JsfUtil.addSuccessMessage(BundleUtils.getBundleProperty("RecordBlocked"));
         //TODO SHOW DIALOG TO BLOCK PERSON FOR OTHER BRANCH OFICCES WHERE USER HAS ACCESS
     }
     
-    public void unlockPerson(PersonasSucursal person){
-        person.setEstado(new Estados(Constants.STATUS_ACTIVE));
-        setSelected(person);
-        update();
-        //TODO SHOW DIALOG TO BLOCK PERSON FOR OTHER BRANCH OFICCES WHERE USER HAS ACCESS
-    }
-
-    @Override
-    protected void clean() {
-        selected = null;
-        items = null;
-    }
-    
-    public void activePerson(){
+    /**
+     * unlock person from marter data list
+     * @param person 
+     */
+    public void activePerson(PersonasSucursal person){
+        selected = person;
         selected.setEstado(new Estados(Constants.STATUS_ACTIVE));
         update();
-        JsfUtil.addSuccessMessage(BundleUtils.getBundleProperty("SuccessfullyUpdatedRegistry"));
-        JsfUtil.redirectTo(Navigation.PAGE_MASTER_DATA_PERSON);
+        JsfUtil.addSuccessMessage(BundleUtils.getBundleProperty("RecordUnblocked"));
+    }
+    
+    /**
+     * unlock Person from dialog when trying to create
+     * @return 
+     */
+    public String activePerson(){
+        activePerson(selected);
+        return Navigation.PAGE_MASTER_DATA_PERSON;
     }
 }

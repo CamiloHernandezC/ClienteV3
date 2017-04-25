@@ -1,7 +1,7 @@
 package Converters;
 
-import Entities.AccesoUsuario;
 
+import Entities.AccesoUsuario;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;

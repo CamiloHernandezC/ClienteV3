@@ -1,21 +1,15 @@
 package Converters;
 
-import Controllers.*;
-import Entities.AreasEmpresa;
 import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
-import Facade.AbstractFacade;
-import Facade.AreasEmpresaFacade;
+import Entities.AreasEmpresa;
 import GeneralControl.GeneralControl;
 import Querys.Querys;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -42,14 +36,7 @@ public class AreasEmpresaController implements Serializable{
         return items;
     }
 
-    public List<AreasEmpresa> getItemsByBranchOffice() {
-        GeneralControl generalControl = JsfUtil.findBean("generalControl");
-        if(generalControl.getSelectedBranchOffice()!=null){
-            String squery = Querys.AREAS_EMPRESA_ALL+" WHERE"+Querys.AREAS_EMPRESA_SUCURSAL+generalControl.getSelectedBranchOffice().getIdSucursal()+"'";
-            return (List<AreasEmpresa>) ejbFacade.findByQueryArray(squery).result;
-        }
-        return null;
-    }
+    
 
     public AreasEmpresa getAreasEmpresa(java.lang.Integer id) {
         return (AreasEmpresa) getFacade().find(id);
@@ -103,6 +90,16 @@ public class AreasEmpresaController implements Serializable{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     */
+    
+    public List<AreasEmpresa> getItemsByBranchOffice() {
+        GeneralControl generalControl = JsfUtil.findBean("generalControl");
+        if(generalControl.getSelectedBranchOffice()!=null){
+            String squery = Querys.AREAS_EMPRESA_ALL+" WHERE"+Querys.AREAS_EMPRESA_SUCURSAL+generalControl.getSelectedBranchOffice().getIdSucursal()+"'";
+            return (List<AreasEmpresa>) ejbFacade.findByQueryArray(squery).result;
+        }
+        return null;
+    }
+    
     public AreasEmpresa getAreasEmpresa(java.lang.Integer id) {
         return ejbFacade.find(id);
     }

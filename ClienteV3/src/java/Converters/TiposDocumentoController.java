@@ -1,7 +1,7 @@
 package Converters;
 
-import Entities.TiposDocumento;
 
+import Entities.TiposDocumento;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,25 +24,7 @@ public class TiposDocumentoController implements Serializable {
     
     public TiposDocumentoController() {
     }
-    /*
-    
-    private TiposDocumento selected;
-
-    
-
-    public TiposDocumento getSelected() {
-        return selected;
-    }
-
-    public void setSelected(TiposDocumento selected) {
-        this.selected = selected;
-    }
-
-    private TiposDocumentoFacade getFacade() {
-        return ejbFacade;
-    }
-    */
-
+   
     public List<TiposDocumento> getItems() {
         if (items == null) {
             items = ejbFacade.findAll();

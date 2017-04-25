@@ -1,9 +1,8 @@
 package Converters;
 
-import Controllers.*;
-import Entities.PersonasSucursal;
 import Controllers.util.JsfUtil;
 import Entities.Estados;
+import Entities.PersonasSucursal;
 import Facade.PersonasSucursalFacade;
 import GeneralControl.GeneralControl;
 import Utils.Constants;
@@ -20,17 +19,17 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-//@Named("generalPersonasSucursalController")
+//@Named("personasSucursalController")
 //@SessionScoped
-public class GeneralPersonasSucursalController extends AbstractPersistenceController<PersonasSucursal>{
+public class PersonasSucursalController extends AbstractPersistenceController<PersonasSucursal>{
 
     @EJB
     protected Facade.PersonasSucursalFacade ejbFacade;
     protected List<PersonasSucursal> items = null;
     protected PersonasSucursal selected;
-    protected Controllers.PersonasController personasController;
+    protected PersonasController personasController;
     
-    public GeneralPersonasSucursalController() {
+    public PersonasSucursalController(){
     }
     
     //<editor-fold desc="INHERITED METHODS" defaultstate="collapsed">
@@ -83,7 +82,7 @@ public class GeneralPersonasSucursalController extends AbstractPersistenceContro
     }
     
     @Override
-    protected void clean() {
+    public void clean() {
         items = null;
         selected = null;
     }
@@ -115,7 +114,7 @@ public class GeneralPersonasSucursalController extends AbstractPersistenceContro
             if (value == null || value.length() == 0) {
                 return null;
             }
-            GeneralPersonasSucursalController controller = (GeneralPersonasSucursalController) facesContext.getApplication().getELResolver().
+            PersonasSucursalController controller = (PersonasSucursalController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "personasSucursalController");
             return controller.getPersonasSucursal(getKey(value));
         }

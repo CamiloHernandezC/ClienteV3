@@ -11,7 +11,7 @@ import javax.enterprise.context.SessionScoped;
 
 @Named("movPersonasController")
 @SessionScoped
-public class MovPersonasController extends Converters.GeneralMovPersonasController{   
+public class MovPersonasController extends Converters.MovPersonasController{   
     
     public MovPersonasController() {
     }

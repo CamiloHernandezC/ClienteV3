@@ -1,8 +1,8 @@
 package Converters;
 
 import Controllers.*;
-import Entities.Usuarios;
 import Controllers.util.JsfUtil;
+import Entities.Usuarios;
 import Facade.UsuariosFacade;
 
 import java.util.Date;
@@ -78,8 +78,9 @@ public class UsuariosController extends AbstractPersistenceController<Usuarios>{
     }
     
     @Override
-    protected void clean() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void clean() {
+        selected = null;
+        items = null;
     }
     //</editor-fold>
     

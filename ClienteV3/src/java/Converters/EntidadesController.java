@@ -1,18 +1,13 @@
 package Converters;
 
-import Controllers.*;
 import Entities.Entidades;
-import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
-import Facade.EntidadesFacade;
+import Entities.Entidades;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -26,11 +21,11 @@ public class EntidadesController implements Serializable {
 
     @EJB
     private Facade.EntidadesFacade ejbFacade;
-    
+    private List<Entidades> items = null;
     public EntidadesController() {
     }
     /*
-    private List<Entidades> items = null;
+    
     private Entidades selected;
 
     
@@ -78,12 +73,7 @@ public class EntidadesController implements Serializable {
         }
     }
 
-    public List<Entidades> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-        return items;
-    }
+    
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
@@ -121,6 +111,13 @@ public class EntidadesController implements Serializable {
         return getFacade().findAll();
     }
     */
+    public List<Entidades> getItems() {
+        if (items == null) {
+            items = ejbFacade.findAll();
+        }
+        return items;
+    }
+    
     public Entidades getEntidades(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
