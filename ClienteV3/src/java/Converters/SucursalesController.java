@@ -1,18 +1,11 @@
 package Converters;
 
-import Controllers.*;
-import Entities.Sucursales;
-import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
-import Facade.SucursalesFacade;
 
+import Entities.Sucursales;
 import java.io.Serializable;
-import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -29,98 +22,7 @@ public class SucursalesController implements Serializable {
     
     public SucursalesController() {
     }
-    /*
-    private List<Sucursales> items = null;
-    private Sucursales selected;
-
     
-
-    public Sucursales getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Sucursales selected) {
-        this.selected = selected;
-    }
-
-    protected void setEmbeddableKeys() {
-    }
-
-    protected void initializeEmbeddableKey() {
-    }
-
-    private SucursalesFacade getFacade() {
-        return ejbFacade;
-    }
-
-    public Sucursales prepareCreate() {
-        selected = new Sucursales();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("SucursalesCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SucursalesUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("SucursalesDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public List<Sucursales> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-        return items;
-    }
-
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
-    public List<Sucursales> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Sucursales> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
-    */
     public Sucursales getSucursales(java.lang.Integer id) {
         return ejbFacade.find(id);
     }

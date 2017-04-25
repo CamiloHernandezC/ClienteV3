@@ -13,11 +13,11 @@ import javax.enterprise.context.SessionScoped;
 
 @Named("personasController")
 @SessionScoped
-public class PersonasController extends Converters.GeneralPersonasController{
+public class PersonasController extends Converters.PersonasController{
 
     private String otherOriginEnterpriseName;
     private boolean showError;//Variable to show error in load from file option
-    
+    private PersonasSucursalController personasSucursalController = JsfUtil.findBean("personasSucursalController");;
 
     public PersonasController() {
     }
@@ -36,6 +36,15 @@ public class PersonasController extends Converters.GeneralPersonasController{
         this.otherOriginEnterpriseName = otherOriginEnterpriseName;
     }
     //</editor-fold>
+    
+    @Override
+    public Result create() {
+        Result generalResult = super.create();
+        if(generalResult.errorCode!=Constants.OK){
+            return generalResult;
+        }
+        return personasSucursalController.create();
+    }
 
     private Result findPersonByDocument() {
         String squery = Querys.PERSONA_CLI_ALL + "WHERE" + Querys.PERSONA_CLI_DOC_TYPE + selected.getTipoDocumento().getTipoDocumento() + "' AND"

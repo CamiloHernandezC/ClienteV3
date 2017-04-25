@@ -1,7 +1,7 @@
 package Converters;
 
-import Entities.MovPersonas;
 
+import Entities.MovPersonas;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -13,7 +13,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 
-public class GeneralMovPersonasController implements Serializable {
+public class MovPersonasController implements Serializable {
 
     @EJB
     protected Facade.MovPersonasFacade ejbFacade;
@@ -28,7 +28,7 @@ public class GeneralMovPersonasController implements Serializable {
         this.selected = selected;
     }
     
-    public GeneralMovPersonasController() {
+    public MovPersonasController() {
     }
     
     public MovPersonas getMovPersonas(java.lang.Integer id) {
@@ -43,7 +43,7 @@ public class GeneralMovPersonasController implements Serializable {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            GeneralMovPersonasController controller = (GeneralMovPersonasController) facesContext.getApplication().getELResolver().
+            MovPersonasController controller = (MovPersonasController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "movPersonasController");
             return controller.getMovPersonas(getKey(value));
         }

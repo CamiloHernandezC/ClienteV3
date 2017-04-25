@@ -190,7 +190,7 @@
                     <h:panelGroup style="white-space: nowrap">
                         <p:commandButton id="editButtonn" resetValues="true" actionListener="#{personasSucursalController.preEdit(item)}" icon="ui-icon-pencil" />
                         <p:commandButton id="blockButton" rendered="#{!item.locked}" resetValues="true" actionListener="#{personasSucursalController.blockPerson(item)}" icon="ui-icon-locked" ajax="false" />
-                        <p:commandButton id="unlockButton" rendered="#{item.locked}" resetValues="true" actionListener="#{personasSucursalController.unlockPerson(item)}" icon="ui-icon-unlocked" ajax="false" />
+                        <p:commandButton id="unlockButton" rendered="#{item.locked}" resetValues="true" actionListener="#{personasSucursalController.activePerson(item)}" icon="ui-icon-unlocked" ajax="false" />
                     </h:panelGroup>
                 </p:column>
             </p:dataTable>

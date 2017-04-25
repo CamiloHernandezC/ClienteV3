@@ -101,6 +101,9 @@ public class Usuarios implements Serializable {
     @JoinColumn(name = "Usuario_Modifica", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas usuarioModifica;
+    @JoinColumn(name = "Tema", referencedColumnName = "Id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Theme tema;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<PrivilegiosCliente> privilegiosClienteList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
@@ -219,6 +222,14 @@ public class Usuarios implements Serializable {
 
     public void setUsuarioModifica(Personas usuarioModifica) {
         this.usuarioModifica = usuarioModifica;
+    }
+
+    public Theme getTema() {
+        return tema;
+    }
+
+    public void setTema(Theme tema) {
+        this.tema = tema;
     }
 
     @XmlTransient

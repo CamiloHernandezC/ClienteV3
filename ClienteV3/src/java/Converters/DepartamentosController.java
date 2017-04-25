@@ -1,18 +1,12 @@
 package Converters;
 
-import Controllers.*;
-import Entities.Departamentos;
-import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
-import Facade.DepartamentosFacade;
 
+import Entities.Departamentos;
 import java.io.Serializable;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -28,8 +22,10 @@ public class DepartamentosController implements Serializable {
     private Facade.DepartamentosFacade ejbFacade;
     public DepartamentosController() {
     }
-    /*
     private List<Departamentos> items = null;
+    
+    /*
+    
     private Departamentos selected;
 
     public Departamentos getSelected() {
@@ -75,12 +71,7 @@ public class DepartamentosController implements Serializable {
         }
     }
 
-    public List<Departamentos> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-        return items;
-    }
+    
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
@@ -118,6 +109,13 @@ public class DepartamentosController implements Serializable {
         return getFacade().findAll();
     }
     */
+    public List<Departamentos> getItems() {
+        if (items == null) {
+            items = ejbFacade.findAll();
+        }
+        return items;
+    }
+    
     public Departamentos getDepartamentos(java.lang.Integer id) {
         return ejbFacade.find(id);
     }

@@ -55,8 +55,6 @@ public class Notificaciones implements Serializable {
     @NotNull
     @Column(name = "Id_Notificacion")
     private Integer idNotificacion;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "Tipo_Evento")
     private Character tipoEvento;
     @Basic(optional = false)
@@ -89,9 +87,7 @@ public class Notificaciones implements Serializable {
     @Size(min = 1, max = 32)
     @Column(name = "Asunto")
     private String asunto;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 140)
+    @Size(max = 140)
     @Column(name = "Mensaje")
     private String mensaje;
     @Basic(optional = false)
@@ -157,16 +153,14 @@ public class Notificaciones implements Serializable {
         this.idNotificacion = idNotificacion;
     }
 
-    public Notificaciones(Integer idNotificacion, Character tipoEvento, Date fechaDesde, Date fechaHasta, Date horaDesde, Date horaHasta, String mail, String asunto, String mensaje, Date fecha, boolean mostrarSucursal, boolean mostrarPorteria, boolean mostrarEmpresaOrigen, boolean mostrarEntidad, boolean mostrarEnte) {
+    public Notificaciones(Integer idNotificacion, Date fechaDesde, Date fechaHasta, Date horaDesde, Date horaHasta, String mail, String asunto, Date fecha, boolean mostrarSucursal, boolean mostrarPorteria, boolean mostrarEmpresaOrigen, boolean mostrarEntidad, boolean mostrarEnte) {
         this.idNotificacion = idNotificacion;
-        this.tipoEvento = tipoEvento;
         this.fechaDesde = fechaDesde;
         this.fechaHasta = fechaHasta;
         this.horaDesde = horaDesde;
         this.horaHasta = horaHasta;
         this.mail = mail;
         this.asunto = asunto;
-        this.mensaje = mensaje;
         this.fecha = fecha;
         this.mostrarSucursal = mostrarSucursal;
         this.mostrarPorteria = mostrarPorteria;

@@ -1,18 +1,11 @@
 package Converters;
 
-import Controllers.*;
-import Entities.Categorias;
-import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
-import Facade.CategoriasFacade;
 
+import Entities.Categorias;
 import java.io.Serializable;
-import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;

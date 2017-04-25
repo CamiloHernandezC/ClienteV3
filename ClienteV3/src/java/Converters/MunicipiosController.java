@@ -1,20 +1,14 @@
 package Converters;
 
-import Controllers.*;
-import Entities.Municipios;
-import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
 import Entities.Departamentos;
-import Facade.MunicipiosFacade;
+import Entities.Municipios;
 import Querys.Querys;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;

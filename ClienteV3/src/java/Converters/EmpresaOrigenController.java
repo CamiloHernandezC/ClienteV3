@@ -1,18 +1,12 @@
 package Converters;
 
-import Controllers.*;
-import Entities.EmpresaOrigen;
-import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
-import Facade.EmpresaOrigenFacade;
 
+import Entities.EmpresaOrigen;
 import java.io.Serializable;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -26,6 +20,7 @@ public class EmpresaOrigenController implements Serializable {
 
     @EJB
     private Facade.EmpresaOrigenFacade ejbFacade;
+    private List<EmpresaOrigen> items = null;
     
     public EmpresaOrigenController() {
     }
@@ -78,12 +73,7 @@ public class EmpresaOrigenController implements Serializable {
         }
     }
 
-    public List<EmpresaOrigen> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-        return items;
-    }
+    
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
@@ -121,6 +111,13 @@ public class EmpresaOrigenController implements Serializable {
         return getFacade().findAll();
     }
     */
+    public List<EmpresaOrigen> getItems() {
+        if (items == null) {
+            items = ejbFacade.findAll();
+        }
+        return items;
+    }
+    
     public EmpresaOrigen getEmpresaOrigen(java.lang.Integer id) {
         return ejbFacade.find(id);
     }

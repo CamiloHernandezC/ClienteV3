@@ -1,33 +1,33 @@
 package Converters;
 
-import Controllers.*;
-import Entities.Personas;
-import Controllers.util.JsfUtil;
+
 import Entities.Estados;
+import Entities.Personas;
 import Facade.PersonasFacade;
 import Querys.Querys;
 import Utils.Constants;
-import Utils.Result;
 
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Named;
 
-
-public class GeneralPersonasController extends AbstractPersistenceController<Personas>{
+//@Named("personasController")
+//@SessionScoped
+public class PersonasController extends AbstractPersistenceController<Personas>{
 
      @EJB
     protected Facade.PersonasFacade ejbFacade;
     protected List<Personas> items = null;
     protected Personas selected;
-    protected Controllers.PersonasSucursalController personasSucursalController;
     
-    public GeneralPersonasController() {
+    public PersonasController() {
     }
     
     //<editor-fold desc="INHERITED METHODS" defaultstate="collapsed">
@@ -64,20 +64,6 @@ public class GeneralPersonasController extends AbstractPersistenceController<Per
         //Nothing to do here
     }
     
-    /**
-     * Create persona and persona sucursal
-     * @return 
-     */
-    @Override
-    public Result create() {
-        Result generalResult = super.create();
-        if(generalResult.errorCode!=Constants.OK){
-            return generalResult;
-        }
-        personasSucursalController = JsfUtil.findBean("personasSucursalController");
-        return personasSucursalController.create();
-    }
-    
     @Override
     public void prepareCreate() {
         calculatePrimaryKey(Querys.PERSONA_CLI_LAST_PRIMARY_KEY);
@@ -91,7 +77,7 @@ public class GeneralPersonasController extends AbstractPersistenceController<Per
     }
     
     @Override
-    protected void clean() {
+    public void clean() {
         selected = null;
         items = null;
     }
@@ -109,7 +95,7 @@ public class GeneralPersonasController extends AbstractPersistenceController<Per
             if (value == null || value.length() == 0) {
                 return null;
             }
-            GeneralPersonasController controller = (GeneralPersonasController) facesContext.getApplication().getELResolver().
+            PersonasController controller = (PersonasController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "personasController");
             return controller.getPersonas(getKey(value));
         }

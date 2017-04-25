@@ -1,18 +1,12 @@
 package Converters;
 
-import Controllers.*;
-import Entities.Paises;
-import Controllers.util.JsfUtil;
-import Controllers.util.JsfUtil.PersistAction;
-import Facade.PaisesFacade;
 
+import Entities.Paises;
 import java.io.Serializable;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -26,12 +20,13 @@ public class PaisesController implements Serializable {
 
     @EJB
     private Facade.PaisesFacade ejbFacade;
+    private List<Paises> items = null;
     
     public PaisesController() {
     }
     
     /*
-    private List<Paises> items = null;
+    
     private Paises selected;
 
     
@@ -79,12 +74,7 @@ public class PaisesController implements Serializable {
         }
     }
 
-    public List<Paises> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-        return items;
-    }
+    
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
@@ -122,6 +112,14 @@ public class PaisesController implements Serializable {
         return getFacade().findAll();
     }
     */
+    
+    public List<Paises> getItems() {
+        if (items == null) {
+            items = ejbFacade.findAll();
+        }
+        return items;
+    }
+    
     public Paises getPaises(java.lang.Integer id) {
         return ejbFacade.find(id);
     }

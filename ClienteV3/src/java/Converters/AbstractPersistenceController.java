@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers;
+package Converters;
 
 
 import Controllers.util.JsfUtil;
@@ -49,7 +49,7 @@ public abstract class AbstractPersistenceController<T> implements Serializable {
 
     protected abstract void prepareUpdate();
     
-    protected abstract void clean();
+    public abstract void clean();
 
     public void calculatePrimaryKey(String squery) {
         Result result = getFacade().findByQuery(squery, true);//Only need the first result
