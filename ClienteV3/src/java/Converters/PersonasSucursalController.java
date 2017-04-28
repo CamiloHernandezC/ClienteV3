@@ -5,7 +5,9 @@ import Entities.Estados;
 import Entities.PersonasSucursal;
 import Facade.PersonasSucursalFacade;
 import GeneralControl.GeneralControl;
+import Querys.Querys;
 import Utils.Constants;
+import Utils.Result;
 
 import java.util.Date;
 import java.util.List;
@@ -27,7 +29,7 @@ public class PersonasSucursalController extends AbstractPersistenceController<Pe
     protected Facade.PersonasSucursalFacade ejbFacade;
     protected List<PersonasSucursal> items = null;
     protected PersonasSucursal selected;
-    protected PersonasController personasController;
+    private PersonasController personasController;//This should be private because if extends this class could need othe personasController
     
     public PersonasSucursalController(){
     }
@@ -86,7 +88,14 @@ public class PersonasSucursalController extends AbstractPersistenceController<Pe
         items = null;
         selected = null;
     }
+    
     //</editor-fold>
+    public Result findSpecificPerson() {
+        assignPrimaryKey();
+        String squery = Querys.PERSONAS_SUCURSAL_CLI_ALL + "WHERE" + Querys.PERSONAS_SUCURSAL_CLI_PERSONA+ selected.getPersonas().getIdPersona()+
+                "' AND"+Querys.PERSONAS_SUCURSAL_CLI_SUCURSAL+selected.getSucursales().getIdSucursal()+"'";//Here we doesn't filter by status, because this method is used when search to create
+        return ejbFacade.findByQuery(squery, false);//False because only one person should appear*/
+    }
     
     public void assignPrimaryKey() {
         

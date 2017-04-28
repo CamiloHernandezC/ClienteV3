@@ -46,12 +46,6 @@ public class PersonasController extends Converters.PersonasController{
         return personasSucursalController.create();
     }
 
-    private Result findPersonByDocument() {
-        String squery = Querys.PERSONA_CLI_ALL + "WHERE" + Querys.PERSONA_CLI_DOC_TYPE + selected.getTipoDocumento().getTipoDocumento() + "' AND"
-                + Querys.PERSONA_CLI_DOC_NUMBER + selected.getNumeroDocumento() + "'";
-        return ejbFacade.findByQuery(squery, false);//Only one person should have document type, an document number (It is unique in database)
-    }
-
     public void cancel() {
         clean();
         personasSucursalController.clean();
@@ -122,72 +116,4 @@ public class PersonasController extends Converters.PersonasController{
          return Navigation.PAGE_SEARCH_PERSON_TO_CREATE;
     }
 
-    /**
-     * Update person's properties from file
-     * @param existingPerson 
-     */
-    private Result updateProperties(Personas existingPerson) {
-        selected.setIdPersona(existingPerson.getIdPersona());
-        //<editor-fold desc="update properties if added" defaultstate="collapsed">
-        if(selected.getEmpresaOrigen()!=null ){
-            selected.setEmpresaOrigen(existingPerson.getEmpresaOrigen());
-        }
-        if(selected.getNombre2().isEmpty() && !existingPerson.getNombre2().isEmpty()){
-            selected.setNombre2(existingPerson.getNombre2());
-        }
-        if(selected.getApellido2().isEmpty() && !existingPerson.getApellido2().isEmpty()){
-            selected.setApellido2(existingPerson.getApellido2());
-        }
-        if(selected.getDireccion().isEmpty() && !existingPerson.getDireccion().isEmpty()){
-            selected.setDireccion(existingPerson.getDireccion());
-        }
-        if(selected.getTelefono().isEmpty() && !existingPerson.getTelefono().isEmpty()){
-            selected.setTelefono(existingPerson.getTelefono());
-        }
-        if(selected.getCelular().isEmpty() && !existingPerson.getCelular().isEmpty()){
-            selected.setCelular(existingPerson.getCelular());
-        }
-        if(selected.getMail().isEmpty() && !existingPerson.getMail().isEmpty()){
-            selected.setMail(existingPerson.getMail());
-        }
-        if(selected.getPersonaContacto().isEmpty() && !existingPerson.getPersonaContacto().isEmpty()){
-            selected.setPersonaContacto(existingPerson.getPersonaContacto());
-        }
-        if(selected.getTelPersonaContacto().isEmpty() && !existingPerson.getTelPersonaContacto().isEmpty()){
-            selected.setTelPersonaContacto(existingPerson.getPersonaContacto());
-        }
-        if(selected.getPais()==null && existingPerson.getPais()!=null){
-            selected.setPais(existingPerson.getPais());
-        }
-        if(selected.getDepartamento()==null && existingPerson.getDepartamento()!=null){
-            selected.setDepartamento(existingPerson.getDepartamento());
-        }
-        if(selected.getMunicipio()==null && existingPerson.getMunicipio()!=null){
-            selected.setMunicipio(existingPerson.getMunicipio());
-        }
-        if(selected.getEps()==null && existingPerson.getEps()!=null){
-            selected.setEps(existingPerson.getEps());
-        }
-        if(selected.getFechaVigenciaSS()==null && existingPerson.getFechaVigenciaSS()!=null){
-            selected.setFechaVigenciaSS(existingPerson.getFechaVigenciaSS());
-        }
-        if(selected.getArl()==null && existingPerson.getArl()!=null){
-            selected.setArl(existingPerson.getArl());
-        }
-        if(selected.getSexo()==null && existingPerson.getSexo()!=null){
-            selected.setSexo(existingPerson.getSexo());
-        }
-        if(selected.getRh()==null && existingPerson.getRh()!=null){
-            selected.setRh(existingPerson.getRh());
-        }
-        if(selected.getFechaNacimiento()==null && existingPerson.getFechaNacimiento()!=null){
-            selected.setFechaNacimiento(existingPerson.getFechaNacimiento());
-        }
-        if(selected.getEstado()==null && existingPerson.getEstado()!=null){
-            selected.setEstado(existingPerson.getEstado());
-        }
-        return update();
-        //</editor-fold>
-        
-    }
 }

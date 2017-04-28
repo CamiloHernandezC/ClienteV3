@@ -114,4 +114,14 @@ public class JsfUtil {
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('" + nombreModal + "').show();");
     }
+    
+    public static void hideModal(String nombreModal) {
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('" + nombreModal + "').hide();");
+    }
+    
+    public static String formatNumber(String texto) {
+        texto= texto.replaceAll("\\.", "");//Replace all dots (.) for anything
+        return texto;
+    }
 }

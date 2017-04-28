@@ -8,12 +8,47 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="masterData">
+
+        <!-- Upload File -->
+        <h:form id="formLoadFile">
+            <p:dialog id="load" widgetVar="dialogLoad" header="#{bundle.LoadFile}"
+                      closable="true" showEffect="fade" hideEffect="fade" modal="false"
+                      resizable="false">
+                <p:fileUpload fileUploadListener="#{personasSucursalController.handleFileUpload}"
+                              mode="advanced" dragDropSupport="false" update="@this,:PersonasCliListForm"
+                              sizeLimit="1000000" fileLimit="1"
+                              allowTypes="/(\.|\/)(txt|xlsx)$/" label="#{constantes.CHOOSE}" cancelLabel="#{constantes.CANCEL}" uploadLabel="#{constantes.UPLOAD}"/>
+            </p:dialog>
+        </h:form>
+
+        <!-- Choose Branch Office -->
+        <h:form id="formBranchOffice">
+            <p:dialog id="load" widgetVar="dialogChooseBranchOffice" header="#{bundle.ChooseBranchOfficeToDownload}"
+                      closable="true" showEffect="fade" hideEffect="fade" modal="false"
+                      resizable="false">
+
+                <p:messages id="errorMsg" autoUpdate="true" closable="true"/>
+                <p:outputLabel value="#{bundle.CreatePersonasCliLabel_idSucursal}" for="branchOffice"/>
+                <p:selectOneMenu id="branchOffice" value="#{generalControl.selectedBranchOffice}" required="true" requiredMessage="#{bundle.EditPersonasCliRequiredMessage_idSucursal}">
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}"/>
+                    <f:selectItems value="#{generalControl.branchOffices}" var="branchOffice" itemValue="#{branchOffice}" itemLabel="#{branchOffice.nombre}"/>
+                </p:selectOneMenu>
+                <p:commandButton value="#{bundle.Download}" action="#{personasSucursalController.downloadTemplate()}" ajax="false"/>
+
+            </p:dialog>
+        </h:form>
+
+
         <!--Top Menu-->
         <h:form id="formActions" style="margin: 0px;">            
             <h1>#{bundle.MasterDataPersonTitle}</h1>
             <h:panelGrid columns="5" cellpadding="50">	
-
-                <p:commandLink onclick="PF('dialogLoad').show();">
+                
+                <p:commandLink action="#{personasSucursalController.selectBranchOfficeToDownload()}" ajax="false">
+                    <h:outputText value="#{bundle.DownloadTemplate}" />                   
+                </p:commandLink>
+                
+                <p:commandLink action="PF('dialogLoad').show;">
                     <h:outputText value="#{bundle.MasterDataLoadFromFile}" />                   
                 </p:commandLink>
 
