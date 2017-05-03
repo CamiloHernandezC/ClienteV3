@@ -80,6 +80,12 @@ public class Querys {
     //public static final String ASSISTANCE_TABLES = " from (((PersonasSucursal ps inner join ps.horario h) inner join ps.idPersona p), MovPersonas m) WHERE m.idPersona = ps.idPersona AND h.";
     public static final String HORARIOS_HORA_INGRESO=" h.horaIngreso";
     public static final String HORARIOS_HORA_SALIDA=" h.horaSalida";
+    public static final String PRIVILEGIOS_CLIENTE_ALL="SELECT p FROM PrivilegiosCliente p";
+    public static final String MENU_CLIENTE_ALL="SELECT m FROM MenuCliente m";
+    public static final String MENU_CLIENTE_NIVEL_MORE_EQUAL="m.nivel <= '";
+    public static final String MENU_CLIENTE_CODIGO="m.codigo = '";
+    public static String MENU_CLIENTE_JOIN_PRIVILEGIOS="SELECT m FROM MenuCliente m LEFT JOIN PrivilegiosCliente p on (m != p.codigoMenu and p.ver = 'false')";
+    public static String MENU_CLIENTE_HAS_PRIVILEGE=" OR m in (SELECT p2.codigoMenu FROM PrivilegiosCliente p2 WHERE p2.ver = 'true')";
     
     
 }
