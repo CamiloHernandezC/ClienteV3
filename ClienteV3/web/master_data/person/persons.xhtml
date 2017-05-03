@@ -48,7 +48,7 @@
                     <h:outputText value="#{bundle.DownloadTemplate}" />                   
                 </p:commandLink>
                 
-                <p:commandLink action="PF('dialogLoad').show;">
+                <p:commandLink onsuccess="PF('dialogLoad').show();">
                     <h:outputText value="#{bundle.MasterDataLoadFromFile}" />                   
                 </p:commandLink>
 
