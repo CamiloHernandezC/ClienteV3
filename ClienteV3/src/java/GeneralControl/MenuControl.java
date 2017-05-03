@@ -5,16 +5,23 @@
  */
 package GeneralControl;
 
-import Utils.Navigation;
+import Controllers.util.JsfUtil;
+import Entities.MenuCliente;
+import Entities.Usuarios;
+import Querys.Querys;
+import Utils.BundleUtils;
+import Utils.Constants;
 import java.io.Serializable;
-import java.util.ResourceBundle;
+import java.util.HashMap;
+import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
+import org.primefaces.model.menu.MenuElement;
 import org.primefaces.model.menu.MenuModel;
 
 /**
@@ -25,6 +32,8 @@ import org.primefaces.model.menu.MenuModel;
 @SessionScoped
 public class MenuControl implements Serializable{
 
+    @EJB
+    private Facade.MenuClienteFacade ejbFacade;
     
     private MenuModel menu;
     /**
@@ -35,44 +44,28 @@ public class MenuControl implements Serializable{
     
     @PostConstruct//This method is called just one time by JSF
     public void init() {
-        //TODO LOAD REAL MENU
         //<editor-fold desc="Menu" defaultstate="collapsed">
         menu = new DefaultMenuModel();
-         
-        ResourceBundle rb = ResourceBundle.getBundle("Utils/Bundle");
+        HashMap menuMap = new HashMap();
         
-        //Master Data
-        DefaultSubMenu firstSubmenu = new DefaultSubMenu("Datos Maestros");
+        Usuarios user = JsfUtil.getSessionUser();
         
-        
-        DefaultMenuItem item = new DefaultMenuItem("Personas");
-        item.setUrl(Navigation.PAGE_MASTER_DATA_PERSON);
-        firstSubmenu.addElement(item);
-         
-        menu.addElement(firstSubmenu);
-        
-        //Reports
-        DefaultSubMenu secondSubmenu = new DefaultSubMenu("Reportes");
-        
-        
-        item = new DefaultMenuItem("General");
-        item.setUrl(Navigation.PAGE_REPORT_GENERAL_PERSON);
-        secondSubmenu.addElement(item);
-        
-        item = new DefaultMenuItem("Persona");
-        item.setUrl(Navigation.PAGE_REPORT_PERSON);
-        secondSubmenu.addElement(item);
-        
-        item = new DefaultMenuItem("Resumen de Ingresos");
-        item.setUrl(Navigation.PAGE_REPORT_RESUME);
-        secondSubmenu.addElement(item);
-        
-        item = new DefaultMenuItem("Asistencia");
-        item.setUrl(Navigation.PAGE_REPORT_ASSISTANCE);
-        secondSubmenu.addElement(item);
-         
-        menu.addElement(secondSubmenu);
-         
+        String menuQuery = Querys.MENU_CLIENTE_JOIN_PRIVILEGIOS+" WHERE "+Querys.MENU_CLIENTE_NIVEL_MORE_EQUAL+user.getPrivilegios()+"'"+Querys.MENU_CLIENTE_HAS_PRIVILEGE;
+        List<MenuCliente> menuItems = (List<MenuCliente>) ejbFacade.findByQueryArray(menuQuery).result;
+        for(MenuCliente item: menuItems){
+            if(item.getTipo()==Constants.MENU_TYPE_CHILDREN){
+                DefaultMenuItem menuItem = new DefaultMenuItem(BundleUtils.getBundleProperty(item.getNombre()));
+                menuItem.setUrl(item.getUrl());
+                DefaultSubMenu subMenu = (DefaultSubMenu) menuMap.get(item.getPadre());
+                if(subMenu==null){//If father isn't loaded yet
+                    MenuCliente fatherMenu = ejbFacade.find(item.getPadre());
+                    subMenu = new DefaultSubMenu(BundleUtils.getBundleProperty(fatherMenu.getNombre()));
+                }
+                subMenu.addElement(menuItem);
+                menuMap.put(item.getPadre(), subMenu);
+            }
+        }
+        menuMap.forEach((k,v)->menu.addElement((MenuElement) v));
         //</editor-fold>
     }
  
