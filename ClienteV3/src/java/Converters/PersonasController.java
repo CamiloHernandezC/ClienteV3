@@ -105,28 +105,28 @@ public class PersonasController extends AbstractPersistenceController<Personas>{
         if(selected.getEmpresaOrigen()==null ){
             selected.setEmpresaOrigen(existingPerson.getEmpresaOrigen());
         }
-        if(selected.getNombre2().isEmpty() && !existingPerson.getNombre2().isEmpty()){
+        if(selected.getNombre2()==null && existingPerson.getNombre2()!=null){
             selected.setNombre2(existingPerson.getNombre2());
         }
-        if(selected.getApellido2().isEmpty() && !existingPerson.getApellido2().isEmpty()){
+        if(selected.getApellido2()==null && existingPerson.getApellido2()!=null){
             selected.setApellido2(existingPerson.getApellido2());
         }
-        if(selected.getDireccion().isEmpty() && !existingPerson.getDireccion().isEmpty()){
+        if(selected.getDireccion()==null && existingPerson.getDireccion()!=null){
             selected.setDireccion(existingPerson.getDireccion());
         }
-        if(selected.getTelefono().isEmpty() && !existingPerson.getTelefono().isEmpty()){
+        if(selected.getTelefono()==null && existingPerson.getTelefono()!=null){
             selected.setTelefono(existingPerson.getTelefono());
         }
-        if(selected.getCelular().isEmpty() && !existingPerson.getCelular().isEmpty()){
+        if(selected.getCelular()==null && existingPerson.getCelular()!=null){
             selected.setCelular(existingPerson.getCelular());
         }
-        if(selected.getMail().isEmpty() && !existingPerson.getMail().isEmpty()){
+        if(selected.getMail()==null && existingPerson.getMail()!=null){
             selected.setMail(existingPerson.getMail());
         }
-        if(selected.getPersonaContacto().isEmpty() && !existingPerson.getPersonaContacto().isEmpty()){
+        if(selected.getPersonaContacto()==null && existingPerson.getPersonaContacto()!=null){
             selected.setPersonaContacto(existingPerson.getPersonaContacto());
         }
-        if(selected.getTelPersonaContacto().isEmpty() && !existingPerson.getTelPersonaContacto().isEmpty()){
+        if(selected.getTelPersonaContacto()==null && existingPerson.getTelPersonaContacto()!=null){
             selected.setTelPersonaContacto(existingPerson.getPersonaContacto());
         }
         if(selected.getPais()==null && existingPerson.getPais()!=null){
