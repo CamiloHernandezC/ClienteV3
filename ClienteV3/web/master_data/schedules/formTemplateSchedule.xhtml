@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:schedule id="schedule" value="#{horariosController.eventModel}" widgetVar="myschedule" timeZone="GMT-5" draggable="false" resizable="true" locale="es" view="agendaWeek" showHeader="false" allDaySlot="false" slotDuration="01:00:00">
+        
+        <p:ajax event="dateSelect" listener="#{horariosController.onDateSelect}" update="schedule"/>
+        <p:ajax event="eventResize" listener="#{horariosController.onEventResize}" update="schedule" />
+ 
+    </p:schedule>
+
+</ui:composition>

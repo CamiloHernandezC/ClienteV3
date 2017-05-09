@@ -57,7 +57,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Horarios.findByHoraIngresoD", query = "SELECT h FROM Horarios h WHERE h.horaIngresoD = :horaIngresoD"),
     @NamedQuery(name = "Horarios.findByHoraSalidaD", query = "SELECT h FROM Horarios h WHERE h.horaSalidaD = :horaSalidaD"),
     @NamedQuery(name = "Horarios.findByFecha", query = "SELECT h FROM Horarios h WHERE h.fecha = :fecha")})
-public class Horarios implements Serializable {
+public class Horarios extends AbstractEntity{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -145,6 +145,7 @@ public class Horarios implements Serializable {
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas usuario;
+    @NotNull
     @JoinColumn(name = "Sucursal", referencedColumnName = "Id_Sucursal")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Sucursales sucursal;
@@ -400,6 +401,26 @@ public class Horarios implements Serializable {
     @Override
     public String toString() {
         return "Entities.Horarios[ idHorario=" + idHorario + " ]";
+    }
+
+    @Override
+    public int getPrimaryKey() {
+        return idHorario;
+    }
+
+    @Override
+    public void setPrimaryKey(int primaryKey) {
+        idHorario = primaryKey;
+    }
+
+    @Override
+    public void setUser(Personas user) {
+        usuario = user;
+    }
+
+    @Override
+    public void setDate(Date date) {
+        fecha = date;
     }
     
 }

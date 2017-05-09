@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+//MANAGE BEAN PROPERTIES ARE COMMENTED BECAUSE PERSONAS SUCURSAL CONTROLLER IN CONTROLLERS PAKAGE EXTENDS THIS CLASS
 //@Named("personasSucursalController")
 //@SessionScoped
 public class PersonasSucursalController extends AbstractPersistenceController<PersonasSucursal>{

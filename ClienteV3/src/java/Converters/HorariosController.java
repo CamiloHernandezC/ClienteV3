@@ -2,7 +2,10 @@ package Converters;
 
 
 import Entities.Horarios;
+import Facade.AbstractFacade;
+import Querys.Querys;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -13,109 +16,71 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("horariosController")
-@SessionScoped
-public class HorariosController implements Serializable {
+//MANAGE BEAN PROPERTIES ARE COMMENTED BECAUSE PERSONAS CONTROLLER IN CONTROLLERS PAKAGE EXTENDS THIS CLASS
+//@Named("horariosController")
+//@SessionScoped
+public class HorariosController extends AbstractPersistenceController<Horarios>{
 
     @EJB
-    private Facade.HorariosFacade ejbFacade;
+    protected Facade.HorariosFacade ejbFacade;
+    protected Horarios selected;
+    protected List<Horarios> items;
     
     public HorariosController() {
     }
-    /*
-    private List<Horarios> items = null;
-    private Horarios selected;
-
     
-
-    public Horarios getSelected() {
-        return selected;
+    public Horarios getHorarios(java.lang.Integer id) {
+        return ejbFacade.find(id);
     }
 
-    public void setSelected(Horarios selected) {
-        this.selected = selected;
-    }
-
-    protected void setEmbeddableKeys() {
-    }
-
-    protected void initializeEmbeddableKey() {
-    }
-
-    private HorariosFacade getFacade() {
+    @Override
+    protected AbstractFacade getFacade() {
         return ejbFacade;
     }
 
-    public Horarios prepareCreate() {
-        selected = new Horarios();
-        initializeEmbeddableKey();
+    @Override
+    protected Horarios getSelected() {
+        if(selected== null){
+            selected = new Horarios();
+        }
         return selected;
     }
 
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("HorariosCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+    @Override
+    protected void setSelected(Horarios selected) {
+        this.selected = selected;
     }
 
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("HorariosUpdated"));
+    @Override
+    protected void setItems(List<Horarios> items) {
+        this.items = items;
     }
 
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("HorariosDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+    @Override
+    protected void setEmbeddableKeys() {
+        //Nothing to do here
     }
 
-    public List<Horarios> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-        return items;
+    @Override
+    protected void initializeEmbeddableKey() {
+        //Nothing to do here
     }
 
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
+    @Override
+    protected void prepareCreate() {
+        calculatePrimaryKey(Querys.HORARIOS_PRIMARY_KEY);
+        prepareUpdate();
     }
 
-    public List<Horarios> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
+    @Override
+    protected void prepareUpdate() {
+        assignParametersToUpdate();
     }
 
-    public List<Horarios> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
-    */
-    public Horarios getHorarios(java.lang.Integer id) {
-        return ejbFacade.find(id);
+    @Override
+    public void clean() {
+        selected = null;
+        items = null;
     }
 
     @FacesConverter(forClass = Horarios.class)
