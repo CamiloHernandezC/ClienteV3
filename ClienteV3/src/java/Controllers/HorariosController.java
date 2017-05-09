@@ -7,6 +7,7 @@ package Controllers;
 
 import Controllers.util.JsfUtil;
 import Entities.Horarios;
+import GeneralControl.GeneralControl;
 import Utils.BundleUtils;
 import Utils.Constants;
 import Utils.Navigation;
@@ -68,6 +69,8 @@ public class HorariosController extends Converters.HorariosController {
         List<ScheduleEvent> eventsList = eventModel.getEvents();
         Calendar calendar = Calendar.getInstance();
         selected = new Horarios();
+        GeneralControl generalControl = JsfUtil.findBean("generalControl");
+        selected.setSucursal(generalControl.getSelectedBranchOffice());
         for (ScheduleEvent event : eventsList) {
             calendar.setTime(event.getStartDate());
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -112,10 +115,11 @@ public class HorariosController extends Converters.HorariosController {
         Result result = create();
         if(result.errorCode == Constants.OK){
             JsfUtil.addSuccessMessage(BundleUtils.getBundleProperty("SuccessfullyCreatedRegistry"));
+            selected = null;
             return Navigation.PAGE_MASTER_DATA_SCHEDULE;
         }
         JsfUtil.addErrorMessage(validationErrorObservation);
-        return Navigation.PAGE_MASTER_DATA_SCHEDULE;
+        return null;
     }
 
     public void cancel() {
