@@ -5,13 +5,14 @@
  */
 package Entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author MAURICIO
  */
-public abstract class AbstractEntity {
+public abstract class AbstractEntity implements Serializable{
     /*Primary key used to calculate autoincremental primary key*/
     public abstract int getPrimaryKey();
     public abstract void setPrimaryKey(int primaryKey);

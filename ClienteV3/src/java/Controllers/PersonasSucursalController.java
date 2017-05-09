@@ -430,14 +430,6 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
         }
     }
 
-    /*public void showLoadDialog() {
-        GeneralControl generalControl = JsfUtil.findBean("generalControl");
-        if (generalControl.getSelectedBranchOffice() != null) {
-            JsfUtil.showModal("dialogLoad");
-            JsfUtil.hideModal("dialogChooseBranchOffice");
-        }
-    }*/
-
     public void downloadTemplate() {
         
         try {

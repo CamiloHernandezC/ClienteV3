@@ -19,6 +19,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Named;
 
+//MANAGE BEAN PROPERTIES ARE COMMENTED BECAUSE PERSONAS CONTROLLER IN CONTROLLERS PAKAGE EXTENDS THIS CLASS
 //@Named("personasController")
 //@SessionScoped
 public class PersonasController extends AbstractPersistenceController<Personas>{

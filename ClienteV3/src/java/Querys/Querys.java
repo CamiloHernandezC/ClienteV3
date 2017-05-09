@@ -74,6 +74,7 @@ public class Querys {
     public static final String ENTIDADES_ALL="SELECT e FROM Entidades e";
     public static final String ENTIDADES_CATEGORIA=" e.idCategoria.idCategoria = '";
     public static final String HORARIOS_ALL="SELECT a FROM Horarios a";
+    public static final String HORARIOS_PRIMARY_KEY="SELECT a FROM Horarios a ORDER BY a.idHorario DESC";
     public static final String ASSISTANCE_SELECT = "SELECT p.nombre1, p.apellido1, m.fechaEntrada, m.horaEntrada, h.horaIngreso";
     public static final String ASSISTANCE_TABLES = "  from PersonasSucursal ps LEFT JOIN  MovPersonas m on m.personasSucursal = ps and m.fechaSalida is null INNER JOIN Personas p on p.idPersona = ps.personasSucursalPK.idPersona INNER JOIN Horarios h on h =  ps.horario WHERE h.";
     //public static final String ASSISTANCE_SELECT = "SELECT p.nombre1, m.fechaEntrada, m.horaEntrada, m.fechaSalida, m.horaSalida, h.horaIngreso";

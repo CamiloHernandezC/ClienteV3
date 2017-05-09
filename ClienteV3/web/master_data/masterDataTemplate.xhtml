@@ -13,17 +13,6 @@
             <p:graphicImage url="../resources/Image/bbva-loader.gif" />
         </p:dialog>
         <!--*****************************************************************-->
-        
-        <!-- Dialogo de confirmacion, eliminar -->
-        <p:confirmDialog id="confirmDialog" appendTo="@(body)" message="#{constantes.CONFIRM_DELETE}" header="#{constantes.VERIFY_DELETE}" severity="alert" showEffect="fade" hideEffect="fade" widgetVar="dialogDelete" closable="false">
-            <h:form>
-                <h:panelGrid columns="2">
-                    <p:commandButton id="confirm" value="#{constantes.ACCEPT}" onclick="PF('dialogDelete').hide();" action="#{personaCliControl.delete}" ajax="false" update=":formObjects"/>
-                    <p:commandButton id="decline" value="#{constantes.CANCEL}" onclick="PF('dialogDelete').hide();"/>
-                </h:panelGrid>
-            </h:form>
-        </p:confirmDialog>
-        <!--*****************************************************************-->
         <ui:insert name="masterData"/>
         
         
