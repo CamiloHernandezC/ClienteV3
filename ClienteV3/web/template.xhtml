@@ -12,38 +12,41 @@
                 <title>PrimeFaces</title>
             </f:facet>
         </h:head>
-        
+
         <!--***************Código para evitar que pueda ir hacia atras***********-->
         <meta http-equiv="Expires" content="0" /> 
         <meta http-equiv="Pragma" content="no-cache" />
         <script type="text/javascript">
-            if(history.forward(1)){
-                location.replace( history.forward(1) );
+            if (history.forward(1)) {
+                location.replace(history.forward(1));
             }
         </script>
         <!--*********************************************************************-->
 
         <h:body id="body">
-            <!--Test for unique actived session************************************-->
-            <c:if test="#{loginControl.validSession()}"/>
-            <!--*********************************************************************-->
+            <!--top menu ove*************************************************-->
+            <style>
+                #top {z-index:2 !important; }
+                #top div{overflow:visible;}
+            </style>
+            <!--*************************************************************-->
             
+            <!--Test for unique actived session******************************-->
+            <c:if test="#{loginControl.validSession()}"/>
+            <!--*************************************************************-->
+
             <p:layout fullPage="true">
 
-                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
-                    Header
-                </p:layoutUnit>
-
-                <p:layoutUnit position="south" size="50" closable="true" collapsible="true">
-                    Footer
-                </p:layoutUnit>
-
-                <p:layoutUnit position="west" size="175" header="#{bundle.Menu_Name}" collapsible="false">
-                    <p:panelMenu model="#{menuControl.menu}"/>
-                </p:layoutUnit>
-
-                <p:layoutUnit position="center">
+                <p:layoutUnit position="north" size="10%" id="top">
                     <p:growl id="growl" sticky="true" />
+                    <p:menubar model="#{menuControl.menu}"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="10%" closable="true" collapsible="true">
+                    DEVELOPED BY MAILO INNOVATION
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" size="80%">
                     <ui:insert name="content"/>
                 </p:layoutUnit>
 

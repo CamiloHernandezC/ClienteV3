@@ -44,7 +44,7 @@ public class MenuControl implements Serializable{
     
     @PostConstruct//This method is called just one time by JSF
     public void init() {
-        //<editor-fold desc="Menu" defaultstate="collapsed">
+        //<editor-fold desc="Menu construction" defaultstate="collapsed">
         menu = new DefaultMenuModel();
         HashMap menuMap = new HashMap();
         

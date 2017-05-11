@@ -48,6 +48,12 @@ public class SpecificReportPersonControl implements Serializable {
     private Date firstDay;
     private Date lastDay;
     private HashMap workedHours;
+    
+    private boolean showBarModel;//First time and when aren't results to show in bar, this must be false, otherwise thw view will not working propertly
+
+    public boolean isShowBarModel() {
+        return showBarModel;
+    }
 
     public BarChartModel getBarModel() {
         return barModel;
@@ -97,6 +103,7 @@ public class SpecificReportPersonControl implements Serializable {
         initReport();
         getMovs();
         if(!items.isEmpty()){
+            showBarModel = true;
             countWorkedHours();
             loadBarModel();
         }
@@ -240,5 +247,6 @@ public class SpecificReportPersonControl implements Serializable {
     private void initReport() {
         items = new ArrayList<>();
         barModel = new BarChartModel();
+        showBarModel = false;
     }
 }
