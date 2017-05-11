@@ -132,5 +132,8 @@ public class HorariosController extends Converters.HorariosController {
         super.clean();
         eventModel = null;
     }
-
+    
+    public void deleteEvent(ActionEvent actionEvent){
+        eventModel.deleteEvent(event);
+    }
 }

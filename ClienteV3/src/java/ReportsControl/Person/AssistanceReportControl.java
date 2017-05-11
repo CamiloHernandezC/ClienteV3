@@ -67,7 +67,7 @@ public class AssistanceReportControl implements Serializable {
                 dayLetter = "W";
                 break;
             case 5://Thursday
-                day = "Jueves";
+                day = "jueves";
                 dayLetter = "J";
                 break;
             case 6://Friday
