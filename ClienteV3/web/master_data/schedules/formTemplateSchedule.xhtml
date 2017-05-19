@@ -6,15 +6,48 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns="http://www.w3.org/1999/xhtml" >
 
-    <p:schedule id="schedule" value="#{horariosController.eventModel}" widgetVar="myschedule" timeZone="GMT-5" draggable="false" resizable="true" locale="es" view="agendaWeek" showHeader="false" allDaySlot="false" slotDuration="01:00:00" aspectRatio="3">
+    <p:schedule id="schedule" value="#{horariosController.eventModel}" widgetVar="myschedule" timeZone="GMT-5" draggable="false" resizable="true" locale="es" view="agendaWeek" showHeader="false" allDaySlot="false" slotDuration="01:00:00" aspectRatio="3" style="font-size: 70%" >
 
         <p:ajax event="dateSelect" listener="#{horariosController.onDateSelect}" update="schedule"/>
         <p:ajax event="eventResize" listener="#{horariosController.onEventResize}" update="schedule" />
-
+        <p:ajax event="eventSelect" listener="#{horariosController.onEventSelect}" update="ScheduleContextMenu" />
 
     </p:schedule>
-    <p:contextMenu for="schedule">
-        <p:menuitem value="#{bundle.Delete}" actionListener="#{horariosController.deleteEvent}" ajax="false" immediate="true"/>
+
+    <h:panelGrid id="ScheduleContextMenu">
+        <p:contextMenu for="schedule"  rendered="#{horariosController.event ne null}">
+        <p:menuitem  value="#{bundle.Delete}" actionListener="#{horariosController.deleteEvent}" ajax="false" immediate="true"/>
     </p:contextMenu>
+    </h:panelGrid>
+
+
+    <script>
+        PrimeFaces.locales['es'] = {
+            closeText: 'Cerrar',
+            prevText: 'Anterior',
+            nextText: 'Siguiente',
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+            dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+            weekHeader: 'Semana',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            timeOnlyTitle: 'Sólo hora',
+            timeText: 'Tiempo',
+            hourText: 'Hora',
+            minuteText: 'Minuto',
+            secondText: 'Segundo',
+            currentText: 'Fecha actual',
+            ampm: false,
+            month: 'Mes',
+            week: 'Semana',
+            day: 'Día',
+            allDayText: 'Todo el día'
+        };
+    </script>
 
 </ui:composition>
