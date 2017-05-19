@@ -474,4 +474,15 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
     private boolean checkNotNullFieldsToUpdate(PersonasSucursal t) {
         return t.getSucursales() == null || t.getPersonas().getTipoDocumento() == null || t.getPersonas().getNumeroDocumento() == null; 
     }
+    
+    public void delete(PersonasSucursal selectedItem){
+        selected = selectedItem;
+        Result result = super.delete();
+        if(result.errorCode==Constants.OK){
+            JsfUtil.addSuccessMessage(BundleUtils.getBundleProperty("SuccessfullyDeleted"));
+            return;
+        }
+        JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("UnexpectedError"));
+        return;
+    }
 }

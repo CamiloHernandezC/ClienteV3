@@ -113,8 +113,8 @@ public class PersonasController extends Converters.PersonasController{
         showError = false;
     }
     
-    public String changeViewToCreate(){
+    /*public String changeViewToCreate(){
          return Navigation.PAGE_SEARCH_PERSON_TO_CREATE;
-    }
+    }*/
 
 }
