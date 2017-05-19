@@ -35,9 +35,12 @@ import org.primefaces.model.ScheduleModel;
 public class HorariosController extends Converters.HorariosController {
 
     private ScheduleModel eventModel;
-    private ScheduleEvent event = new DefaultScheduleEvent();
-    
+    private ScheduleEvent event;
 
+    public ScheduleEvent getEvent() {
+        return event;
+    }
+    
     public ScheduleModel getEventModel() {
         if (eventModel == null) {
             eventModel = new DefaultScheduleModel();
@@ -133,7 +136,12 @@ public class HorariosController extends Converters.HorariosController {
         eventModel = null;
     }
     
-    public void deleteEvent(ActionEvent actionEvent){
+    public void deleteEvent(){
         eventModel.deleteEvent(event);
+        event = null;
+    }
+    
+    public void onEventSelect(SelectEvent selectEvent){
+        event = (ScheduleEvent) selectEvent.getObject();
     }
 }
