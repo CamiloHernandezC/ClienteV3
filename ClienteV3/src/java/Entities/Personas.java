@@ -637,35 +637,40 @@ public class Personas extends AbstractEntity {
     public String toString() {
         return "Entities.Personas[ idPersona=" + idPersona + " ]";
     }
-    
+
     public String getSexoString() {
-    if(sexo==null){
-        return "-";
+        if (sexo == null) {
+            return "-";
+        }
+        if (sexo) {
+            return "M";
+        }
+        return "F";
     }
-    if(sexo){
-        return "M";
+
+    @Override
+    public int getPrimaryKey() {
+        return idPersona;
     }
-    return "F";
-}
 
-@Override
-public int getPrimaryKey() {
-    return idPersona;
-}
+    @Override
+    public void setPrimaryKey(int primaryKey) {
+        idPersona = primaryKey;
+    }
 
-@Override
-public void setPrimaryKey(int primaryKey) {
-    idPersona = primaryKey;
-}
+    @Override
+    public void setUser(Personas user) {
+        usuario = user.getIdPersona();
+    }
 
-@Override
-public void setUser(Personas user) {
-    usuario = user.getIdPersona();
-}
+    @Override
+    public void setDate(Date date) {
+        fecha = date;
+    }
 
-@Override
-public void setDate(Date date) {
-    fecha = date;
-}
-    
+    @Override
+    public void setStatus(Integer STATUS_INACTIVE) {
+        estado = new Estados(STATUS_INACTIVE);
+    }
+
 }

@@ -237,5 +237,10 @@ public void setUser(Personas user) {
 public void setDate(Date date) {
     fecha = date;
 }
+
+    @Override
+    public void setStatus(Integer STATUS_INACTIVE) {
+        estado = new Estados(STATUS_INACTIVE);
+    }
     
 }

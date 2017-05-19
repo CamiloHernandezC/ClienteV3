@@ -18,5 +18,6 @@ public abstract class AbstractEntity implements Serializable{
     public abstract void setPrimaryKey(int primaryKey);
     public abstract void setUser(Personas user);
     public abstract void setDate(Date date);
+    public abstract void setStatus(Integer STATUS_INACTIVE);
     
 }

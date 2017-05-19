@@ -49,6 +49,13 @@ public abstract class AbstractPersistenceController<T> implements Serializable {
 
     protected abstract void prepareUpdate();
     
+    protected void prepareDelete(){
+        AbstractEntity entity = (AbstractEntity) getSelected();
+        entity.setStatus(Constants.STATUS_INACTIVE);
+        setSelected((T) entity);
+        prepareUpdate();
+    }
+    
     public abstract void clean();
 
     public void calculatePrimaryKey(String squery) {
@@ -82,12 +89,9 @@ public abstract class AbstractPersistenceController<T> implements Serializable {
         return persist(JsfUtil.PersistAction.UPDATE);
     }
 
-    public void destroy() {
-        persist(JsfUtil.PersistAction.DELETE);
-        if (!JsfUtil.isValidationFailed()) {
-            setSelected(null); // Remove selection
-            setItems(null);// Invalidate list of items to trigger re-query.
-        }
+    public Result delete() {
+        prepareDelete();
+        return persist(JsfUtil.PersistAction.DELETE);
     }
 
     protected Result persist(JsfUtil.PersistAction persistAction) {
@@ -109,14 +113,11 @@ public abstract class AbstractPersistenceController<T> implements Serializable {
                 return new Result(validationErrorObservation, Constants.VALIDATION_ERROR);
             }
             try {
-                if (persistAction == JsfUtil.PersistAction.UPDATE) {
+                if (persistAction == JsfUtil.PersistAction.UPDATE || persistAction == JsfUtil.PersistAction.DELETE) {
                     getFacade().edit(getSelected());
                 }
                 if (persistAction == JsfUtil.PersistAction.CREATE) {
                     getFacade().create(getSelected());
-                }
-                if (persistAction == JsfUtil.PersistAction.DELETE) {
-                    getFacade().remove(getSelected());
                 }
                 return new Result(null, Constants.OK);
             } catch (EJBException ex) {

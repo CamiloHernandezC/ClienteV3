@@ -422,5 +422,10 @@ public class Horarios extends AbstractEntity{
     public void setDate(Date date) {
         fecha = date;
     }
+
+    @Override
+    public void setStatus(Integer STATUS_INACTIVE) {
+        //Nothing to do here, schedule will be removed
+    }
     
 }
