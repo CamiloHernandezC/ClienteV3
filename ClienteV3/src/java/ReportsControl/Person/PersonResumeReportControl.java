@@ -234,7 +234,7 @@ public class PersonResumeReportControl implements Serializable {
             ChartSeries chartSeriesPersonType = null;
             switch(i){
                 case 1://Employees
-                    chartSeriesPersonType = new ChartSeries(BundleUtils.getBundleProperty("EmployeesIncome"));
+                    chartSeriesPersonType = new ChartSeries(BundleUtils.getBundleProperty("EmployeesIncome"));//ONLY FOR ENTERPRISE USE, SO NO NEED TO CHANGE ENTITIES DESCRIPTIONS HERE
                     break;
                 case 2://Visitors
                     chartSeriesPersonType = new ChartSeries(BundleUtils.getBundleProperty("VisitorsIncome"));

@@ -41,7 +41,6 @@ public class LoginControl implements Serializable {
         this.selected = selected;
     }
 
-    //TODO TENER BOTON DE ENVIAR EMAIL PARA RECORDAR LA CONTRASEÑA
     public void login() {
 
         //TODO CODIFICACION DE LA CLAVE

@@ -13,7 +13,7 @@
             <h1>#{bundle.CreatePersonasCliTitle}</h1>
             <ui:include src="formTemplate.xhtml"/>
             <p:commandButton action="#{personasController.createByForm()}" value="#{bundle.Save}" ajax="false"/>
-            <p:commandButton action="#{personasController.cancel()}" value="#{bundle.Cancel}" immediate="true" ajax="false"/>
+            <p:commandButton action="#{personasController.showCancelDialog()}" value="#{bundle.Cancel}" immediate="true" ajax="false"/>
         </h:form>
     </ui:define>
 

@@ -46,8 +46,12 @@ public class PersonasController extends Converters.PersonasController{
         return personasSucursalController.create();
     }
 
-    public void cancel() {
-        //TODO SHOW DIALOG TO CONFIRM LOST CHANGES
+    
+    public void showCancelDialog(){
+        JsfUtil.showModal("dialogConfirmCancel");
+    }
+    
+    public void cancel(){
         clean();
         personasSucursalController.clean();
         JsfUtil.redirectTo(Navigation.PAGE_MASTER_DATA_PERSON);

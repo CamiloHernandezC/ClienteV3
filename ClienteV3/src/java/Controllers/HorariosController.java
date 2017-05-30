@@ -53,7 +53,11 @@ public class HorariosController extends Converters.HorariosController {
     }
 
     public void onDateSelect(SelectEvent selectEvent) {
-        //TODO VERIFY IF OTHER EVENT HAS THE SAME START DATE AND SHOW ERROR MESSAGE
+        for(ScheduleEvent sEvent : eventModel.getEvents()){
+            if(sEvent.getStartDate().equals(selectEvent.getObject())){
+                return;
+            }
+        }
         Date endDate = new Date(((Date) selectEvent.getObject()).getTime() + 60 * 60 * 1000);
         event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), endDate);
         eventModel.addEvent(event);
@@ -63,7 +67,6 @@ public class HorariosController extends Converters.HorariosController {
         //Nothing to do here
     }
 
-    //TODO WHEN SAVE GET DAY OF WEEK FOR HORARIOS TABLE (IN OTHER METHOD
     public String changeViewToCreate() {
         return Navigation.PAGE_CREATE_SCHEDULE;
     }
