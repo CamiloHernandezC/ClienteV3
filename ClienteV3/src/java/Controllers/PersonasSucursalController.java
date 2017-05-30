@@ -420,7 +420,7 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
     private void updateFromFile(PersonasSucursal person) {
         //TODO FINISH MMETHOD
     }
-
+    
     public void selectBranchOfficeToDownload() {
         GeneralControl generalControl = JsfUtil.findBean("generalControl");
         if (generalControl.isShowBranchOffice()) {
