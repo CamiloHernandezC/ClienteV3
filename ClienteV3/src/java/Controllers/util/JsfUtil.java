@@ -121,7 +121,7 @@ public class JsfUtil {
     }
     
     public static String formatNumber(String texto) {
-        texto= texto.replaceAll("\\.", "");//Replace all dots (.) for anything
+        texto= texto.replaceAll("\\.", "");//Replace all dots (.) for space
         return texto;
     }
 }
