@@ -37,7 +37,7 @@ import org.primefaces.model.chart.ChartSeries;
  */
 @Named("personResumeReportControl")
 @SessionScoped
-public class PersonResumeReportControl implements Serializable {
+public class PersonResumeReportControl implements Serializable {//TODO make upper button
 
     @EJB
     private Facade.MovPersonasFacade ejbFacade;
@@ -66,6 +66,11 @@ public class PersonResumeReportControl implements Serializable {
     private int[] days = new int[31];//31 days, max days in any months
     /*VARIABLES TO STORE KIND OF PERSON ENTRIES*/
     private HashMap entrysByTypePerson;
+    private boolean showChart;
+
+    public boolean isShowChart() {
+        return showChart;
+    }
 
     public BarChartModel getBarModel() {
         return barModel;
@@ -95,6 +100,7 @@ public class PersonResumeReportControl implements Serializable {
     public void getMovs() {
         GeneralControl generalControl = JsfUtil.findBean("generalControl");
         if (generalControl.getSelectedBranchOffice() == null) {
+            //TODO SHOW ERROR HERE
             return;
         }
         int branchOffice = generalControl.getSelectedBranchOffice().getIdSucursal();
@@ -344,9 +350,11 @@ public class PersonResumeReportControl implements Serializable {
         initVariables();
         getMovs();
         if (items.isEmpty()) {
+            showChart = false;
             JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("NoResult"));
             return;
         }
+        showChart = true;
         countMovements(typeBar);
         barModel = loadBarModel(typeBar);
         setAxis(typeBar);

@@ -8,22 +8,32 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="report">
-        <h1>#{bundle.ReportPersonTitle}</h1>
-        <h:form>
-            <h:panelGrid columns="4">
-                <p:outputLabel for="restrictedMin" value="#{bundle.StartDate}" />
-                <p:calendar id="restrictedMin" value="#{personResumeReportControl.startDate}" locale="es" required="true" requiredMessage="#{bundle.StartDateRequired}"/>
+        <p:layout widgetVar="layoutWidget">
+            <p:ajax event="toggle" update=":centerForm" />
 
-                <p:outputLabel for="restrictedMax" value="#{bundle.EndDate}" />
-                <p:calendar id="restrictedMax" value="#{personResumeReportControl.endDate}" locale="es" required="true" requiredMessage="#{bundle.EndDateRequired}"/>
-            </h:panelGrid>
-              
-            <p:commandButton title="#{bundle.GenerateReport}" action="#{personResumeReportControl.generateReport()}" ajax="false"/>
-            <p:chart id="chartPerson" type="bar" model="#{personResumeReportControl.barModel}" rendered="true" widgetVar="chart" style="width:100%;height:300px">
-                <p:ajax event="itemSelect" listener="#{personResumeReportControl.drillDown}"/>
-            </p:chart>
+            <p:layoutUnit position="center">
+                <h1>#{bundle.ReportPersonTitle}</h1>
+                <p:chart id="chartPerson" type="bar" model="#{personResumeReportControl.barModel}" rendered="#{personResumeReportControl.showChart}" widgetVar="chart" style="width:100%;height:300px">
+                        <p:ajax event="itemSelect" listener="#{personResumeReportControl.drillDown}"/>
+                </p:chart>
+                
+            </p:layoutUnit>
 
-        </h:form>
+            <p:layoutUnit id="westLU" position="west" header="#{bundle.Options}" resizable="true" collapsible="true">
+                <h:form id="centerForm">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="restrictedMin" value="#{bundle.StartDate}" />
+                        <p:calendar id="restrictedMin" value="#{personResumeReportControl.startDate}" locale="es" required="true" requiredMessage="#{bundle.StartDateRequired}"/>
+
+                        <p:outputLabel for="restrictedMax" value="#{bundle.EndDate}" />
+                        <p:calendar id="restrictedMax" value="#{personResumeReportControl.endDate}" locale="es" required="true" requiredMessage="#{bundle.EndDateRequired}"/>
+                    </h:panelGrid>
+
+                    <p:commandButton title="#{bundle.GenerateReport}" action="#{personResumeReportControl.generateReport()}" ajax="false"/>
+
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
     </ui:define>
 
 </ui:composition>

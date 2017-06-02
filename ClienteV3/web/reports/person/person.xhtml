@@ -24,15 +24,16 @@
 
                         <p:outputLabel for="restrictedMax" value="#{bundle.EndDate}" />
                         <p:calendar id="restrictedMax" value="#{specificReportPersonControl.endDate}" locale="es" required="true" requiredMessage="#{bundle.EndDateRequired}"/>
-
-                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_numDocumento}" for="IdNumber" />
-                        <p:inputText id="IdNumber" value="#{specificReportPersonControl.docNumber}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}"/>
-
+                        
                         <p:outputLabel value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" for="tipoDocumento" />
                         <p:selectOneMenu id="tipoDocumento" value="#{specificReportPersonControl.docType}" required="true" requiredMessage="#{bundle.EditPersonasCliRequiredMessage_tipoDocumento}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}" itemValue="#{null}"/>
                             <f:selectItems value="#{tiposDocumentoController.items}" var="tipoDocumentoItem" itemValue="#{tipoDocumentoItem}" itemLabel="#{tipoDocumentoItem.descripcion}"/>
-                        </p:selectOneMenu>        
+                        </p:selectOneMenu>   
+                        
+                        <p:outputLabel value="#{bundle.CreatePersonasCliLabel_numDocumento}" for="IdNumber" />
+                        <p:inputText id="IdNumber" value="#{specificReportPersonControl.docNumber}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}"/>
+
                     </h:panelGrid>
                     <p:commandButton title="#{bundle.GenerateReport}" action="#{specificReportPersonControl.generateReport()}" ajax="false"/>
 
