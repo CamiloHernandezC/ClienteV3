@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -123,5 +124,13 @@ public class JsfUtil {
     public static String formatNumber(String texto) {
         texto= texto.replaceAll("\\.", "");//Replace all dots (.) for space
         return texto;
+    }
+    
+    public static Date dateOnly(Date date){
+        return new Date(date.getTime()-(date.getTime()%(1000*60*60*24)));
+    }
+    
+    public static Long getMilisPerDay(Long numberOfDays) {
+        return 1000*60*60*24*numberOfDays;
     }
 }

@@ -87,6 +87,7 @@ public class Querys {
     public static final String MENU_CLIENTE_CODIGO="m.codigo = '";
     public static String MENU_CLIENTE_JOIN_PRIVILEGIOS="SELECT m FROM MenuCliente m LEFT JOIN PrivilegiosCliente p on (m != p.codigoMenu and p.ver = 'false')";
     public static String MENU_CLIENTE_HAS_PRIVILEGE=" OR m in (SELECT p2.codigoMenu FROM PrivilegiosCliente p2 WHERE p2.ver = 'true')";
+    public static String HORARIOS_SUCURSAL=" a.sucursal.idSucursal = '";
     
     
 }

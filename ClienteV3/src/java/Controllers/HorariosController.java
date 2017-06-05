@@ -7,11 +7,15 @@ package Controllers;
 
 import Controllers.util.JsfUtil;
 import Entities.Horarios;
+import Entities.PersonasSucursal;
 import GeneralControl.GeneralControl;
+import Querys.Querys;
 import Utils.BundleUtils;
 import Utils.Constants;
 import Utils.Navigation;
 import Utils.Result;
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -137,6 +141,7 @@ public class HorariosController extends Converters.HorariosController {
     public void clean() {
         super.clean();
         eventModel = null;
+        event = null;
     }
     
     public void deleteEvent(){
@@ -146,5 +151,66 @@ public class HorariosController extends Converters.HorariosController {
     
     public void onEventSelect(SelectEvent selectEvent){
         event = (ScheduleEvent) selectEvent.getObject();
+    }
+    
+    /**
+     * Load schedules where branch office is equal to selected and status 
+     *
+     * @return List of schedules belonging to selected branch office
+     *
+     */
+    public List<Horarios> getItemsByBranchOffice() {//TODO LOAD ITEMS ONCE BECAUSE WHEN CHANGE PAGE TO SEE MORE PERSONS IT WILL RELOAD, SO MAKE A BUTTON TO RELOAD OR TRY WITH C:IF WHEN PAGE IS REALOADED, MAKE C:IF ACTION SET BOOLEAN VALUE TO FALSE AND USE THAT BOOLEAN TO ASK IF RELOAD IS NEEDED LIKE VALID SESSION METHOD
+        
+        GeneralControl generalControl = JsfUtil.findBean("generalControl");
+        if (generalControl.getSelectedBranchOffice() != null) {
+            String squery = Querys.HORARIOS_ALL + " WHERE"+Querys.HORARIOS_SUCURSAL+generalControl.getSelectedBranchOffice().getIdSucursal()+"'";
+            items = (List<Horarios>) getFacade().findByQueryArray(squery).result;
+        }
+        return items;
+    }
+    
+    
+    public void preEdit(Horarios shedule) {
+        Long actualDate = JsfUtil.dateOnly(new Date()).getTime();
+        
+        eventModel = new DefaultScheduleModel();
+        selected = shedule;
+        ScheduleEvent event = new DefaultScheduleEvent();
+        if(selected.getLunes()){
+            event = new DefaultScheduleEvent("", new Date(actualDate+selected.getHoraIngresoL().getTime()), new Date(actualDate+selected.getHoraSalidaL().getTime()));
+            eventModel.addEvent(event);
+        }
+        if(selected.getMartes()){
+            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(1L)+selected.getHoraIngresoM().getTime()), new Date(actualDate+selected.getHoraSalidaM().getTime()));
+            eventModel.addEvent(event);
+        }
+        if(selected.getMiercoles()){
+            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(2L)+selected.getHoraIngresoW().getTime()), new Date(actualDate+selected.getHoraSalidaW().getTime()));
+            eventModel.addEvent(event);
+        }
+        if(selected.getJueves()){
+            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(3L)+selected.getHoraIngresoJ().getTime()), new Date(actualDate+selected.getHoraSalidaJ().getTime()));
+            eventModel.addEvent(event);
+        }
+        if(selected.getViernes()){
+            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(4L)+selected.getHoraIngresoV().getTime()), new Date(actualDate+selected.getHoraSalidaV().getTime()));
+            eventModel.addEvent(event);
+        }
+        if(selected.getSabado()){
+            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(5L)+selected.getHoraIngresoS().getTime()), new Date(actualDate+selected.getHoraSalidaS().getTime()));
+            eventModel.addEvent(event);
+        }
+        if(selected.getDomingo()){
+            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(6L)+selected.getHoraIngresoD().getTime()), new Date(actualDate+selected.getHoraSalidaD().getTime()));
+            eventModel.addEvent(event);
+        }
+        JsfUtil.redirectTo(Navigation.PAGE_SCHEDULE_EDIT);
+    }
+    
+    public String updateFromForm(){
+        update();
+        clean();
+        JsfUtil.addSuccessMessage(BundleUtils.getBundleProperty("SuccessfullyUpdatedRegistry"));
+        return Navigation.PAGE_MASTER_DATA_SCHEDULE;
     }
 }

@@ -7,6 +7,7 @@ package ReportsControl.Person;
 
 import Controllers.util.JsfUtil;
 import Facade.PersonasSucursalFacade;
+import GeneralControl.GeneralControl;
 import Querys.Querys;
 import Utils.BundleUtils;
 import Utils.Constants;
@@ -40,6 +41,11 @@ public class AssistanceReportControl implements Serializable {
     }
     
     public void generateRepor(){
+        GeneralControl generalControl = JsfUtil.findBean("generalControl");
+        if (generalControl.getSelectedBranchOffice() == null) {
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("EditPersonasCliRequiredMessage_idSucursal"));
+            return;
+        }
         Date actualDate = new Date();
         Calendar calendar = Calendar.getInstance();
 

@@ -14,7 +14,7 @@
         <h:form id="formActions" style="margin: 0px;">            
             <h1>#{bundle.MasterDataSchedule}</h1>
             <h:panelGrid columns="5" cellpadding="50">	
-                
+
                 <p:commandLink immediate="true" action="#{horariosController.changeViewToCreate}">
                     <h:outputText value="#{bundle.MasterDataCreateFromForm}" />
                 </p:commandLink>
@@ -23,8 +23,135 @@
         </h:form>
 
         <!--SCHEDULE LIST-->
-        <h:form id="PersonasCliListForm">
+        <h:form id="ScheduleListForm">
+            <p:dataTable id="datalist" value="#{horariosController.itemsByBranchOffice}" var="item"
+                         paginator="true"
+                         rowKey="#{item.idHorario}"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         scrollable="true" scrollWidth="100%"
+                         >
 
+                <p:columnGroup type="header">
+
+                    <p:row>
+                        <p:column rowspan="2" headerText="#{bundle.Name}" />
+                        <p:column colspan="2" headerText="#{bundle.Monday}" />
+                        <p:column colspan="2" headerText="#{bundle.Tuesday}" />
+                        <p:column colspan="2" headerText="#{bundle.Wednesday}" />
+                        <p:column colspan="2" headerText="#{bundle.Thursday}" />
+                        <p:column colspan="2" headerText="#{bundle.Friday}" />
+                        <p:column colspan="2" headerText="#{bundle.Saturday}" />
+                        <p:column colspan="2" headerText="#{bundle.Sunday}" />
+                    </p:row>
+
+                    <p:row>
+                        <p:column headerText="#{bundle.EntryHour}" />
+                        <p:column headerText="#{bundle.LeaveHour}" />
+                        
+                        <p:column headerText="#{bundle.EntryHour}" />
+                        <p:column headerText="#{bundle.LeaveHour}" />
+                        
+                        <p:column headerText="#{bundle.EntryHour}" />
+                        <p:column headerText="#{bundle.LeaveHour}" />
+                        
+                        <p:column headerText="#{bundle.EntryHour}" />
+                        <p:column headerText="#{bundle.LeaveHour}" />
+                        
+                        <p:column headerText="#{bundle.EntryHour}" />
+                        <p:column headerText="#{bundle.LeaveHour}" />
+                        
+                        <p:column headerText="#{bundle.EntryHour}" />
+                        <p:column headerText="#{bundle.LeaveHour}" />
+                        
+                        <p:column headerText="#{bundle.EntryHour}" />
+                        <p:column headerText="#{bundle.LeaveHour}" />
+                        
+                        <p:column headerText="#{bundle.Options}" rowspan="2" styleClass="centerElem" exportable="false"/>
+                    </p:row>
+
+                </p:columnGroup>
+                <p:column>
+                    <h:outputText value="#{item.idHorario}"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.horaIngresoL}">
+                        <f:convertDateTime pattern="HH:MM:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.horaSalidaL}">
+                        <f:convertDateTime pattern="HH:MM:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.horaIngresoM}">
+                        <f:convertDateTime pattern="HH:MM:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.horaSalidaM}">
+                        <f:convertDateTime pattern="HH:MM:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.horaIngresoW}">
+                        <f:convertDateTime pattern="HH:MM:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.horaSalidaW}">
+                        <f:convertDateTime pattern="HH:MM:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.horaIngresoJ}">
+                        <f:convertDateTime pattern="HH:MM:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.horaSalidaJ}">
+                        <f:convertDateTime pattern="HH:MM:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.horaIngresoV}">
+                        <f:convertDateTime pattern="HH:MM:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.horaSalidaV}">
+                        <f:convertDateTime pattern="HH:MM:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.horaIngresoS}">
+                        <f:convertDateTime pattern="HH:MM:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.horaSalidaS}">
+                        <f:convertDateTime pattern="HH:MM:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.horaIngresoD}">
+                        <f:convertDateTime pattern="HH:MM:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.horaSalidaD}">
+                        <f:convertDateTime pattern="HH:MM:ss" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column>
+                    <h:panelGroup style="white-space: nowrap">
+                        <p:commandButton id="editButtonn" resetValues="true" actionListener="#{horariosController.preEdit(item)}" icon="ui-icon-pencil" />
+                        <p:commandButton id="deleteButton" resetValues="true" actionListener="#{horariosController.delete(item)}" icon="ui-icon-trash" ajax="false" />
+                    </h:panelGroup>
+                </p:column>
+            </p:dataTable>
         </h:form>
 
     </ui:define>
