@@ -24,5 +24,6 @@ public class Navigation {
     public static String PAGE_LOGIN="/login.xhtml?faces-redirect=true";
     public static String PAGE_CREATE_SCHEDULE="/master_data/schedules/createSchedule.xhtml?faces-redirect=true";
     public static String PAGE_MASTER_DATA_SCHEDULE="/master_data/schedules/schedules.xhtml?faces-redirect=true";
+    public static String PAGE_SCHEDULE_EDIT="/master_data/schedules/editSchedule.xhtml?faces-redirect=true";
 
 }

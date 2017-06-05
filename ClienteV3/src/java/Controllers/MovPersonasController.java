@@ -68,17 +68,17 @@ public class MovPersonasController extends Converters.MovPersonasController {
 
     public void generateReport() {//TODO DATES FILTER HERE
         GeneralControl generalControl = JsfUtil.findBean("generalControl");
-        if (generalControl.getSelectedBranchOffice() != null) {
-            java.sql.Date initialDate = new java.sql.Date(startDate.getTime());
-            java.sql.Date finalDate = new java.sql.Date(endDate.getTime());
-            String squery = Querys.MOV_PERSONA_CLI_ALL + "WHERE" + Querys.MOV_PERSONA_CLI_SUCURSAL + generalControl.getSelectedBranchOffice().getIdSucursal() + "' AND"+Querys.MOV_PERSONA_CLI_FECHA_INGRESO_BETWEEN + initialDate+"' AND '"+finalDate+"'";
-            if(docType != null && docNumber != null && !docNumber.equals("")){
-                squery += " AND" +Querys.MOV_PERSONA_CLI_TIPO_DOC + docType.getTipoDocumento() +"' AND"+ Querys.MOV_PERSONA_CLI_NUM_DOC + docNumber+"'" ;
-            }
-            items = (List<MovPersonas>) ejbFacade.findByQueryArray(squery).result;
-        } else {
+        if (generalControl.getSelectedBranchOffice() == null) {
             JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("EditPersonasCliRequiredMessage_idSucursal"));
+            return;
         }
+        java.sql.Date initialDate = new java.sql.Date(startDate.getTime());
+        java.sql.Date finalDate = new java.sql.Date(endDate.getTime());
+        String squery = Querys.MOV_PERSONA_CLI_ALL + "WHERE" + Querys.MOV_PERSONA_CLI_SUCURSAL + generalControl.getSelectedBranchOffice().getIdSucursal() + "' AND" + Querys.MOV_PERSONA_CLI_FECHA_INGRESO_BETWEEN + initialDate + "' AND '" + finalDate + "'";
+        if (docType != null && docNumber != null && !docNumber.equals("")) {
+            squery += " AND" + Querys.MOV_PERSONA_CLI_TIPO_DOC + docType.getTipoDocumento() + "' AND" + Querys.MOV_PERSONA_CLI_NUM_DOC + docNumber + "'";
+        }
+        items = (List<MovPersonas>) ejbFacade.findByQueryArray(squery).result;
     }
 
 }

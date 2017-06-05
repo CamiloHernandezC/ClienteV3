@@ -93,6 +93,11 @@ public class PersonResumeReportControl implements Serializable {//TODO make uppe
     }
 
     public String generateReport() {
+        GeneralControl generalControl = JsfUtil.findBean("generalControl");
+        if (generalControl.getSelectedBranchOffice() == null) {
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("EditPersonasCliRequiredMessage_idSucursal"));
+            return null;
+        }
         initBar();
         return null;
     }

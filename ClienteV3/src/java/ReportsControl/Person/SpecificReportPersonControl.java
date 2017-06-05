@@ -100,6 +100,11 @@ public class SpecificReportPersonControl implements Serializable {
     }
 
     public String generateReport() {
+        GeneralControl generalControl = JsfUtil.findBean("generalControl");
+        if (generalControl.getSelectedBranchOffice() == null) {
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("EditPersonasCliRequiredMessage_idSucursal"));
+            return null;
+        }
         initReport();
         getMovs();
         if(!items.isEmpty()){
