@@ -76,52 +76,9 @@ public class HorariosController extends Converters.HorariosController {
     }
 
     public String save() {
-        List<ScheduleEvent> eventsList = eventModel.getEvents();
-        Calendar calendar = Calendar.getInstance();
+        
         selected = new Horarios();
-        GeneralControl generalControl = JsfUtil.findBean("generalControl");
-        selected.setSucursal(generalControl.getSelectedBranchOffice());
-        for (ScheduleEvent event : eventsList) {
-            calendar.setTime(event.getStartDate());
-            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-            switch (dayOfWeek) {
-                case 1://Sunday
-                    selected.setDomingo(true);
-                    selected.setHoraIngresoD(event.getStartDate());
-                    selected.setHoraSalidaD(event.getEndDate());
-                    break;
-                case 2://Monday
-                    selected.setLunes(true);
-                    selected.setHoraIngresoL(event.getStartDate());
-                    selected.setHoraSalidaL(event.getEndDate());
-                    break;
-                case 3://Tuesday
-                    selected.setMartes(true);
-                    selected.setHoraIngresoM(event.getStartDate());
-                    selected.setHoraSalidaM(event.getEndDate());
-                    break;
-                case 4://Wednesday
-                    selected.setMiercoles(true);
-                    selected.setHoraIngresoW(event.getStartDate());
-                    selected.setHoraSalidaW(event.getEndDate());
-                    break;
-                case 5://Thursday
-                    selected.setJueves(true);
-                    selected.setHoraIngresoJ(event.getStartDate());
-                    selected.setHoraSalidaJ(event.getEndDate());
-                    break;
-                case 6://Friday
-                    selected.setViernes(true);
-                    selected.setHoraIngresoV(event.getStartDate());
-                    selected.setHoraSalidaV(event.getEndDate());
-                    break;
-                case 7://Saturday
-                    selected.setSabado(true);
-                    selected.setHoraIngresoS(event.getStartDate());
-                    selected.setHoraSalidaS(event.getEndDate());
-                    break;
-            }
-        }
+        loadEvents();
         Result result = create();
         if(result.errorCode == Constants.OK){
             JsfUtil.addSuccessMessage(BundleUtils.getBundleProperty("SuccessfullyCreatedRegistry"));
@@ -170,47 +127,100 @@ public class HorariosController extends Converters.HorariosController {
     }
     
     
-    public void preEdit(Horarios shedule) {
-        Long actualDate = JsfUtil.dateOnly(new Date()).getTime();
+    public void preEdit(Horarios schedule) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        //int day = c.get(Calendar.DAY_OF_WEEK);
+        Long actualDate = JsfUtil.dateOnly(new Date()).getTime()-1000*60*60*24*(c.get(Calendar.DAY_OF_WEEK)-1);        
         
         eventModel = new DefaultScheduleModel();
-        selected = shedule;
+        selected = new Horarios();
+        selected.setIdHorario(schedule.getIdHorario());
         ScheduleEvent event = new DefaultScheduleEvent();
-        if(selected.getLunes()){
-            event = new DefaultScheduleEvent("", new Date(actualDate+selected.getHoraIngresoL().getTime()), new Date(actualDate+selected.getHoraSalidaL().getTime()));
+        if(schedule.getLunes()){
+            event = new DefaultScheduleEvent("", new Date(actualDate+schedule.getHoraIngresoL().getTime()), new Date(actualDate+schedule.getHoraSalidaL().getTime()));
             eventModel.addEvent(event);
         }
-        if(selected.getMartes()){
-            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(1L)+selected.getHoraIngresoM().getTime()), new Date(actualDate+selected.getHoraSalidaM().getTime()));
+        if(schedule.getMartes()){
+            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(1L)+schedule.getHoraIngresoM().getTime()), new Date(actualDate+schedule.getHoraSalidaM().getTime()));
             eventModel.addEvent(event);
         }
-        if(selected.getMiercoles()){
-            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(2L)+selected.getHoraIngresoW().getTime()), new Date(actualDate+selected.getHoraSalidaW().getTime()));
+        if(schedule.getMiercoles()){
+            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(2L)+schedule.getHoraIngresoW().getTime()), new Date(actualDate+schedule.getHoraSalidaW().getTime()));
             eventModel.addEvent(event);
         }
-        if(selected.getJueves()){
-            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(3L)+selected.getHoraIngresoJ().getTime()), new Date(actualDate+selected.getHoraSalidaJ().getTime()));
+        if(schedule.getJueves()){
+            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(3L)+schedule.getHoraIngresoJ().getTime()), new Date(actualDate+schedule.getHoraSalidaJ().getTime()));
             eventModel.addEvent(event);
         }
-        if(selected.getViernes()){
-            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(4L)+selected.getHoraIngresoV().getTime()), new Date(actualDate+selected.getHoraSalidaV().getTime()));
+        if(schedule.getViernes()){
+            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(4L)+schedule.getHoraIngresoV().getTime()), new Date(actualDate+schedule.getHoraSalidaV().getTime()));
             eventModel.addEvent(event);
         }
-        if(selected.getSabado()){
-            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(5L)+selected.getHoraIngresoS().getTime()), new Date(actualDate+selected.getHoraSalidaS().getTime()));
+        if(schedule.getSabado()){
+            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(5L)+schedule.getHoraIngresoS().getTime()), new Date(actualDate+schedule.getHoraSalidaS().getTime()));
             eventModel.addEvent(event);
         }
-        if(selected.getDomingo()){
-            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(6L)+selected.getHoraIngresoD().getTime()), new Date(actualDate+selected.getHoraSalidaD().getTime()));
+        if(schedule.getDomingo()){
+            event = new DefaultScheduleEvent("", new Date(actualDate+JsfUtil.getMilisPerDay(6L)+schedule.getHoraIngresoD().getTime()), new Date(actualDate+schedule.getHoraSalidaD().getTime()));
             eventModel.addEvent(event);
         }
         JsfUtil.redirectTo(Navigation.PAGE_SCHEDULE_EDIT);
     }
     
     public String updateFromForm(){
+        loadEvents();
         update();
         clean();
         JsfUtil.addSuccessMessage(BundleUtils.getBundleProperty("SuccessfullyUpdatedRegistry"));
         return Navigation.PAGE_MASTER_DATA_SCHEDULE;
+    }
+
+    private void loadEvents() {
+        
+        Calendar calendar = Calendar.getInstance();
+         GeneralControl generalControl = JsfUtil.findBean("generalControl");
+        selected.setSucursal(generalControl.getSelectedBranchOffice());
+        for (ScheduleEvent event : eventModel.getEvents()){
+            calendar.setTime(event.getStartDate());
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            switch (dayOfWeek) {
+                case 1://Sunday
+                    selected.setDomingo(true);
+                    selected.setHoraIngresoD(event.getStartDate());
+                    selected.setHoraSalidaD(event.getEndDate());
+                    break;
+                case 2://Monday
+                    selected.setLunes(true);
+                    selected.setHoraIngresoL(event.getStartDate());
+                    selected.setHoraSalidaL(event.getEndDate());
+                    break;
+                case 3://Tuesday
+                    selected.setMartes(true);
+                    selected.setHoraIngresoM(event.getStartDate());
+                    selected.setHoraSalidaM(event.getEndDate());
+                    break;
+                case 4://Wednesday
+                    selected.setMiercoles(true);
+                    selected.setHoraIngresoW(event.getStartDate());
+                    selected.setHoraSalidaW(event.getEndDate());
+                    break;
+                case 5://Thursday
+                    selected.setJueves(true);
+                    selected.setHoraIngresoJ(event.getStartDate());
+                    selected.setHoraSalidaJ(event.getEndDate());
+                    break;
+                case 6://Friday
+                    selected.setViernes(true);
+                    selected.setHoraIngresoV(event.getStartDate());
+                    selected.setHoraSalidaV(event.getEndDate());
+                    break;
+                case 7://Saturday
+                    selected.setSabado(true);
+                    selected.setHoraIngresoS(event.getStartDate());
+                    selected.setHoraSalidaS(event.getEndDate());
+                    break;
+            }
+        }
     }
 }
