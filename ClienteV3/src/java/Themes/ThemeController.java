@@ -1,50 +1,76 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Themes;
 
-import Entities.Personas;
-import java.io.IOException;
+import Controllers.util.JsfUtil;
+import Converters.UsuariosController;
+import Entities.Theme;
+import Facade.ThemeFacade;
+
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
-import org.primefaces.context.PrimeFacesContext;
 
-/**
- *
- * @author amorales
- */
 @Named("themeController")
 @SessionScoped
-public class ThemeController implements Serializable{
-    private Theme theme;
+public class ThemeController implements Serializable {
 
-    public Theme getTheme() {
-        if(theme==null){
-            theme = new Theme(14, "Excite-Bike", "excite-bike");
+    @EJB
+    private ThemeFacade ejbFacade;
+    private List<Theme> items = null;
+    private Theme selected;
+
+    public ThemeController() {
+    }
+
+    public Theme getSelected() {
+        if(selected==null){
+            selected = ejbFacade.find(14);
         }
-        return theme;
+        return selected;
     }
     
     public void reset(){
-        theme = new Theme(14, "Excite-Bike", "excite-bike");
+        selected = ejbFacade.find(14);
+        UsuariosController usuariosController = JsfUtil.findBean("usuariosController");
+        usuariosController.saveTheme(selected);
     }
 
-    public void setTheme(Theme theme) {
-        this.theme = theme;
+    public void setSelected(Theme selected) {
+        this.selected = selected;
+        UsuariosController usuariosController = JsfUtil.findBean("usuariosController");
+        usuariosController.saveTheme(selected);
     }
     
-    // <editor-fold desc="CONVERTER" defaultstate="collapsed">
+    public void setSelectedLogin(Theme selected) {
+        this.selected = selected;
+    }
+
+    private ThemeFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public List<Theme> getItems() {
+        if (items == null) {
+            items = getFacade().findAll();
+        }
+        return items;
+    }
+
+    public Theme getTheme(java.lang.Integer id) {
+        return getFacade().find(id);
+    }
+
+    public List<Theme> loadTheme() {
+        return ejbFacade.findAll();
+    }
+
     @FacesConverter(forClass = Theme.class)
     public static class ThemeControllerConverter implements Converter {
 
@@ -53,9 +79,9 @@ public class ThemeController implements Serializable{
             if (value == null || value.length() == 0) {
                 return null;
             }
-            ThemeService controller =  (ThemeService) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "themeService");
-            return controller.getThemes().get(Integer.valueOf(value));
+            ThemeController controller = (ThemeController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "themeController");
+            return controller.getTheme(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -79,16 +105,11 @@ public class ThemeController implements Serializable{
                 Theme o = (Theme) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Personas.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Theme.class.getName()});
                 return null;
             }
         }
 
     }
-    //</editor-fold>
-    
-    public void preview() throws IOException{
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
-    }
+
 }

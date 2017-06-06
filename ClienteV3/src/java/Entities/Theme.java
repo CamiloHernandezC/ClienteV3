@@ -122,7 +122,7 @@ public class Theme implements Serializable {
 
     @Override
     public String toString() {
-        return "Entities.Theme[ id=" + id + " ]";
+        return name;
     }
     
 }

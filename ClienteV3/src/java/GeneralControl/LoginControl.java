@@ -4,6 +4,7 @@ import Controllers.util.JsfUtil;
 import Converters.UsuariosController;
 import Entities.Usuarios;
 import Querys.Querys;
+import Themes.ThemeController;
 import Utils.BundleUtils;
 import Utils.Constants;
 import Utils.Email;
@@ -69,6 +70,8 @@ public class LoginControl implements Serializable {
         String IDSesion = String.valueOf(Math.random());
         selected.setIDSesion(IDSesion);
         selected.setSesion(true);
+        ThemeController themeController = JsfUtil.findBean("themeController");
+        themeController.setSelectedLogin(selected.getTema());
         usuariosController.setSelected(selected);
         usuariosController.update();
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
