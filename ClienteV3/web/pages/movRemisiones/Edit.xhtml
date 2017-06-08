@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MovRemisionesEditDlg" widgetVar="MovRemisionesEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditMovRemisionesTitle}">
+            <h:form id="MovRemisionesEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{movRemisionesController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditMovRemisionesLabel_idMovimiento}" for="idMovimiento" />
+                        <p:inputText id="idMovimiento" value="#{movRemisionesController.selected.idMovimiento}" title="#{bundle.EditMovRemisionesTitle_idMovimiento}" required="true" requiredMessage="#{bundle.EditMovRemisionesRequiredMessage_idMovimiento}"/>
+                        <p:outputLabel value="#{bundle.EditMovRemisionesLabel_contenedoresRevisados}" for="contenedoresRevisados" />
+                        <p:inputText id="contenedoresRevisados" value="#{movRemisionesController.selected.contenedoresRevisados}" title="#{bundle.EditMovRemisionesTitle_contenedoresRevisados}" required="true" requiredMessage="#{bundle.EditMovRemisionesRequiredMessage_contenedoresRevisados}"/>
+                        <p:outputLabel value="#{bundle.EditMovRemisionesLabel_unidadesRevisadas}" for="unidadesRevisadas" />
+                        <p:inputText id="unidadesRevisadas" value="#{movRemisionesController.selected.unidadesRevisadas}" title="#{bundle.EditMovRemisionesTitle_unidadesRevisadas}" required="true" requiredMessage="#{bundle.EditMovRemisionesRequiredMessage_unidadesRevisadas}"/>
+                        <p:outputLabel value="#{bundle.EditMovRemisionesLabel_fechaMovimiento}" for="fechaMovimiento" />
+                        <p:calendar id="fechaMovimiento" pattern="MM/dd/yyyy HH:mm:ss" value="#{movRemisionesController.selected.fechaMovimiento}" title="#{bundle.EditMovRemisionesTitle_fechaMovimiento}" required="true" requiredMessage="#{bundle.EditMovRemisionesRequiredMessage_fechaMovimiento}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditMovRemisionesLabel_remision}" for="remision" />
+                        <p:selectOneMenu id="remision" value="#{movRemisionesController.selected.remision}" required="true" requiredMessage="#{bundle.EditMovRemisionesRequiredMessage_remision}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{remisionesController.itemsAvailableSelectOne}"
+                                           var="remisionItem"
+                                           itemValue="#{remisionItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditMovRemisionesLabel_vistoBueno}" for="vistoBueno" />
+                        <p:selectOneMenu id="vistoBueno" value="#{movRemisionesController.selected.vistoBueno}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasController.itemsAvailableSelectOne}"
+                                           var="vistoBuenoItem"
+                                           itemValue="#{vistoBuenoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditMovRemisionesLabel_movPersona}" for="movPersona" />
+                        <p:selectOneMenu id="movPersona" value="#{movRemisionesController.selected.movPersona}" required="true" requiredMessage="#{bundle.EditMovRemisionesRequiredMessage_movPersona}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{movPersonasController.itemsAvailableSelectOne}"
+                                           var="movPersonaItem"
+                                           itemValue="#{movPersonaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditMovRemisionesLabel_sucursal}" for="sucursal" />
+                        <p:selectOneMenu id="sucursal" value="#{movRemisionesController.selected.sucursal}" required="true" requiredMessage="#{bundle.EditMovRemisionesRequiredMessage_sucursal}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{sucursalesController.itemsAvailableSelectOne}"
+                                           var="sucursalItem"
+                                           itemValue="#{sucursalItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{movRemisionesController.update}" value="#{bundle.Save}" update="display,:MovRemisionesListForm:datalist,:growl" oncomplete="handleSubmit(args, 'MovRemisionesEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="MovRemisionesEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
