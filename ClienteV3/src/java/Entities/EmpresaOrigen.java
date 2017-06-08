@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,6 +44,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "EmpresaOrigen.findByTelefono", query = "SELECT e FROM EmpresaOrigen e WHERE e.telefono = :telefono"),
     @NamedQuery(name = "EmpresaOrigen.findByFecha", query = "SELECT e FROM EmpresaOrigen e WHERE e.fecha = :fecha")})
 public class EmpresaOrigen implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empresaDestino", fetch = FetchType.LAZY)
+    private List<Remisiones> remisionesList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -242,6 +246,15 @@ public class EmpresaOrigen implements Serializable {
     @Override
     public String toString() {
         return "Entities.EmpresaOrigen[ idEmpresaOrigen=" + idEmpresaOrigen + " ]";
+    }
+
+    @XmlTransient
+    public List<Remisiones> getRemisionesList() {
+        return remisionesList;
+    }
+
+    public void setRemisionesList(List<Remisiones> remisionesList) {
+        this.remisionesList = remisionesList;
     }
     
 }

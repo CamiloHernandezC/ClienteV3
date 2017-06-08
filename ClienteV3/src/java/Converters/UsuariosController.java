@@ -2,6 +2,7 @@ package Converters;
 
 import Controllers.*;
 import Controllers.util.JsfUtil;
+import Entities.Theme;
 import Entities.Usuarios;
 import Facade.UsuariosFacade;
 
@@ -86,6 +87,11 @@ public class UsuariosController extends AbstractPersistenceController<Usuarios>{
     
     public Usuarios getUsuarios(java.lang.String id) {
         return ejbFacade.find(id);
+    }
+    
+    public void saveTheme(Theme tema) {
+        selected.setTema(tema);
+        update();
     }
 
     @FacesConverter(forClass = Usuarios.class)

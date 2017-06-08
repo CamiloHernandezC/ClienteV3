@@ -46,6 +46,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MovPersonas.findByFecha", query = "SELECT m FROM MovPersonas m WHERE m.fecha = :fecha")})
 public class MovPersonas implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movPersona", fetch = FetchType.LAZY)
+    private List<MovRemisiones> movRemisionesList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -81,6 +84,8 @@ public class MovPersonas implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
+    @OneToMany(mappedBy = "movPersona", fetch = FetchType.LAZY)
+    private List<Remisiones> remisionesList;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas usuario;
@@ -97,8 +102,6 @@ public class MovPersonas implements Serializable {
     private PersonasSucursal personasSucursal;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movimientoPersona", fetch = FetchType.LAZY)
     private List<MovDocumentos> movDocumentosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movimientoPersona", fetch = FetchType.LAZY)
-    private List<MovMateriales> movMaterialesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movPersonaEntrada", fetch = FetchType.LAZY)
     private List<MovObjetos> movObjetosList;
     @OneToMany(mappedBy = "movPersonaSalida", fetch = FetchType.LAZY)
@@ -188,6 +191,15 @@ public class MovPersonas implements Serializable {
         this.fecha = fecha;
     }
 
+    @XmlTransient
+    public List<Remisiones> getRemisionesList() {
+        return remisionesList;
+    }
+
+    public void setRemisionesList(List<Remisiones> remisionesList) {
+        this.remisionesList = remisionesList;
+    }
+
     public Personas getUsuario() {
         return usuario;
     }
@@ -227,15 +239,6 @@ public class MovPersonas implements Serializable {
 
     public void setMovDocumentosList(List<MovDocumentos> movDocumentosList) {
         this.movDocumentosList = movDocumentosList;
-    }
-
-    @XmlTransient
-    public List<MovMateriales> getMovMaterialesList() {
-        return movMaterialesList;
-    }
-
-    public void setMovMaterialesList(List<MovMateriales> movMaterialesList) {
-        this.movMaterialesList = movMaterialesList;
     }
 
     @XmlTransient
@@ -297,6 +300,15 @@ public class MovPersonas implements Serializable {
     @Override
     public String toString() {
         return "Entities.MovPersonas[ idMovPersona=" + idMovPersona + " ]";
+    }
+
+    @XmlTransient
+    public List<MovRemisiones> getMovRemisionesList() {
+        return movRemisionesList;
+    }
+
+    public void setMovRemisionesList(List<MovRemisiones> movRemisionesList) {
+        this.movRemisionesList = movRemisionesList;
     }
     
 }

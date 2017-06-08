@@ -50,7 +50,7 @@ public class MenuControl implements Serializable{
         
         Usuarios user = JsfUtil.getSessionUser();
         
-        String menuQuery = Querys.MENU_CLIENTE_JOIN_PRIVILEGIOS+" WHERE "+Querys.MENU_CLIENTE_NIVEL_MORE_EQUAL+user.getPrivilegios()+"'"+Querys.MENU_CLIENTE_HAS_PRIVILEGE;
+        String menuQuery = Querys.MENU_CLIENTE_JOIN_PRIVILEGIOS+" WHERE "+Querys.MENU_CLIENTE_NIVEL_MORE_EQUAL+user.getPrivilegios()+"'"+Querys.MENU_CLIENTE_HAS_PRIVILEGE;//TODO ADD STATUS FILTER
         List<MenuCliente> menuItems = (List<MenuCliente>) ejbFacade.findByQueryArray(menuQuery).result;
         for(MenuCliente item: menuItems){
             if(item.getTipo()==Constants.MENU_TYPE_CHILDREN){
