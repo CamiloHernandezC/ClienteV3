@@ -39,13 +39,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Sucursales.findByTelefono", query = "SELECT s FROM Sucursales s WHERE s.telefono = :telefono")})
 public class Sucursales implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
-    private List<MovRemisiones> movRemisionesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
-    private List<Almacen> almacenList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
-    private List<Cardex> cardexList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -72,17 +65,17 @@ public class Sucursales implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursales", fetch = FetchType.LAZY)
     private List<MaterialesSucursal> materialesSucursalList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
+    private List<MovRemisiones> movRemisionesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<Remisiones> remisionesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursales", fetch = FetchType.LAZY)
-    private List<Inventario> inventarioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
+    private List<Almacen> almacenList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<Objetos> objetosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursales", fetch = FetchType.LAZY)
     private List<PersonasSucursal> personasSucursalList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<MovDocumentos> movDocumentosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
-    private List<MovMateriales> movMaterialesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursales", fetch = FetchType.LAZY)
     private List<VehiculosSucursal> vehiculosSucursalList;
     @JoinColumn(name = "Cliente", referencedColumnName = "Id_Cliente")
@@ -109,6 +102,8 @@ public class Sucursales implements Serializable {
     private List<MovObjetos> movObjetosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<AccesoUsuario> accesoUsuarioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
+    private List<Cardex> cardexList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<MovVehiculos> movVehiculosList;
 
@@ -193,6 +188,15 @@ public class Sucursales implements Serializable {
     }
 
     @XmlTransient
+    public List<MovRemisiones> getMovRemisionesList() {
+        return movRemisionesList;
+    }
+
+    public void setMovRemisionesList(List<MovRemisiones> movRemisionesList) {
+        this.movRemisionesList = movRemisionesList;
+    }
+
+    @XmlTransient
     public List<Remisiones> getRemisionesList() {
         return remisionesList;
     }
@@ -202,12 +206,12 @@ public class Sucursales implements Serializable {
     }
 
     @XmlTransient
-    public List<Inventario> getInventarioList() {
-        return inventarioList;
+    public List<Almacen> getAlmacenList() {
+        return almacenList;
     }
 
-    public void setInventarioList(List<Inventario> inventarioList) {
-        this.inventarioList = inventarioList;
+    public void setAlmacenList(List<Almacen> almacenList) {
+        this.almacenList = almacenList;
     }
 
     @XmlTransient
@@ -235,15 +239,6 @@ public class Sucursales implements Serializable {
 
     public void setMovDocumentosList(List<MovDocumentos> movDocumentosList) {
         this.movDocumentosList = movDocumentosList;
-    }
-
-    @XmlTransient
-    public List<MovMateriales> getMovMaterialesList() {
-        return movMaterialesList;
-    }
-
-    public void setMovMaterialesList(List<MovMateriales> movMaterialesList) {
-        this.movMaterialesList = movMaterialesList;
     }
 
     @XmlTransient
@@ -342,6 +337,15 @@ public class Sucursales implements Serializable {
     }
 
     @XmlTransient
+    public List<Cardex> getCardexList() {
+        return cardexList;
+    }
+
+    public void setCardexList(List<Cardex> cardexList) {
+        this.cardexList = cardexList;
+    }
+
+    @XmlTransient
     public List<MovVehiculos> getMovVehiculosList() {
         return movVehiculosList;
     }
@@ -373,33 +377,6 @@ public class Sucursales implements Serializable {
     @Override
     public String toString() {
         return "Entities.Sucursales[ idSucursal=" + idSucursal + " ]";
-    }
-
-    @XmlTransient
-    public List<MovRemisiones> getMovRemisionesList() {
-        return movRemisionesList;
-    }
-
-    public void setMovRemisionesList(List<MovRemisiones> movRemisionesList) {
-        this.movRemisionesList = movRemisionesList;
-    }
-
-    @XmlTransient
-    public List<Almacen> getAlmacenList() {
-        return almacenList;
-    }
-
-    public void setAlmacenList(List<Almacen> almacenList) {
-        this.almacenList = almacenList;
-    }
-
-    @XmlTransient
-    public List<Cardex> getCardexList() {
-        return cardexList;
-    }
-
-    public void setCardexList(List<Cardex> cardexList) {
-        this.cardexList = cardexList;
     }
     
 }

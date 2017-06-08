@@ -45,9 +45,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "EmpresaOrigen.findByFecha", query = "SELECT e FROM EmpresaOrigen e WHERE e.fecha = :fecha")})
 public class EmpresaOrigen implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empresaDestino", fetch = FetchType.LAZY)
-    private List<Remisiones> remisionesList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -76,6 +73,8 @@ public class EmpresaOrigen implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empresaDestino", fetch = FetchType.LAZY)
+    private List<Remisiones> remisionesList;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas usuario;
@@ -165,6 +164,15 @@ public class EmpresaOrigen implements Serializable {
         this.fecha = fecha;
     }
 
+    @XmlTransient
+    public List<Remisiones> getRemisionesList() {
+        return remisionesList;
+    }
+
+    public void setRemisionesList(List<Remisiones> remisionesList) {
+        this.remisionesList = remisionesList;
+    }
+
     public Personas getUsuario() {
         return usuario;
     }
@@ -246,15 +254,6 @@ public class EmpresaOrigen implements Serializable {
     @Override
     public String toString() {
         return "Entities.EmpresaOrigen[ idEmpresaOrigen=" + idEmpresaOrigen + " ]";
-    }
-
-    @XmlTransient
-    public List<Remisiones> getRemisionesList() {
-        return remisionesList;
-    }
-
-    public void setRemisionesList(List<Remisiones> remisionesList) {
-        this.remisionesList = remisionesList;
     }
     
 }

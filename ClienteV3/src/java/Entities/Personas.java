@@ -56,9 +56,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Personas.findByFecha", query = "SELECT p FROM Personas p WHERE p.fecha = :fecha")})
 public class Personas extends AbstractEntity{
 
-    @OneToMany(mappedBy = "vistoBueno", fetch = FetchType.LAZY)
-    private List<MovRemisiones> movRemisionesList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -132,10 +129,10 @@ public class Personas extends AbstractEntity{
     private List<VisitasEsperadas> visitasEsperadasList2;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MaterialesSucursal> materialesSucursalList;
-    @OneToMany(mappedBy = "vistoPorteria", fetch = FetchType.LAZY)
-    private List<Remisiones> remisionesList;
+    @OneToMany(mappedBy = "vistoBueno", fetch = FetchType.LAZY)
+    private List<MovRemisiones> movRemisionesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "almacenista", fetch = FetchType.LAZY)
-    private List<Remisiones> remisionesList1;
+    private List<Remisiones> remisionesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona", fetch = FetchType.LAZY)
     private List<Usuarios> usuariosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioModifica", fetch = FetchType.LAZY)
@@ -392,21 +389,21 @@ public class Personas extends AbstractEntity{
     }
 
     @XmlTransient
+    public List<MovRemisiones> getMovRemisionesList() {
+        return movRemisionesList;
+    }
+
+    public void setMovRemisionesList(List<MovRemisiones> movRemisionesList) {
+        this.movRemisionesList = movRemisionesList;
+    }
+
+    @XmlTransient
     public List<Remisiones> getRemisionesList() {
         return remisionesList;
     }
 
     public void setRemisionesList(List<Remisiones> remisionesList) {
         this.remisionesList = remisionesList;
-    }
-
-    @XmlTransient
-    public List<Remisiones> getRemisionesList1() {
-        return remisionesList1;
-    }
-
-    public void setRemisionesList1(List<Remisiones> remisionesList1) {
-        this.remisionesList1 = remisionesList1;
     }
 
     @XmlTransient
@@ -654,7 +651,7 @@ public class Personas extends AbstractEntity{
     public String getSexoString() {
         if (sexo == null) {
             return "-";
-        }
+}
         if (sexo) {
             return "M";
         }
@@ -684,15 +681,6 @@ public class Personas extends AbstractEntity{
     @Override
     public void setStatus(Integer STATUS_INACTIVE) {
         estado = new Estados(STATUS_INACTIVE);
-    }
-
-    @XmlTransient
-    public List<MovRemisiones> getMovRemisionesList() {
-        return movRemisionesList;
-    }
-
-    public void setMovRemisionesList(List<MovRemisiones> movRemisionesList) {
-        this.movRemisionesList = movRemisionesList;
     }
 
 }
