@@ -6,7 +6,6 @@
 package Entities;
 
 import Utils.Constants;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -209,11 +208,11 @@ public class PersonasSucursal extends AbstractEntity {
     public String toString() {
         return "Entities.PersonasSucursal[ personasSucursalPK=" + personasSucursalPK + " ]";
     }
-
+    
     public boolean isLocked() {
         if (Objects.equals(estado.getIdEstado(), Constants.STATUS_BLOCKED)) {
             return true;
-        }
+}
         return false;
     }
 

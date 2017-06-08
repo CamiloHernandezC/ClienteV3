@@ -41,9 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Materiales.findByFecha", query = "SELECT m FROM Materiales m WHERE m.fecha = :fecha")})
 public class Materiales implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaterial", fetch = FetchType.LAZY)
-    private List<Cardex> cardexList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -68,10 +65,8 @@ public class Materiales implements Serializable {
     @JoinColumn(name = "Unidad", referencedColumnName = "Id_Unidad")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Unidades unidad;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "materiales", fetch = FetchType.LAZY)
-    private List<Inventario> inventarioList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaterial", fetch = FetchType.LAZY)
-    private List<MovMateriales> movMaterialesList;
+    private List<Cardex> cardexList;
 
     public Materiales() {
     }
@@ -136,21 +131,12 @@ public class Materiales implements Serializable {
     }
 
     @XmlTransient
-    public List<Inventario> getInventarioList() {
-        return inventarioList;
+    public List<Cardex> getCardexList() {
+        return cardexList;
     }
 
-    public void setInventarioList(List<Inventario> inventarioList) {
-        this.inventarioList = inventarioList;
-    }
-
-    @XmlTransient
-    public List<MovMateriales> getMovMaterialesList() {
-        return movMaterialesList;
-    }
-
-    public void setMovMaterialesList(List<MovMateriales> movMaterialesList) {
-        this.movMaterialesList = movMaterialesList;
+    public void setCardexList(List<Cardex> cardexList) {
+        this.cardexList = cardexList;
     }
 
     @Override
@@ -176,15 +162,6 @@ public class Materiales implements Serializable {
     @Override
     public String toString() {
         return "Entities.Materiales[ idMaterial=" + idMaterial + " ]";
-    }
-
-    @XmlTransient
-    public List<Cardex> getCardexList() {
-        return cardexList;
-    }
-
-    public void setCardexList(List<Cardex> cardexList) {
-        this.cardexList = cardexList;
     }
     
 }

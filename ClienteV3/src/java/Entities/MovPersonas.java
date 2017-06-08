@@ -46,9 +46,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MovPersonas.findByFecha", query = "SELECT m FROM MovPersonas m WHERE m.fecha = :fecha")})
 public class MovPersonas implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movPersona", fetch = FetchType.LAZY)
-    private List<MovRemisiones> movRemisionesList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -84,8 +81,8 @@ public class MovPersonas implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @OneToMany(mappedBy = "movPersona", fetch = FetchType.LAZY)
-    private List<Remisiones> remisionesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movPersona", fetch = FetchType.LAZY)
+    private List<MovRemisiones> movRemisionesList;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas usuario;
@@ -192,12 +189,12 @@ public class MovPersonas implements Serializable {
     }
 
     @XmlTransient
-    public List<Remisiones> getRemisionesList() {
-        return remisionesList;
+    public List<MovRemisiones> getMovRemisionesList() {
+        return movRemisionesList;
     }
 
-    public void setRemisionesList(List<Remisiones> remisionesList) {
-        this.remisionesList = remisionesList;
+    public void setMovRemisionesList(List<MovRemisiones> movRemisionesList) {
+        this.movRemisionesList = movRemisionesList;
     }
 
     public Personas getUsuario() {
@@ -300,15 +297,6 @@ public class MovPersonas implements Serializable {
     @Override
     public String toString() {
         return "Entities.MovPersonas[ idMovPersona=" + idMovPersona + " ]";
-    }
-
-    @XmlTransient
-    public List<MovRemisiones> getMovRemisionesList() {
-        return movRemisionesList;
-    }
-
-    public void setMovRemisionesList(List<MovRemisiones> movRemisionesList) {
-        this.movRemisionesList = movRemisionesList;
     }
     
 }

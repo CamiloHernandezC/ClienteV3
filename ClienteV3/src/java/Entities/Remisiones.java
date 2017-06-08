@@ -23,7 +23,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -38,30 +37,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Remisiones.findAll", query = "SELECT r FROM Remisiones r"),
     @NamedQuery(name = "Remisiones.findByIdRemision", query = "SELECT r FROM Remisiones r WHERE r.idRemision = :idRemision"),
     @NamedQuery(name = "Remisiones.findByEntradaSalida", query = "SELECT r FROM Remisiones r WHERE r.entradaSalida = :entradaSalida"),
-    @NamedQuery(name = "Remisiones.findByFecha", query = "SELECT r FROM Remisiones r WHERE r.fecha = :fecha"),
-    @NamedQuery(name = "Remisiones.findByDestino", query = "SELECT r FROM Remisiones r WHERE r.destino = :destino"),
+    @NamedQuery(name = "Remisiones.findByFechaInicio", query = "SELECT r FROM Remisiones r WHERE r.fechaInicio = :fechaInicio"),
     @NamedQuery(name = "Remisiones.findByContenedores", query = "SELECT r FROM Remisiones r WHERE r.contenedores = :contenedores"),
-    @NamedQuery(name = "Remisiones.findByUnidadesSueltas", query = "SELECT r FROM Remisiones r WHERE r.unidadesSueltas = :unidadesSueltas")})
+    @NamedQuery(name = "Remisiones.findByUnidadesSueltas", query = "SELECT r FROM Remisiones r WHERE r.unidadesSueltas = :unidadesSueltas"),
+    @NamedQuery(name = "Remisiones.findByFechaFin", query = "SELECT r FROM Remisiones r WHERE r.fechaFin = :fechaFin")})
 public class Remisiones implements Serializable {
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Fecha_Inicio")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaInicio;
-    @Column(name = "Fecha_Fin")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaFin;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "remision", fetch = FetchType.LAZY)
-    private List<MovRemisiones> movRemisionesList;
-    @JoinColumn(name = "Empresa_Destino", referencedColumnName = "Id_Empresa_Origen")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private EmpresaOrigen empresaDestino;
-    @JoinColumn(name = "Almacen", referencedColumnName = "Id_Almacen")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Almacen almacen;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "remision", fetch = FetchType.LAZY)
-    private List<Cardex> cardexList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -75,19 +55,18 @@ public class Remisiones implements Serializable {
     private boolean entradaSalida;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Fecha")
+    @Column(name = "Fecha_Inicio")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
-    @Size(max = 32)
-    @Column(name = "Destino")
-    private String destino;
+    private Date fechaInicio;
     @Column(name = "Contenedores")
     private Integer contenedores;
     @Column(name = "Unidades_Sueltas")
     private Integer unidadesSueltas;
-    @JoinColumn(name = "Visto_Porteria", referencedColumnName = "Id_Persona")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Personas vistoPorteria;
+    @Column(name = "Fecha_Fin")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaFin;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "remision", fetch = FetchType.LAZY)
+    private List<MovRemisiones> movRemisionesList;
     @JoinColumn(name = "Almacenista", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas almacenista;
@@ -97,15 +76,18 @@ public class Remisiones implements Serializable {
     @JoinColumn(name = "Estado", referencedColumnName = "Id_Estado")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Estados estado;
-    @JoinColumn(name = "Mov_Persona", referencedColumnName = "Id_Mov_Persona")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private MovPersonas movPersona;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "remision", fetch = FetchType.LAZY)
-    private List<MovMateriales> movMaterialesList;
+    @JoinColumn(name = "Empresa_Destino", referencedColumnName = "Id_Empresa_Origen")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private EmpresaOrigen empresaDestino;
+    @JoinColumn(name = "Almacen", referencedColumnName = "Id_Almacen")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Almacen almacen;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "remisiones", fetch = FetchType.LAZY)
     private List<TrasladosMaterial> trasladosMaterialList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "remisiones1", fetch = FetchType.LAZY)
     private List<TrasladosMaterial> trasladosMaterialList1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "remision", fetch = FetchType.LAZY)
+    private List<Cardex> cardexList;
 
     public Remisiones() {
     }
@@ -114,10 +96,10 @@ public class Remisiones implements Serializable {
         this.idRemision = idRemision;
     }
 
-    public Remisiones(Integer idRemision, boolean entradaSalida, Date fecha) {
+    public Remisiones(Integer idRemision, boolean entradaSalida, Date fechaInicio) {
         this.idRemision = idRemision;
         this.entradaSalida = entradaSalida;
-        this.fecha = fecha;
+        this.fechaInicio = fechaInicio;
     }
 
     public Integer getIdRemision() {
@@ -136,20 +118,12 @@ public class Remisiones implements Serializable {
         this.entradaSalida = entradaSalida;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public Date getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getDestino() {
-        return destino;
-    }
-
-    public void setDestino(String destino) {
-        this.destino = destino;
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
     public Integer getContenedores() {
@@ -168,12 +142,21 @@ public class Remisiones implements Serializable {
         this.unidadesSueltas = unidadesSueltas;
     }
 
-    public Personas getVistoPorteria() {
-        return vistoPorteria;
+    public Date getFechaFin() {
+        return fechaFin;
     }
 
-    public void setVistoPorteria(Personas vistoPorteria) {
-        this.vistoPorteria = vistoPorteria;
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    @XmlTransient
+    public List<MovRemisiones> getMovRemisionesList() {
+        return movRemisionesList;
+    }
+
+    public void setMovRemisionesList(List<MovRemisiones> movRemisionesList) {
+        this.movRemisionesList = movRemisionesList;
     }
 
     public Personas getAlmacenista() {
@@ -200,21 +183,20 @@ public class Remisiones implements Serializable {
         this.estado = estado;
     }
 
-    public MovPersonas getMovPersona() {
-        return movPersona;
+    public EmpresaOrigen getEmpresaDestino() {
+        return empresaDestino;
     }
 
-    public void setMovPersona(MovPersonas movPersona) {
-        this.movPersona = movPersona;
+    public void setEmpresaDestino(EmpresaOrigen empresaDestino) {
+        this.empresaDestino = empresaDestino;
     }
 
-    @XmlTransient
-    public List<MovMateriales> getMovMaterialesList() {
-        return movMaterialesList;
+    public Almacen getAlmacen() {
+        return almacen;
     }
 
-    public void setMovMaterialesList(List<MovMateriales> movMaterialesList) {
-        this.movMaterialesList = movMaterialesList;
+    public void setAlmacen(Almacen almacen) {
+        this.almacen = almacen;
     }
 
     @XmlTransient
@@ -233,6 +215,15 @@ public class Remisiones implements Serializable {
 
     public void setTrasladosMaterialList1(List<TrasladosMaterial> trasladosMaterialList1) {
         this.trasladosMaterialList1 = trasladosMaterialList1;
+    }
+
+    @XmlTransient
+    public List<Cardex> getCardexList() {
+        return cardexList;
+    }
+
+    public void setCardexList(List<Cardex> cardexList) {
+        this.cardexList = cardexList;
     }
 
     @Override
@@ -258,56 +249,6 @@ public class Remisiones implements Serializable {
     @Override
     public String toString() {
         return "Entities.Remisiones[ idRemision=" + idRemision + " ]";
-    }
-
-    public Date getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-    public Date getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
-    }
-
-    @XmlTransient
-    public List<MovRemisiones> getMovRemisionesList() {
-        return movRemisionesList;
-    }
-
-    public void setMovRemisionesList(List<MovRemisiones> movRemisionesList) {
-        this.movRemisionesList = movRemisionesList;
-    }
-
-    public EmpresaOrigen getEmpresaDestino() {
-        return empresaDestino;
-    }
-
-    public void setEmpresaDestino(EmpresaOrigen empresaDestino) {
-        this.empresaDestino = empresaDestino;
-    }
-
-    public Almacen getAlmacen() {
-        return almacen;
-    }
-
-    public void setAlmacen(Almacen almacen) {
-        this.almacen = almacen;
-    }
-
-    @XmlTransient
-    public List<Cardex> getCardexList() {
-        return cardexList;
-    }
-
-    public void setCardexList(List<Cardex> cardexList) {
-        this.cardexList = cardexList;
     }
     
 }

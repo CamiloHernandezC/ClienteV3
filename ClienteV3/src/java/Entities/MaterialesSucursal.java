@@ -35,15 +35,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MaterialesSucursal.findByIdMaterial", query = "SELECT m FROM MaterialesSucursal m WHERE m.materialesSucursalPK.idMaterial = :idMaterial"),
     @NamedQuery(name = "MaterialesSucursal.findByIdSucursal", query = "SELECT m FROM MaterialesSucursal m WHERE m.materialesSucursalPK.idSucursal = :idSucursal"),
     @NamedQuery(name = "MaterialesSucursal.findByIdExterno", query = "SELECT m FROM MaterialesSucursal m WHERE m.idExterno = :idExterno"),
-    @NamedQuery(name = "MaterialesSucursal.findByFecha", query = "SELECT m FROM MaterialesSucursal m WHERE m.fecha = :fecha")})
+    @NamedQuery(name = "MaterialesSucursal.findByFecha", query = "SELECT m FROM MaterialesSucursal m WHERE m.fecha = :fecha"),
+    @NamedQuery(name = "MaterialesSucursal.findByGrupo", query = "SELECT m FROM MaterialesSucursal m WHERE m.grupo = :grupo"),
+    @NamedQuery(name = "MaterialesSucursal.findBySubgrupo", query = "SELECT m FROM MaterialesSucursal m WHERE m.subgrupo = :subgrupo")})
 public class MaterialesSucursal implements Serializable {
-
-    @Size(max = 13)
-    @Column(name = "Grupo")
-    private String grupo;
-    @Size(max = 13)
-    @Column(name = "Subgrupo")
-    private String subgrupo;
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -56,6 +51,12 @@ public class MaterialesSucursal implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
+    @Size(max = 13)
+    @Column(name = "Grupo")
+    private String grupo;
+    @Size(max = 13)
+    @Column(name = "Subgrupo")
+    private String subgrupo;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Personas usuario;
@@ -106,6 +107,22 @@ public class MaterialesSucursal implements Serializable {
         this.fecha = fecha;
     }
 
+    public String getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(String grupo) {
+        this.grupo = grupo;
+    }
+
+    public String getSubgrupo() {
+        return subgrupo;
+    }
+
+    public void setSubgrupo(String subgrupo) {
+        this.subgrupo = subgrupo;
+    }
+
     public Personas getUsuario() {
         return usuario;
     }
@@ -153,22 +170,6 @@ public class MaterialesSucursal implements Serializable {
     @Override
     public String toString() {
         return "Entities.MaterialesSucursal[ materialesSucursalPK=" + materialesSucursalPK + " ]";
-    }
-
-    public String getGrupo() {
-        return grupo;
-    }
-
-    public void setGrupo(String grupo) {
-        this.grupo = grupo;
-    }
-
-    public String getSubgrupo() {
-        return subgrupo;
-    }
-
-    public void setSubgrupo(String subgrupo) {
-        this.subgrupo = subgrupo;
     }
     
 }
