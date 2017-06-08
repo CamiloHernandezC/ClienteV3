@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MovRemisionesViewDlg" widgetVar="MovRemisionesViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewMovRemisionesTitle}">
+            <h:form id="MovRemisionesViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{movRemisionesController.selected != null}">
+                        <h:outputText value="#{bundle.ViewMovRemisionesLabel_idMovimiento}"/>
+                        <h:outputText value="#{movRemisionesController.selected.idMovimiento}" title="#{bundle.ViewMovRemisionesTitle_idMovimiento}"/>
+                        <h:outputText value="#{bundle.ViewMovRemisionesLabel_contenedoresRevisados}"/>
+                        <h:outputText value="#{movRemisionesController.selected.contenedoresRevisados}" title="#{bundle.ViewMovRemisionesTitle_contenedoresRevisados}"/>
+                        <h:outputText value="#{bundle.ViewMovRemisionesLabel_unidadesRevisadas}"/>
+                        <h:outputText value="#{movRemisionesController.selected.unidadesRevisadas}" title="#{bundle.ViewMovRemisionesTitle_unidadesRevisadas}"/>
+                        <h:outputText value="#{bundle.ViewMovRemisionesLabel_fechaMovimiento}"/>
+                        <h:outputText value="#{movRemisionesController.selected.fechaMovimiento}" title="#{bundle.ViewMovRemisionesTitle_fechaMovimiento}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewMovRemisionesLabel_remision}"/>
+                        <h:outputText value="#{movRemisionesController.selected.remision}" title="#{bundle.ViewMovRemisionesTitle_remision}"/>
+                        <h:outputText value="#{bundle.ViewMovRemisionesLabel_vistoBueno}"/>
+                        <h:outputText value="#{movRemisionesController.selected.vistoBueno}" title="#{bundle.ViewMovRemisionesTitle_vistoBueno}"/>
+                        <h:outputText value="#{bundle.ViewMovRemisionesLabel_movPersona}"/>
+                        <h:outputText value="#{movRemisionesController.selected.movPersona}" title="#{bundle.ViewMovRemisionesTitle_movPersona}"/>
+                        <h:outputText value="#{bundle.ViewMovRemisionesLabel_sucursal}"/>
+                        <h:outputText value="#{movRemisionesController.selected.sucursal}" title="#{bundle.ViewMovRemisionesTitle_sucursal}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="MovRemisionesViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

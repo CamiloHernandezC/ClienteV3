@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RemisionesCreateDlg" widgetVar="RemisionesCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateRemisionesTitle}">
+            <h:form id="RemisionesCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{remisionesController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateRemisionesLabel_idRemision}" for="idRemision" />
+                        <p:inputText id="idRemision" value="#{remisionesController.selected.idRemision}" title="#{bundle.CreateRemisionesTitle_idRemision}" required="true" requiredMessage="#{bundle.CreateRemisionesRequiredMessage_idRemision}"/>
+                        <p:outputLabel value="#{bundle.CreateRemisionesLabel_entradaSalida}" for="entradaSalida" />
+                        <p:selectBooleanCheckbox id="entradaSalida" value="#{remisionesController.selected.entradaSalida}" required="true" requiredMessage="#{bundle.EditRemisionesRequiredMessage_entradaSalida}"/>
+                        <p:outputLabel value="#{bundle.CreateRemisionesLabel_fechaInicio}" for="fechaInicio" />
+                        <p:calendar id="fechaInicio" pattern="MM/dd/yyyy HH:mm:ss" value="#{remisionesController.selected.fechaInicio}" title="#{bundle.EditRemisionesTitle_fechaInicio}" required="true" requiredMessage="#{bundle.EditRemisionesRequiredMessage_fechaInicio}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateRemisionesLabel_contenedores}" for="contenedores" />
+                        <p:inputText id="contenedores" value="#{remisionesController.selected.contenedores}" title="#{bundle.CreateRemisionesTitle_contenedores}" />
+                        <p:outputLabel value="#{bundle.CreateRemisionesLabel_unidadesSueltas}" for="unidadesSueltas" />
+                        <p:inputText id="unidadesSueltas" value="#{remisionesController.selected.unidadesSueltas}" title="#{bundle.CreateRemisionesTitle_unidadesSueltas}" />
+                        <p:outputLabel value="#{bundle.CreateRemisionesLabel_fechaFin}" for="fechaFin" />
+                        <p:calendar id="fechaFin" pattern="MM/dd/yyyy HH:mm:ss" value="#{remisionesController.selected.fechaFin}" title="#{bundle.EditRemisionesTitle_fechaFin}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateRemisionesLabel_almacenista}" for="almacenista" />
+                        <p:selectOneMenu id="almacenista" value="#{remisionesController.selected.almacenista}" required="true" requiredMessage="#{bundle.EditRemisionesRequiredMessage_almacenista}">
+                            <f:selectItems value="#{personasController.itemsAvailableSelectOne}"
+                                           var="almacenistaItem"
+                                           itemValue="#{almacenistaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateRemisionesLabel_sucursal}" for="sucursal" />
+                        <p:selectOneMenu id="sucursal" value="#{remisionesController.selected.sucursal}" required="true" requiredMessage="#{bundle.EditRemisionesRequiredMessage_sucursal}">
+                            <f:selectItems value="#{sucursalesController.itemsAvailableSelectOne}"
+                                           var="sucursalItem"
+                                           itemValue="#{sucursalItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateRemisionesLabel_estado}" for="estado" />
+                        <p:selectOneMenu id="estado" value="#{remisionesController.selected.estado}" required="true" requiredMessage="#{bundle.EditRemisionesRequiredMessage_estado}">
+                            <f:selectItems value="#{estadosController.itemsAvailableSelectOne}"
+                                           var="estadoItem"
+                                           itemValue="#{estadoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateRemisionesLabel_empresaDestino}" for="empresaDestino" />
+                        <p:selectOneMenu id="empresaDestino" value="#{remisionesController.selected.empresaDestino}" required="true" requiredMessage="#{bundle.EditRemisionesRequiredMessage_empresaDestino}">
+                            <f:selectItems value="#{empresaOrigenController.itemsAvailableSelectOne}"
+                                           var="empresaDestinoItem"
+                                           itemValue="#{empresaDestinoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateRemisionesLabel_almacen}" for="almacen" />
+                        <p:selectOneMenu id="almacen" value="#{remisionesController.selected.almacen}" required="true" requiredMessage="#{bundle.EditRemisionesRequiredMessage_almacen}">
+                            <f:selectItems value="#{almacenController.itemsAvailableSelectOne}"
+                                           var="almacenItem"
+                                           itemValue="#{almacenItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{remisionesController.create}" value="#{bundle.Save}" update="display,:RemisionesListForm:datalist,:growl" oncomplete="handleSubmit(args,'RemisionesCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="RemisionesCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

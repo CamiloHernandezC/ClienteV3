@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CardexCreateDlg" widgetVar="CardexCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCardexTitle}">
+            <h:form id="CardexCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{cardexController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateCardexLabel_idMovimientoMaterial}" for="idMovimientoMaterial" />
+                        <p:inputText id="idMovimientoMaterial" value="#{cardexController.selected.idMovimientoMaterial}" title="#{bundle.CreateCardexTitle_idMovimientoMaterial}" required="true" requiredMessage="#{bundle.CreateCardexRequiredMessage_idMovimientoMaterial}"/>
+                        <p:outputLabel value="#{bundle.CreateCardexLabel_fechaMovimiento}" for="fechaMovimiento" />
+                        <p:calendar id="fechaMovimiento" pattern="MM/dd/yyyy HH:mm:ss" value="#{cardexController.selected.fechaMovimiento}" title="#{bundle.EditCardexTitle_fechaMovimiento}" required="true" requiredMessage="#{bundle.EditCardexRequiredMessage_fechaMovimiento}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateCardexLabel_cantida}" for="cantida" />
+                        <p:inputText id="cantida" value="#{cardexController.selected.cantida}" title="#{bundle.CreateCardexTitle_cantida}" required="true" requiredMessage="#{bundle.CreateCardexRequiredMessage_cantida}"/>
+                        <p:outputLabel value="#{bundle.CreateCardexLabel_observacion}" for="observacion" />
+                        <p:inputText id="observacion" value="#{cardexController.selected.observacion}" title="#{bundle.CreateCardexTitle_observacion}" />
+                        <p:outputLabel value="#{bundle.CreateCardexLabel_cantidadActual}" for="cantidadActual" />
+                        <p:inputText id="cantidadActual" value="#{cardexController.selected.cantidadActual}" title="#{bundle.CreateCardexTitle_cantidadActual}" required="true" requiredMessage="#{bundle.CreateCardexRequiredMessage_cantidadActual}"/>
+                        <p:outputLabel value="#{bundle.CreateCardexLabel_sucursal}" for="sucursal" />
+                        <p:selectOneMenu id="sucursal" value="#{cardexController.selected.sucursal}" required="true" requiredMessage="#{bundle.EditCardexRequiredMessage_sucursal}">
+                            <f:selectItems value="#{sucursalesController.itemsAvailableSelectOne}"
+                                           var="sucursalItem"
+                                           itemValue="#{sucursalItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateCardexLabel_idMaterial}" for="idMaterial" />
+                        <p:selectOneMenu id="idMaterial" value="#{cardexController.selected.idMaterial}" required="true" requiredMessage="#{bundle.EditCardexRequiredMessage_idMaterial}">
+                            <f:selectItems value="#{materialesController.itemsAvailableSelectOne}"
+                                           var="idMaterialItem"
+                                           itemValue="#{idMaterialItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateCardexLabel_remision}" for="remision" />
+                        <p:selectOneMenu id="remision" value="#{cardexController.selected.remision}" required="true" requiredMessage="#{bundle.EditCardexRequiredMessage_remision}">
+                            <f:selectItems value="#{remisionesController.itemsAvailableSelectOne}"
+                                           var="remisionItem"
+                                           itemValue="#{remisionItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateCardexLabel_almacen}" for="almacen" />
+                        <p:selectOneMenu id="almacen" value="#{cardexController.selected.almacen}" required="true" requiredMessage="#{bundle.EditCardexRequiredMessage_almacen}">
+                            <f:selectItems value="#{almacenController.itemsAvailableSelectOne}"
+                                           var="almacenItem"
+                                           itemValue="#{almacenItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cardexController.create}" value="#{bundle.Save}" update="display,:CardexListForm:datalist,:growl" oncomplete="handleSubmit(args,'CardexCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="CardexCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
