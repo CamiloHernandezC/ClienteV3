@@ -28,15 +28,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Kmilo
  */
 @Entity
-@Table(name = "mov_materiales")
+@Table(name = "cardex")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "MovMateriales.findAll", query = "SELECT m FROM MovMateriales m"),
-    @NamedQuery(name = "MovMateriales.findByIdMovimientoMaterial", query = "SELECT m FROM MovMateriales m WHERE m.idMovimientoMaterial = :idMovimientoMaterial"),
-    @NamedQuery(name = "MovMateriales.findByFechaMovimiento", query = "SELECT m FROM MovMateriales m WHERE m.fechaMovimiento = :fechaMovimiento"),
-    @NamedQuery(name = "MovMateriales.findByCantida", query = "SELECT m FROM MovMateriales m WHERE m.cantida = :cantida"),
-    @NamedQuery(name = "MovMateriales.findByObservacion", query = "SELECT m FROM MovMateriales m WHERE m.observacion = :observacion")})
-public class MovMateriales implements Serializable {
+    @NamedQuery(name = "Cardex.findAll", query = "SELECT c FROM Cardex c"),
+    @NamedQuery(name = "Cardex.findByIdMovimientoMaterial", query = "SELECT c FROM Cardex c WHERE c.idMovimientoMaterial = :idMovimientoMaterial"),
+    @NamedQuery(name = "Cardex.findByFechaMovimiento", query = "SELECT c FROM Cardex c WHERE c.fechaMovimiento = :fechaMovimiento"),
+    @NamedQuery(name = "Cardex.findByCantida", query = "SELECT c FROM Cardex c WHERE c.cantida = :cantida"),
+    @NamedQuery(name = "Cardex.findByObservacion", query = "SELECT c FROM Cardex c WHERE c.observacion = :observacion"),
+    @NamedQuery(name = "Cardex.findByCantidadActual", query = "SELECT c FROM Cardex c WHERE c.cantidadActual = :cantidadActual")})
+public class Cardex implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -56,6 +57,10 @@ public class MovMateriales implements Serializable {
     @Size(max = 140)
     @Column(name = "Observacion")
     private String observacion;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Cantidad_Actual")
+    private int cantidadActual;
     @JoinColumn(name = "Sucursal", referencedColumnName = "Id_Sucursal")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Sucursales sucursal;
@@ -65,18 +70,22 @@ public class MovMateriales implements Serializable {
     @JoinColumn(name = "Remision", referencedColumnName = "Id_Remision")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Remisiones remision;
+    @JoinColumn(name = "Almacen", referencedColumnName = "Id_Almacen")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Almacen almacen;
 
-    public MovMateriales() {
+    public Cardex() {
     }
 
-    public MovMateriales(Integer idMovimientoMaterial) {
+    public Cardex(Integer idMovimientoMaterial) {
         this.idMovimientoMaterial = idMovimientoMaterial;
     }
 
-    public MovMateriales(Integer idMovimientoMaterial, Date fechaMovimiento, int cantida) {
+    public Cardex(Integer idMovimientoMaterial, Date fechaMovimiento, int cantida, int cantidadActual) {
         this.idMovimientoMaterial = idMovimientoMaterial;
         this.fechaMovimiento = fechaMovimiento;
         this.cantida = cantida;
+        this.cantidadActual = cantidadActual;
     }
 
     public Integer getIdMovimientoMaterial() {
@@ -111,6 +120,14 @@ public class MovMateriales implements Serializable {
         this.observacion = observacion;
     }
 
+    public int getCantidadActual() {
+        return cantidadActual;
+    }
+
+    public void setCantidadActual(int cantidadActual) {
+        this.cantidadActual = cantidadActual;
+    }
+
     public Sucursales getSucursal() {
         return sucursal;
     }
@@ -135,6 +152,14 @@ public class MovMateriales implements Serializable {
         this.remision = remision;
     }
 
+    public Almacen getAlmacen() {
+        return almacen;
+    }
+
+    public void setAlmacen(Almacen almacen) {
+        this.almacen = almacen;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -145,10 +170,10 @@ public class MovMateriales implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MovMateriales)) {
+        if (!(object instanceof Cardex)) {
             return false;
         }
-        MovMateriales other = (MovMateriales) object;
+        Cardex other = (Cardex) object;
         if ((this.idMovimientoMaterial == null && other.idMovimientoMaterial != null) || (this.idMovimientoMaterial != null && !this.idMovimientoMaterial.equals(other.idMovimientoMaterial))) {
             return false;
         }
@@ -157,7 +182,7 @@ public class MovMateriales implements Serializable {
 
     @Override
     public String toString() {
-        return "Entities.MovMateriales[ idMovimientoMaterial=" + idMovimientoMaterial + " ]";
+        return "Entities.Cardex[ idMovimientoMaterial=" + idMovimientoMaterial + " ]";
     }
     
 }

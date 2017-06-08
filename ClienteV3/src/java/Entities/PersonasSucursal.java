@@ -209,38 +209,38 @@ public class PersonasSucursal extends AbstractEntity {
     public String toString() {
         return "Entities.PersonasSucursal[ personasSucursalPK=" + personasSucursalPK + " ]";
     }
-    
-    public boolean isLocked(){
-    if(Objects.equals(estado.getIdEstado(), Constants.STATUS_BLOCKED)){
-        return true;
+
+    public boolean isLocked() {
+        if (Objects.equals(estado.getIdEstado(), Constants.STATUS_BLOCKED)) {
+            return true;
+        }
+        return false;
     }
-    return false;
-}
 
-@Override
-public int getPrimaryKey() {
-    //Nothing to do here
-    return 0;
-}
+    @Override
+    public int getPrimaryKey() {
+        //Nothing to do here
+        return 0;
+    }
 
-@Override
-public void setPrimaryKey(int primaryKey) {
-    //Nothing to do here
-}
+    @Override
+    public void setPrimaryKey(int primaryKey) {
+        //Nothing to do here
+    }
 
-@Override
-public void setUser(Personas user) {
-    usuario = user;
-}
+    @Override
+    public void setUser(Personas user) {
+        usuario = user;
+    }
 
-@Override
-public void setDate(Date date) {
-    fecha = date;
-}
+    @Override
+    public void setDate(Date date) {
+        fecha = date;
+    }
 
     @Override
     public void setStatus(Integer STATUS_INACTIVE) {
         estado = new Estados(STATUS_INACTIVE);
     }
-    
+
 }

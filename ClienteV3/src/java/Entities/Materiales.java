@@ -37,10 +37,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Materiales.findAll", query = "SELECT m FROM Materiales m"),
     @NamedQuery(name = "Materiales.findByIdMaterial", query = "SELECT m FROM Materiales m WHERE m.idMaterial = :idMaterial"),
-    @NamedQuery(name = "Materiales.findByIDExterno", query = "SELECT m FROM Materiales m WHERE m.iDExterno = :iDExterno"),
     @NamedQuery(name = "Materiales.findByDescripcion", query = "SELECT m FROM Materiales m WHERE m.descripcion = :descripcion"),
     @NamedQuery(name = "Materiales.findByFecha", query = "SELECT m FROM Materiales m WHERE m.fecha = :fecha")})
 public class Materiales implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaterial", fetch = FetchType.LAZY)
+    private List<Cardex> cardexList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,9 +50,6 @@ public class Materiales implements Serializable {
     @NotNull
     @Column(name = "Id_Material")
     private Integer idMaterial;
-    @Size(max = 32)
-    @Column(name = "ID_Externo")
-    private String iDExterno;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
@@ -69,6 +68,8 @@ public class Materiales implements Serializable {
     @JoinColumn(name = "Unidad", referencedColumnName = "Id_Unidad")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Unidades unidad;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "materiales", fetch = FetchType.LAZY)
+    private List<Inventario> inventarioList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaterial", fetch = FetchType.LAZY)
     private List<MovMateriales> movMaterialesList;
 
@@ -91,14 +92,6 @@ public class Materiales implements Serializable {
 
     public void setIdMaterial(Integer idMaterial) {
         this.idMaterial = idMaterial;
-    }
-
-    public String getIDExterno() {
-        return iDExterno;
-    }
-
-    public void setIDExterno(String iDExterno) {
-        this.iDExterno = iDExterno;
     }
 
     public String getDescripcion() {
@@ -143,6 +136,15 @@ public class Materiales implements Serializable {
     }
 
     @XmlTransient
+    public List<Inventario> getInventarioList() {
+        return inventarioList;
+    }
+
+    public void setInventarioList(List<Inventario> inventarioList) {
+        this.inventarioList = inventarioList;
+    }
+
+    @XmlTransient
     public List<MovMateriales> getMovMaterialesList() {
         return movMaterialesList;
     }
@@ -174,6 +176,15 @@ public class Materiales implements Serializable {
     @Override
     public String toString() {
         return "Entities.Materiales[ idMaterial=" + idMaterial + " ]";
+    }
+
+    @XmlTransient
+    public List<Cardex> getCardexList() {
+        return cardexList;
+    }
+
+    public void setCardexList(List<Cardex> cardexList) {
+        this.cardexList = cardexList;
     }
     
 }
