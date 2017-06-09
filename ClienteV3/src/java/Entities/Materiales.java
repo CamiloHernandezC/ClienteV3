@@ -65,8 +65,6 @@ public class Materiales implements Serializable {
     @JoinColumn(name = "Unidad", referencedColumnName = "Id_Unidad")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Unidades unidad;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaterial", fetch = FetchType.LAZY)
-    private List<Cardex> cardexList;
 
     public Materiales() {
     }
@@ -128,15 +126,6 @@ public class Materiales implements Serializable {
 
     public void setUnidad(Unidades unidad) {
         this.unidad = unidad;
-    }
-
-    @XmlTransient
-    public List<Cardex> getCardexList() {
-        return cardexList;
-    }
-
-    public void setCardexList(List<Cardex> cardexList) {
-        this.cardexList = cardexList;
     }
 
     @Override
