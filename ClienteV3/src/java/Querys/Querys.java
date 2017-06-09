@@ -93,6 +93,8 @@ public class Querys {
     public static final String CARDEX_SUCURSAL = " c.materialesSucursal.sucursales.idSucursal = '";
     public static final String INVENTARIO_ALL= "SELECT i FROM Inventario i";
     public static final String INVENTARIO_SUCURSAL= " i.materialesSucursal.sucursales.idSucursal = '";
+    public static final String CARDEX_ALMACEN = " c.almacen.idAlmacen = '";
+    public static final String CARDEX_MATERIAL= " c.materialesSucursal.materialesSucursalPK.idMaterial = '";
     
     
 }
