@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -61,12 +62,11 @@ public class Cardex implements Serializable {
     @NotNull
     @Column(name = "Cantidad_Actual")
     private int cantidadActual;
-    @JoinColumn(name = "Sucursal", referencedColumnName = "Id_Sucursal")
+    @JoinColumns({
+        @JoinColumn(name = "Id_Material", referencedColumnName = "Id_Material"),
+        @JoinColumn(name = "Sucursal", referencedColumnName = "Id_Sucursal")})
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Sucursales sucursal;
-    @JoinColumn(name = "Id_Material", referencedColumnName = "Id_Material")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Materiales idMaterial;
+    private MaterialesSucursal materialesSucursal;
     @JoinColumn(name = "Remision", referencedColumnName = "Id_Remision")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Remisiones remision;
@@ -128,20 +128,12 @@ public class Cardex implements Serializable {
         this.cantidadActual = cantidadActual;
     }
 
-    public Sucursales getSucursal() {
-        return sucursal;
+    public MaterialesSucursal getMaterialesSucursal() {
+        return materialesSucursal;
     }
 
-    public void setSucursal(Sucursales sucursal) {
-        this.sucursal = sucursal;
-    }
-
-    public Materiales getIdMaterial() {
-        return idMaterial;
-    }
-
-    public void setIdMaterial(Materiales idMaterial) {
-        this.idMaterial = idMaterial;
+    public void setMaterialesSucursal(MaterialesSucursal materialesSucursal) {
+        this.materialesSucursal = materialesSucursal;
     }
 
     public Remisiones getRemision() {
@@ -184,5 +176,5 @@ public class Cardex implements Serializable {
     public String toString() {
         return "Entities.Cardex[ idMovimientoMaterial=" + idMovimientoMaterial + " ]";
     }
-    
+
 }

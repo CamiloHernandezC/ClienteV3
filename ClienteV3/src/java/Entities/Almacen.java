@@ -54,6 +54,8 @@ public class Almacen implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Sucursales sucursal;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "almacen", fetch = FetchType.LAZY)
+    private List<Inventario> inventarioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "almacen", fetch = FetchType.LAZY)
     private List<Cardex> cardexList;
 
     public Almacen() {
@@ -99,6 +101,15 @@ public class Almacen implements Serializable {
 
     public void setSucursal(Sucursales sucursal) {
         this.sucursal = sucursal;
+    }
+
+    @XmlTransient
+    public List<Inventario> getInventarioList() {
+        return inventarioList;
+    }
+
+    public void setInventarioList(List<Inventario> inventarioList) {
+        this.inventarioList = inventarioList;
     }
 
     @XmlTransient

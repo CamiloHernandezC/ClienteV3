@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InventarioCreateDlg" widgetVar="InventarioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateInventarioTitle}">
+            <h:form id="InventarioCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{inventarioController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateInventarioLabel_idInventario}" for="idInventario" />
+                        <p:inputText id="idInventario" value="#{inventarioController.selected.idInventario}" title="#{bundle.CreateInventarioTitle_idInventario}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_idInventario}"/>
+                        <p:outputLabel value="#{bundle.CreateInventarioLabel_material}" for="material" />
+                        <p:inputText id="material" value="#{inventarioController.selected.material}" title="#{bundle.CreateInventarioTitle_material}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_material}"/>
+                        <p:outputLabel value="#{bundle.CreateInventarioLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{inventarioController.selected.cantidad}" title="#{bundle.CreateInventarioTitle_cantidad}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_cantidad}"/>
+                        <p:outputLabel value="#{bundle.CreateInventarioLabel_sucursal}" for="sucursal" />
+                        <p:inputText id="sucursal" value="#{inventarioController.selected.sucursal}" title="#{bundle.CreateInventarioTitle_sucursal}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_sucursal}"/>
+                        <p:outputLabel value="#{bundle.CreateInventarioLabel_almacen}" for="almacen" />
+                        <p:inputText id="almacen" value="#{inventarioController.selected.almacen}" title="#{bundle.CreateInventarioTitle_almacen}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_almacen}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{inventarioController.create}" value="#{bundle.Save}" update="display,:InventarioListForm:datalist,:growl" oncomplete="handleSubmit(args,'InventarioCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="InventarioCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

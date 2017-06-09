@@ -1,7 +1,7 @@
 package Converters;
 
-import Entities.Cardex;
-import Facade.CardexFacade;
+import Entities.Inventario;
+import Facade.InventarioFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,52 +16,52 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 //MANAGE BEAN PROPERTIES ARE COMMENTED BECAUSE PERSONAS SUCURSAL CONTROLLER IN CONTROLLERS PAKAGE EXTENDS THIS CLASS
-/*@Named("cardexController")
+/*@Named("inventarioController")
 @SessionScoped*/
-public class CardexController implements Serializable {
+public class InventarioController implements Serializable {
 
     @EJB
-    protected Facade.CardexFacade ejbFacade;
-    protected List<Cardex> items = null;
-    protected Cardex selected;
+    protected Facade.InventarioFacade ejbFacade;
+    protected List<Inventario> items = null;
+    protected Inventario selected;
 
-    public CardexController() {
+    public InventarioController() {
     }
 
-    public Cardex getSelected() {
+    public Inventario getSelected() {
         return selected;
     }
 
-    public void setSelected(Cardex selected) {
+    public void setSelected(Inventario selected) {
         this.selected = selected;
     }
 
-    protected CardexFacade getFacade() {
+    protected InventarioFacade getFacade() {
         return ejbFacade;
     }
 
-    public List<Cardex> getItems() {
+    public List<Inventario> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
         return items;
     }
 
-    public Cardex getCardex(java.lang.Integer id) {
+    public Inventario getInventario(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    @FacesConverter(forClass = Cardex.class)
-    public static class CardexControllerConverter implements Converter {
+    @FacesConverter(forClass = Inventario.class)
+    public static class InventarioControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            CardexController controller = (CardexController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "cardexController");
-            return controller.getCardex(getKey(value));
+            InventarioController controller = (InventarioController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "inventarioController");
+            return controller.getInventario(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -81,11 +81,11 @@ public class CardexController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Cardex) {
-                Cardex o = (Cardex) object;
-                return getStringKey(o.getIdMovimientoMaterial());
+            if (object instanceof Inventario) {
+                Inventario o = (Inventario) object;
+                return getStringKey(o.getIdInventario());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Cardex.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Inventario.class.getName()});
                 return null;
             }
         }
