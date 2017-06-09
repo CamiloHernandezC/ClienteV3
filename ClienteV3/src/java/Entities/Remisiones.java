@@ -5,6 +5,7 @@
  */
 package Entities;
 
+import Utils.BundleUtils;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -249,6 +250,13 @@ public class Remisiones implements Serializable {
     @Override
     public String toString() {
         return "Entities.Remisiones[ idRemision=" + idRemision + " ]";
+    }
+    
+    public String movementType(){
+        if(entradaSalida){
+            return BundleUtils.getBundleProperty("Entry");
+        }
+        return BundleUtils.getBundleProperty("Exit");
     }
     
 }
