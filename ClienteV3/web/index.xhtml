@@ -8,33 +8,33 @@
 
     <ui:define name="content">
         <h:form id="TiposDocumentoCliListForm">
-                <p:panel header="#{bundle.ListTiposDocumentoCliTitle}">
-                    <p:dataTable id="datalist" value="#{tiposDocumentoController.items}" var="item"
-                                 selectionMode="single"
-                                 paginator="true"
-                                 rowKey="#{item.tipoDocumento}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 >
+            <p:panel header="#{bundle.ListTiposDocumentoCliTitle}">
+                <p:dataTable id="datalist" value="#{tiposDocumentoController.items}" var="item"
+                             selectionMode="single"
+                             paginator="true"
+                             rowKey="#{item.tipoDocumento}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             >
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTiposDocumentoCliTitle_tipodocumento}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tipoDocumento}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTiposDocumentoCliTitle_descripcion}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.descripcion}"/>
-                        </p:column>
-                        <f:facet name="footer">
-
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTiposDocumentoCliTitle_tipodocumento}"/>
                         </f:facet>
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
+                        <h:outputText value="#{item.tipoDocumento}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTiposDocumentoCliTitle_descripcion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.descripcion}"/>
+                    </p:column>
+                    <f:facet name="footer">
+
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
     </ui:define>
 
 </ui:composition>

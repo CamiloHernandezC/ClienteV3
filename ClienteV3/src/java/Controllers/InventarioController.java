@@ -1,6 +1,6 @@
 package Controllers;
 
-import Controllers.util.JsfUtil;
+import Converters.util.JsfUtil;
 import Entities.Inventario;
 import GeneralControl.GeneralControl;
 import Querys.Querys;

@@ -94,7 +94,7 @@ public class PersonasController extends AbstractPersistenceController<Personas>{
                 + Querys.PERSONA_CLI_DOC_NUMBER + selected.getNumeroDocumento() + "'";
         return ejbFacade.findByQuery(squery, false);//Only one person should have document type, an document number (It is unique in database)
     }
-    
+
     /**
      * Update person's properties from file
      * @param existingPerson 
@@ -157,9 +157,8 @@ public class PersonasController extends AbstractPersistenceController<Personas>{
         if(selected.getFechaNacimiento()==null && existingPerson.getFechaNacimiento()!=null){
             selected.setFechaNacimiento(existingPerson.getFechaNacimiento());
         }
-        if(selected.getEstado()==null && existingPerson.getEstado()!=null){
-            selected.setEstado(existingPerson.getEstado());
-        }
+        selected.setEstado(existingPerson.getEstado());
+
         return update();
         //</editor-fold>
         

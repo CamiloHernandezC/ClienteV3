@@ -70,9 +70,9 @@ public class MaterialesSucursal implements Serializable {
     @JoinColumn(name = "Id_Sucursal", referencedColumnName = "Id_Sucursal", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Sucursales sucursales;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "materialesSucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "materialesSucursal", fetch = FetchType.LAZY)
     private List<Inventario> inventarioList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "materialesSucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "materialesSucursal", fetch = FetchType.LAZY)
     private List<Cardex> cardexList;
 
     public MaterialesSucursal() {

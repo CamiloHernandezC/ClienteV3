@@ -1,7 +1,7 @@
 package Controllers;
 
 import Entities.Personas;
-import Controllers.util.JsfUtil;
+import Converters.util.JsfUtil;
 import Entities.PersonasSucursal;
 import Querys.Querys;
 import Utils.BundleUtils;

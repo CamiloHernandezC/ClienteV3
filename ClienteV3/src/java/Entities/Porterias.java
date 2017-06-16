@@ -46,9 +46,9 @@ public class Porterias implements Serializable {
     @Size(min = 1, max = 140)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "porterias", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "porterias", fetch = FetchType.LAZY)
     private List<PorteriasSucursal> porteriasSucursalList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "porteria", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "porteria", fetch = FetchType.LAZY)
     private List<ConfigForm> configFormList;
     @OneToMany(mappedBy = "porteria", fetch = FetchType.LAZY)
     private List<Notificaciones> notificacionesList;

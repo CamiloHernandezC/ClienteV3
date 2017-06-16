@@ -1,6 +1,6 @@
 package Converters;
 
-import Controllers.util.JsfUtil;
+import Converters.util.JsfUtil;
 import Entities.Estados;
 import Entities.PersonasSucursal;
 import Facade.PersonasSucursalFacade;

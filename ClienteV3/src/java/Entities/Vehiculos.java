@@ -103,11 +103,11 @@ public class Vehiculos implements Serializable {
     @JoinColumn(name = "Unidad_Peso", referencedColumnName = "Id_Unidad")
     @ManyToOne(fetch = FetchType.LAZY)
     private Unidades unidadPeso;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vehiculos", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "vehiculos", fetch = FetchType.LAZY)
     private List<VehiculosSucursal> vehiculosSucursalList;
     @OneToMany(mappedBy = "vehiculo", fetch = FetchType.LAZY)
     private List<Notificaciones> notificacionesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "placa", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "placa", fetch = FetchType.LAZY)
     private List<MovVehiculos> movVehiculosList;
 
     public Vehiculos() {

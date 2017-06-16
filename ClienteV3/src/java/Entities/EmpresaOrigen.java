@@ -73,7 +73,7 @@ public class EmpresaOrigen implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empresaDestino", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "empresaDestino", fetch = FetchType.LAZY)
     private List<Remisiones> remisionesList;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

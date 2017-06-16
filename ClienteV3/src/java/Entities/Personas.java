@@ -121,37 +121,37 @@ public class Personas extends AbstractEntity{
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<VisitasEsperadas> visitasEsperadasList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personas", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "personas", fetch = FetchType.LAZY)
     private List<VisitasEsperadas> visitasEsperadasList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "funcionarioVisitado", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "funcionarioVisitado", fetch = FetchType.LAZY)
     private List<VisitasEsperadas> visitasEsperadasList2;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MaterialesSucursal> materialesSucursalList;
     @OneToMany(mappedBy = "vistoBueno", fetch = FetchType.LAZY)
     private List<MovRemisiones> movRemisionesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "almacenista", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "almacenista", fetch = FetchType.LAZY)
     private List<Remisiones> remisionesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY)
     private List<Usuarios> usuariosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioModifica", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuarioModifica", fetch = FetchType.LAZY)
     private List<Usuarios> usuariosList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<EmpresaOrigen> empresaOrigenList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Materiales> materialesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Objetos> objetosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<PersonasSucursal> personasSucursalList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personas", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "personas", fetch = FetchType.LAZY)
     private List<PersonasSucursal> personasSucursalList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MovPersonas> movPersonasList;
     @OneToMany(mappedBy = "personaAutoriza", fetch = FetchType.LAZY)
     private List<MovPersonas> movPersonasList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MovDocumentos> movDocumentosList;
     @JoinColumn(name = "Tipo_Documento", referencedColumnName = "Tipo_Documento")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -177,19 +177,19 @@ public class Personas extends AbstractEntity{
     @JoinColumn(name = "Estado", referencedColumnName = "Id_Estado")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Estados estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Vehiculos> vehiculosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<VehiculosSucursal> vehiculosSucursalList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Horarios> horariosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Notificaciones> notificacionesList;
     @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY)
     private List<Notificaciones> notificacionesList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MovObjetos> movObjetosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<MovVehiculos> movVehiculosList;
 
     public Personas() {

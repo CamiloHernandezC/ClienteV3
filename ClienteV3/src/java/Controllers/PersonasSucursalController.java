@@ -1,7 +1,7 @@
 package Controllers;
 
 import Entities.PersonasSucursal;
-import Controllers.util.JsfUtil;
+import Converters.util.JsfUtil;
 import Converters.AreasEmpresaController;
 import Entities.AreasEmpresa;
 import Entities.Arl;
@@ -12,6 +12,7 @@ import Entities.Estados;
 import Entities.Municipios;
 import Entities.Paises;
 import Entities.Personas;
+import Entities.PersonasSucursalPK;
 import Entities.Sucursales;
 import Entities.TiposDocumento;
 import GeneralControl.GeneralControl;
@@ -125,14 +126,20 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
             default://if an error happens
                 JsfUtil.addErrorMessage("FAIL LOADIGN FILE");//TODO create bundle  property
                 RequestContext.getCurrentInstance().execute("PF('dialogLoad').hide();");
+                JsfUtil.redirectTo(Navigation.PAGE_MASTER_DATA_PERSON);
                 return;
         }
         values = deleteEmptyData((String[][]) result.result);
+        if (!verifyStructure(values)) {
+            JsfUtil.addErrorMessage("THE STRUCTURE DOESN'T COINCIDE WHIT TEMPLATE, PLEASE DOWNLOAD TEMPLATE AND TRY AGAIN");//TODO CREATE BUNDLE PROPERTY HERE
+            JsfUtil.redirectTo(Navigation.PAGE_MASTER_DATA_PERSON);
+            return;
+        }
         ArrayList<PersonasSucursal> array = (ArrayList<PersonasSucursal>) castFileToEntity(values);
         int codeSaveFile = saveFile(array);
-        if(codeSaveFile == 0){
+        if (codeSaveFile == 0) {
             JsfUtil.addSuccessMessage("LOAD SUCCESSFULL");//TODO CREATE BUNDLE PROPERTY HERE
-        }else{
+        } else {
             JsfUtil.addErrorMessage("PARTIAL_SUCCESSFUL_OPERATION");//TODO CREATE BUNDLE PROPERTY HERE    
         }
         RequestContext.getCurrentInstance().execute("PF('dialogLoad').hide();");
@@ -142,12 +149,35 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
     //<editor-fold desc="castFileToEntity" defaultstate="collapsed">
     private ArrayList<PersonasSucursal> castFileToEntity(String[][] values) {
         ArrayList<PersonasSucursal> entities = new ArrayList<>();
+        
+        //<editor-fold desc="loading master data lists" defaultstate="collapsed">
+        if(values[1][0]!=null){//Branch office
+            if(areas==null){
+                GeneralControl generalControl = JsfUtil.findBean("generalControl");
+                try{
+                    generalControl.setSelectedBranchOffice(new Sucursales(Integer.valueOf(values[1][0])));
+                }catch(Exception e){
+                    JsfUtil.addErrorMessage("La sucursal no coincide con nuestra base de datos");
+                    return entities;
+                }
+                
+                AreasEmpresaController areasEmpresaController = JsfUtil.findBean("areasEmpresaController");
+                areas = areasEmpresaController.getItemsByBranchOffice();//AREAS IS LOADED WHEN DOWNLOAD TEMPLATE, BUT IF IT'S NULL WE WILL RELOAD IT HERE
+            }
+        }
+        //</editor-fold>
+        
         for (int x = 1; x < values.length; x++) {//x=1 is where data begin, x=0 fields name are defined
             PersonasSucursal entity = new PersonasSucursal();
             //<editor-fold desc="master data person" defaultstate="collapsed">
             Personas person = new Personas();
-            if(values[x][1]!=null){
-                switch (values[x][1]) {
+            
+             if (values[x][0] != null) {
+                entity.setSucursales(new Sucursales(Integer.valueOf(values[x][0])));
+            }
+             
+            if (values[x][2] != null) {
+                switch (values[x][2]) {
                     case "CC"://TODO CREATE CONSTANST HERE
                         person.setTipoDocumento(new TiposDocumento(13));//TODO CREATE CONSTANST HERE
                         break;
@@ -157,14 +187,14 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
                 }
             }
 
-            person.setNumeroDocumento(values[x][2]);
-            person.setNombre1(values[x][3]);
-            person.setNombre2(values[x][4]);
-            person.setApellido1(values[x][5]);
-            person.setApellido2(values[x][6]);
+            person.setNumeroDocumento(values[x][3]);
+            person.setNombre1(values[x][4]);
+            person.setNombre2(values[x][5]);
+            person.setApellido1(values[x][6]);
+            person.setApellido2(values[x][7]);
 
-            if (values[x][8] != null) {
-                switch (values[x][8]) {
+            if (values[x][9] != null) {
+                switch (values[x][9]) {
                     case "M":
                         person.setSexo(true);
                         break;
@@ -174,66 +204,66 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
                 }
             }
 
-            person.setRh(values[x][9]);
+            person.setRh(values[x][10]);
 
-            if (values[x][10] != null) {
+            if (values[x][11] != null) {
                 DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
                 Date date;
                 try {
-                    date = format.parse(values[x][10]);
+                    date = format.parse(values[x][11]);
                     person.setFechaNacimiento(date);
                 } catch (ParseException ex) {
                     System.out.println("Seracis cliente exception PersonaCliControl: castFileToModel fecha de nacimiento");
                 }
             }
 
-            person.setDireccion(values[x][11]);
-            person.setTelefono(values[x][12]);
-            person.setCelular(values[x][13]);
-            person.setMail(values[x][14]);
-            person.setPersonaContacto(values[x][15]);
-            person.setTelPersonaContacto(values[x][16]);
-            if (values[x][17] != null) {
-                switch (values[x][17]) {
-                    case "COLOMBIA"://TODO CREATE CONSTANT PROPERTY HERE
-                        person.setPais(new Paises(1));//TODO ASSIGN REAL CASE HERE
-                        break;
-                }
-            }
+            person.setDireccion(values[x][12]);
+            person.setTelefono(values[x][13]);
+            person.setCelular(values[x][14]);
+            person.setMail(values[x][15]);
+            person.setPersonaContacto(values[x][16]);
+            person.setTelPersonaContacto(values[x][17]);
             if (values[x][18] != null) {
                 switch (values[x][18]) {
-                    case "BOGOTA"://TODO CREATE CONSTANT PROPERTY HERE
-                        person.setDepartamento(new Departamentos(1));//TODO ASSIGN REAL CASE HERE
+                    case "COLOMBIA"://TODO CREATE CONSTANT PROPERTY HERE
+                        person.setPais(new Paises(1));//TODO ASSIGN REAL CASE HERE
                         break;
                 }
             }
             if (values[x][19] != null) {
                 switch (values[x][19]) {
                     case "BOGOTA"://TODO CREATE CONSTANT PROPERTY HERE
-                        person.setMunicipio(new Municipios(1));//TODO ASSIGN REAL CASE HERE
+                        person.setDepartamento(new Departamentos(1));//TODO ASSIGN REAL CASE HERE
                         break;
                 }
             }
             if (values[x][20] != null) {
                 switch (values[x][20]) {
-                    case "EPS CARGA"://TODO CREATE CONSTANT PROPERTY HERE
-                        person.setEps(new Eps(1));//TODO ASSIGN REAL CASE HERE
+                    case "BOGOTA"://TODO CREATE CONSTANT PROPERTY HERE
+                        person.setMunicipio(new Municipios(1));//TODO ASSIGN REAL CASE HERE
                         break;
                 }
             }
             if (values[x][21] != null) {
                 switch (values[x][21]) {
+                    case "EPS CARGA"://TODO CREATE CONSTANT PROPERTY HERE
+                        person.setEps(new Eps(1));//TODO ASSIGN REAL CASE HERE
+                        break;
+                }
+            }
+            if (values[x][22] != null) {
+                switch (values[x][22]) {
                     case "ARL CARGA"://TODO CREATE CONSTANT PROPERTY HERE
                         person.setArl(new Arl(1));//TODO ASSIGN REAL CASE HERE
                         break;
                 }
             }
-            
-             if (values[x][22] != null) {
+
+            if (values[x][23] != null) {
                 DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
                 Date date;
                 try {
-                    date = format.parse(values[x][22]);
+                    date = format.parse(values[x][23]);
                     person.setFechaVigenciaSS(date);
                 } catch (ParseException ex) {
                     System.out.println("Seracis cliente exception PersonaCliControl: castFileToModel fecha de vigencia seguridad social");
@@ -241,26 +271,23 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
             }
             entity.setPersonas(person);
             //</editor-fold>
-            
-            if (values[x][0] != null) {
-                switch (values[x][0]) {
+
+            if (values[x][1] != null) {
+                switch (values[x][1]) {
                     case "TRABAJADOR"://TODO CREATE CONSTANT PROPERTY HERE
                         entity.setEntidad(new Entidades(1));//TODO ASSIGN REAL CASE HERE
                         break;
                 }
             }
-            if (values[x][7] != null && areas!= null) {//AREA
-                for(AreasEmpresa area:areas){
-                    if(values[x][7].equals(area.getDescripcion())){
+            if (values[x][8] != null && areas != null) {//AREA
+                for (AreasEmpresa area : areas) {
+                    if (values[x][8].equals(area.getDescripcion())) {
                         entity.setArea(area);
                     }
                 }
             }
-            entity.setIdExterno(values[x][23]);
-            
-            if(values[x][24]!=null){
-                entity.setSucursales(new Sucursales(Integer.valueOf(values[x][24])));
-            }
+            entity.setIdExterno(values[x][24]);
+
             entities.add(entity);
         }
         return entities;
@@ -370,11 +397,11 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
      * @return errorCode
      */
     private int saveFile(ArrayList<PersonasSucursal> array) {
-        
+
         arrayError = new ArrayList<>();
         personasController = JsfUtil.findBean("personasController");
         for (PersonasSucursal t : array) {
-            if(checkNotNullFieldsToUpdate(t)){//NOT NULL FIELDS ARE CHECKED IN CREATE, BUT TO BE MORE EFFICIENT WE CHECK THEM HERE
+            if (checkNotNullFieldsToUpdate(t)) {//NOT NULL FIELDS ARE CHECKED IN CREATE, BUT TO BE MORE EFFICIENT WE CHECK THEM HERE
                 PersonasSucursalModel model = new PersonasSucursalModel();
                 model.setEntity(t);
                 model.setErrorObservation("Los campos obligatorios no están completos");//TODO CREATE PROPERTY HERE
@@ -394,15 +421,15 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
                 }
                 continue;
             }
-            
-            if(checkNotNullFieldsToCreate(t)){//NOT NULL FIELDS ARE CHECKED IN CREATE, BUT TO BE MORE EFFICIENT WE CHECK THEM HERE
+
+            if (checkNotNullFieldsToCreate(t)) {//NOT NULL FIELDS ARE CHECKED IN CREATE, BUT TO BE MORE EFFICIENT WE CHECK THEM HERE
                 PersonasSucursalModel model = new PersonasSucursalModel();
                 model.setEntity(t);
                 model.setErrorObservation("Los campos obligatorios no están completos");//TODO CREATE PROPERTY HERE
                 arrayError.add(model);
                 continue;
             }
-            Result result = personasController.create();
+            Result result = personasController.create();//Create personas and personas sucursal
             if (result.errorCode != Constants.OK) {
                 PersonasSucursalModel model = new PersonasSucursalModel();
                 model.setEntity(getSelected());
@@ -417,10 +444,23 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
         }
     }
 
-    private void updateFromFile(PersonasSucursal person) {
-        //TODO FINISH MMETHOD
+    private Result updateFromFile(PersonasSucursal existingPerson) {
+        selected.setPersonasSucursalPK(existingPerson.getPersonasSucursalPK());
+        if (selected.getArea() == null) {
+            selected.setArea(existingPerson.getArea());
+        }
+        if (selected.getEntidad() == null) {
+            selected.setEntidad(existingPerson.getEntidad());
+        }
+        if (selected.getIdExterno() == null) {
+            selected.setIdExterno(existingPerson.getIdExterno());
+        }
+        if(selected.getEstado() == null){
+            selected.setEstado(existingPerson.getEstado());//TODO ADD STATUS IN EXCEL FILE
+        }
+        return update();
     }
-    
+
     public void selectBranchOfficeToDownload() {
         GeneralControl generalControl = JsfUtil.findBean("generalControl");
         if (generalControl.isShowBranchOffice()) {
@@ -431,21 +471,21 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
     }
 
     public void downloadTemplate() {
-        
+
         try {
             XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream("C:\\Program Files\\ACTIV\\Excel Template\\Plantilla de carga personas.xlsx"));
 
             AreasEmpresaController areasEmpresaController = JsfUtil.findBean("areasEmpresaController");
             areas = areasEmpresaController.getItemsByBranchOffice();
-            
+
             GeneralControl generalControl = JsfUtil.findBean("generalControl");
             Sheet areasSheet = workbook.getSheetAt(10);//WE HAVE TO GET SHEET BECAUSE IF WE CREATE SHEET THE REFERENCE FROM DROP DOWN LIST WILL LOST
             for (int i = 1; i <= areas.size(); i++) {//Start in 1 because cell A1 in excel is sheet's name
                 Row row = areasSheet.createRow(i);
                 Cell cell = row.createCell(0);
-                cell.setCellValue(areas.get(i-1).getDescripcion());
+                cell.setCellValue(areas.get(i - 1).getDescripcion());
             }
-            workbook.getSheetAt(0).createRow(2).createCell(24).setCellValue(generalControl.getSelectedBranchOffice().getIdSucursal());//Load branch office into template
+            workbook.getSheetAt(0).createRow(2).createCell(0).setCellValue(generalControl.getSelectedBranchOffice().getIdSucursal());//Load branch office into template
             FileOutputStream out = new FileOutputStream("C:\\ACTIV\\Plantilla de carga personas.xlsx");
             workbook.write(out);
             workbook.close();
@@ -458,31 +498,51 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
     }
 
     /**
-     * This method check not null to create person and persona sucursal entities to be more efficient, only use it in create from file
+     * This method check not null to create person and persona sucursal entities
+     * to be more efficient, only use it in create from file
+     *
      * @param t
-     * @return 
+     * @return
      */
     private boolean checkNotNullFieldsToCreate(PersonasSucursal t) {
-        return t.getArea()==null || t.getEntidad()==null || t.getSucursales() == null || t.getPersonas().getNombre1() == null || t.getPersonas().getApellido1() == null || t.getPersonas().getTipoDocumento() == null || t.getPersonas().getNumeroDocumento() == null;
+        return t.getArea() == null || t.getEntidad() == null || t.getSucursales() == null || t.getPersonas().getNombre1() == null || t.getPersonas().getApellido1() == null || t.getPersonas().getTipoDocumento() == null || t.getPersonas().getNumeroDocumento() == null;
     }
-    
+
     /**
-     * This method check not null to create person and persona sucursal entities to be more efficient, only use it in update from file
+     * This method checks primary keys are not null, in order to create person
+     * and persona sucursal entities to be more efficient, only use it in update
+     * from file
+     *
      * @param t
-     * @return 
+     * @return
      */
     private boolean checkNotNullFieldsToUpdate(PersonasSucursal t) {
-        return t.getSucursales() == null || t.getPersonas().getTipoDocumento() == null || t.getPersonas().getNumeroDocumento() == null; 
+        return t.getSucursales() == null || t.getPersonas().getTipoDocumento() == null || t.getPersonas().getNumeroDocumento() == null;
     }
-    
-    public void delete(PersonasSucursal selectedItem){
+
+    public void delete(PersonasSucursal selectedItem) {
         selected = selectedItem;
         Result result = super.delete();
-        if(result.errorCode==Constants.OK){
+        if (result.errorCode == Constants.OK) {
             JsfUtil.addSuccessMessage(BundleUtils.getBundleProperty("SuccessfullyDeleted"));
             return;
         }
         JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("UnexpectedError"));
         return;
+    }
+
+    private boolean verifyStructure(String[][] values) {
+
+        try {
+
+            if ("Sucursal".equals(values[0][0]) && "Tipo Persona".equals(values[0][1]) && "Tipo Documento".equals(values[0][2]) && "Numero de documento".equals(values[0][3]) && "Primer Nombre".equals(values[0][4]) && "Segundo Nombre".equals(values[0][5]) && "Primer Apellido".equals(values[0][6]) && "Segundo Apellido".equals(values[0][7])
+                    && "Area".equals(values[0][8]) && "Sexo".equals(values[0][9]) && "RH".equals(values[0][10]) && "Fecha de nacimiento".equals(values[0][11]) && "Direccion".equals(values[0][12]) && "Telefono Fijo".equals(values[0][13]) && "Celular".equals(values[0][14]) && "Email".equals(values[0][15])
+                    && "Nombre contacto Emergencia".equals(values[0][16]) && "Telefono Contacto Emergencia".equals(values[0][17]) && "Pais".equals(values[0][18]) && "Departamento".equals(values[0][19]) && "Municipio".equals(values[0][20]) && "EPS".equals(values[0][21]) && "ARL".equals(values[0][22]) && "Fecha Vigencia Seguridad Social".equals(values[0][23]) && "ID integracion".equals(values[0][24])) {
+                return true;
+            }
+        } catch (Exception e) {
+            //Nothing to do here
+        }
+        return false;
     }
 }

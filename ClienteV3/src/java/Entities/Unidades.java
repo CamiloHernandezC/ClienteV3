@@ -57,7 +57,7 @@ public class Unidades implements Serializable {
     @Size(min = 1, max = 32)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "unidad", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "unidad", fetch = FetchType.LAZY)
     private List<Materiales> materialesList;
     @OneToMany(mappedBy = "unidadVolumen", fetch = FetchType.LAZY)
     private List<Vehiculos> vehiculosList;

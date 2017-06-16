@@ -104,9 +104,9 @@ public class Usuarios implements Serializable {
     @JoinColumn(name = "Tema", referencedColumnName = "Id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Theme tema;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<PrivilegiosCliente> privilegiosClienteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<AccesoUsuario> accesoUsuarioList;
 
     public Usuarios() {

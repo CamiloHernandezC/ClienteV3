@@ -5,7 +5,7 @@
  */
 package GeneralControl;
 
-import Controllers.util.JsfUtil;
+import Converters.util.JsfUtil;
 import Entities.AccesoUsuario;
 import Entities.Sucursales;
 import Entities.Usuarios;
@@ -41,7 +41,7 @@ public class GeneralControl implements Serializable{
     }
 
     public boolean isShowBranchOffice() {
-        loadBranchOffice();
+        loadBranchOffices();
         if(branchOffices==null || branchOffices.isEmpty()){
             selectedBranchOffice = new Sucursales(0);//query whit brachOffice = 0 will return no result
             return false;
@@ -69,7 +69,7 @@ public class GeneralControl implements Serializable{
         this.branchOffices = branchOffices;
     }
     
-    public void loadBranchOffice(){
+    public void loadBranchOffices(){
         branchOffices = new ArrayList<>();
         Usuarios user = JsfUtil.getSessionUser();
         String squery = Querys.ACCESO_USUARIO_ALL+" WHERE"+Querys.ACCESO_USUARIO_USUARIO+user.getIdUsuario()+"'";

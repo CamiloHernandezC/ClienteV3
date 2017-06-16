@@ -46,23 +46,23 @@ public class Estados implements Serializable {
     @Size(min = 1, max = 32)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     private List<Remisiones> remisionesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     private List<Usuarios> usuariosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     private List<EmpresaOrigen> empresaOrigenList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     private List<Clientes> clientesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     private List<Objetos> objetosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     private List<PersonasSucursal> personasSucursalList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     private List<Personas> personasList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     private List<Vehiculos> vehiculosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     private List<VehiculosSucursal> vehiculosSucursalList;
     @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     private List<Notificaciones> notificacionesList;

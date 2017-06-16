@@ -1,7 +1,7 @@
 package Controllers;
 
 import Entities.MovPersonas;
-import Controllers.util.JsfUtil;
+import Converters.util.JsfUtil;
 import Entities.TiposDocumento;
 import GeneralControl.GeneralControl;
 import Querys.Querys;

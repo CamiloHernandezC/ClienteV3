@@ -5,7 +5,7 @@
  */
 package ReportsControl.Person;
 
-import Controllers.util.JsfUtil;
+import Converters.util.JsfUtil;
 import Facade.PersonasSucursalFacade;
 import GeneralControl.GeneralControl;
 import Querys.Querys;

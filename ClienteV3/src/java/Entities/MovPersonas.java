@@ -81,7 +81,7 @@ public class MovPersonas implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movPersona", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "movPersona", fetch = FetchType.LAZY)
     private List<MovRemisiones> movRemisionesList;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -97,13 +97,13 @@ public class MovPersonas implements Serializable {
         @JoinColumn(name = "Sucursal", referencedColumnName = "Sucursal")})
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PersonasSucursal personasSucursal;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movimientoPersona", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "movimientoPersona", fetch = FetchType.LAZY)
     private List<MovDocumentos> movDocumentosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movPersonaEntrada", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "movPersonaEntrada", fetch = FetchType.LAZY)
     private List<MovObjetos> movObjetosList;
     @OneToMany(mappedBy = "movPersonaSalida", fetch = FetchType.LAZY)
     private List<MovObjetos> movObjetosList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movPersonaEntrada", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "movPersonaEntrada", fetch = FetchType.LAZY)
     private List<MovVehiculos> movVehiculosList;
     @OneToMany(mappedBy = "movPersonaSalida", fetch = FetchType.LAZY)
     private List<MovVehiculos> movVehiculosList1;

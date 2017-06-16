@@ -50,7 +50,7 @@ public class Marcas implements Serializable {
     private String descripcion;
     @OneToMany(mappedBy = "marca", fetch = FetchType.LAZY)
     private List<Objetos> objetosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "marca", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "marca", fetch = FetchType.LAZY)
     private List<Lineas> lineasList;
     @OneToMany(mappedBy = "marca", fetch = FetchType.LAZY)
     private List<Vehiculos> vehiculosList;

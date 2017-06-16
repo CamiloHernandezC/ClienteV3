@@ -15,14 +15,15 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("remisionesController")
-@SessionScoped
+//MANAGE BEAN PROPERTIES ARE COMMENTED BECAUSE PERSONAS SUCURSAL CONTROLLER IN CONTROLLERS PAKAGE EXTENDS THIS CLASS
+/*@Named("remisionesController")
+@SessionScoped*/
 public class RemisionesController implements Serializable {
 
     @EJB
-    private Facade.RemisionesFacade ejbFacade;
-    private List<Remisiones> items = null;
-    private Remisiones selected;
+    protected Facade.RemisionesFacade ejbFacade;
+    protected List<Remisiones> items = null;
+    protected Remisiones selected;
 
     public RemisionesController() {
     }

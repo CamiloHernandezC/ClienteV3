@@ -1,7 +1,6 @@
 package Converters;
 
-import Controllers.*;
-import Controllers.util.JsfUtil;
+import Converters.util.JsfUtil;
 import Entities.Theme;
 import Entities.Usuarios;
 import Facade.UsuariosFacade;

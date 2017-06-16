@@ -48,14 +48,14 @@ public class Almacen implements Serializable {
     @Size(min = 1, max = 32)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "almacen", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "almacen", fetch = FetchType.LAZY)
     private List<Remisiones> remisionesList;
     @JoinColumn(name = "Sucursal", referencedColumnName = "Id_Sucursal")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Sucursales sucursal;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "almacen", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "almacen", fetch = FetchType.LAZY)
     private List<Inventario> inventarioList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "almacen", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "almacen", fetch = FetchType.LAZY)
     private List<Cardex> cardexList;
 
     public Almacen() {

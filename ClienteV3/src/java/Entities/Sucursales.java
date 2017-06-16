@@ -56,27 +56,27 @@ public class Sucursales implements Serializable {
     @Size(max = 20)
     @Column(name = "Telefono")
     private String telefono;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursales", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursales", fetch = FetchType.LAZY)
     private List<PorteriasSucursal> porteriasSucursalList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursales", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursales", fetch = FetchType.LAZY)
     private List<VisitasEsperadas> visitasEsperadasList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<AreasEmpresa> areasEmpresaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursales", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursales", fetch = FetchType.LAZY)
     private List<MaterialesSucursal> materialesSucursalList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<MovRemisiones> movRemisionesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<Remisiones> remisionesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<Almacen> almacenList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<Objetos> objetosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursales", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursales", fetch = FetchType.LAZY)
     private List<PersonasSucursal> personasSucursalList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<MovDocumentos> movDocumentosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursales", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursales", fetch = FetchType.LAZY)
     private List<VehiculosSucursal> vehiculosSucursalList;
     @JoinColumn(name = "Cliente", referencedColumnName = "Id_Cliente")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -90,19 +90,19 @@ public class Sucursales implements Serializable {
     @JoinColumn(name = "Municipio", referencedColumnName = "Id_Municipio")
     @ManyToOne(fetch = FetchType.LAZY)
     private Municipios municipio;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<Horarios> horariosList;
     @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<Notificaciones> notificacionesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursalEntrada", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursalEntrada", fetch = FetchType.LAZY)
     private List<TrasladosMaterial> trasladosMaterialList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursalSalida", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursalSalida", fetch = FetchType.LAZY)
     private List<TrasladosMaterial> trasladosMaterialList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<MovObjetos> movObjetosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<AccesoUsuario> accesoUsuarioList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
     private List<MovVehiculos> movVehiculosList;
 
     public Sucursales() {

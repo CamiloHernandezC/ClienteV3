@@ -46,7 +46,7 @@ public class Departamentos implements Serializable {
     @Size(min = 1, max = 32)
     @Column(name = "Nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "departamento", fetch = FetchType.LAZY)
     private List<Municipios> municipiosList;
     @OneToMany(mappedBy = "departamento", fetch = FetchType.LAZY)
     private List<EmpresaOrigen> empresaOrigenList;

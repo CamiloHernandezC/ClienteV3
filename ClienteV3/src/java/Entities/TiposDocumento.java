@@ -46,7 +46,7 @@ public class TiposDocumento implements Serializable {
     @Size(min = 1, max = 32)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoDocumento", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "tipoDocumento", fetch = FetchType.LAZY)
     private List<Personas> personasList;
 
     public TiposDocumento() {

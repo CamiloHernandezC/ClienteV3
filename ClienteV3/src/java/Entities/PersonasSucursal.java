@@ -76,7 +76,7 @@ public class PersonasSucursal extends AbstractEntity {
     @JoinColumn(name = "Horario", referencedColumnName = "Id_Horario")
     @ManyToOne(fetch = FetchType.LAZY)
     private Horarios horario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personasSucursal", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "personasSucursal", fetch = FetchType.LAZY)
     private List<MovPersonas> movPersonasList;
 
     public PersonasSucursal() {

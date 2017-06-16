@@ -48,13 +48,13 @@ public class Entidades implements Serializable {
     @Size(min = 1, max = 32)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidad", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "entidad", fetch = FetchType.LAZY)
     private List<Objetos> objetosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidad", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "entidad", fetch = FetchType.LAZY)
     private List<PersonasSucursal> personasSucursalList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidad", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "entidad", fetch = FetchType.LAZY)
     private List<MovDocumentos> movDocumentosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidad", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "entidad", fetch = FetchType.LAZY)
     private List<Vehiculos> vehiculosList;
     @OneToMany(mappedBy = "entidad", fetch = FetchType.LAZY)
     private List<Notificaciones> notificacionesList;

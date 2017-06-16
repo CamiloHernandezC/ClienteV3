@@ -51,9 +51,9 @@ public class AreasEmpresa implements Serializable {
     @JoinColumn(name = "Sucursal", referencedColumnName = "Id_Sucursal")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Sucursales sucursal;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "area", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
     private List<PersonasSucursal> personasSucursalList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "area", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
     private List<MovPersonas> movPersonasList;
 
     public AreasEmpresa() {

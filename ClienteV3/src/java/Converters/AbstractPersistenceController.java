@@ -6,7 +6,7 @@
 package Converters;
 
 
-import Controllers.util.JsfUtil;
+import Converters.util.JsfUtil;
 import Entities.AbstractEntity;
 import Facade.AbstractFacade;
 import Utils.Constants;

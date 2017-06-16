@@ -5,7 +5,7 @@
  */
 package Controllers;
 
-import Controllers.util.JsfUtil;
+import Converters.util.JsfUtil;
 import Entities.Horarios;
 import Entities.PersonasSucursal;
 import GeneralControl.GeneralControl;

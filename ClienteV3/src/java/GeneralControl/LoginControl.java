@@ -1,6 +1,6 @@
 package GeneralControl;
 
-import Controllers.util.JsfUtil;
+import Converters.util.JsfUtil;
 import Converters.UsuariosController;
 import Entities.Usuarios;
 import Querys.Querys;

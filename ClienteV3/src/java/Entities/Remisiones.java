@@ -66,7 +66,7 @@ public class Remisiones implements Serializable {
     @Column(name = "Fecha_Fin")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaFin;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "remision", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "remision", fetch = FetchType.LAZY)
     private List<MovRemisiones> movRemisionesList;
     @JoinColumn(name = "Almacenista", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -83,11 +83,11 @@ public class Remisiones implements Serializable {
     @JoinColumn(name = "Almacen", referencedColumnName = "Id_Almacen")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Almacen almacen;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "remisiones", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "remisiones", fetch = FetchType.LAZY)
     private List<TrasladosMaterial> trasladosMaterialList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "remisiones1", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "remisiones1", fetch = FetchType.LAZY)
     private List<TrasladosMaterial> trasladosMaterialList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "remision", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "remision", fetch = FetchType.LAZY)
     private List<Cardex> cardexList;
 
     public Remisiones() {

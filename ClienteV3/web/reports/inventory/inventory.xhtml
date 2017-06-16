@@ -74,10 +74,13 @@
                         <h:outputText value="#{item.almacen.descripcion}"/>
                     </p:column>
                     <p:column>
+                        <p:barcode value="#{String.valueOf(item.materialesSucursal.materiales.idMaterial)}" type="ean13"/>
+                    </p:column>
+                    <p:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListCardexTitle_remision}"/>
+                            <h:outputText value="#{bundle.Options}"/>
                         </f:facet>
-                        <h:outputText value="#{item.remision}"/>
+                        <p:commandButton value="#{bundle.seeRemission}" action="#{remisionesController.seeRemission(item.remision)}"/>
                     </p:column>
                     
                 </p:dataTable>

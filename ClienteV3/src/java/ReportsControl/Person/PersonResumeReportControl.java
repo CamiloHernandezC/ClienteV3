@@ -5,7 +5,7 @@
  */
 package ReportsControl.Person;
 
-import Controllers.util.JsfUtil;
+import Converters.util.JsfUtil;
 import Entities.MovPersonas;
 import Entities.TiposDocumento;
 import GeneralControl.GeneralControl;

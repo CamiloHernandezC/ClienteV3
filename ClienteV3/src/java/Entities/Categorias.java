@@ -48,9 +48,9 @@ public class Categorias implements Serializable {
     private String descripcion;
     @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
     private List<Notificaciones> notificacionesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
     private List<Entidades> entidadesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
     private List<Marcas> marcasList;
 
     public Categorias() {

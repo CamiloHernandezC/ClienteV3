@@ -46,7 +46,7 @@ public class Materiales implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "Id_Material")
-    private Integer idMaterial;
+    private Long idMaterial;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
@@ -57,7 +57,7 @@ public class Materiales implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "materiales", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "materiales", fetch = FetchType.LAZY)
     private List<MaterialesSucursal> materialesSucursalList;
     @JoinColumn(name = "Usuario", referencedColumnName = "Id_Persona")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -69,21 +69,21 @@ public class Materiales implements Serializable {
     public Materiales() {
     }
 
-    public Materiales(Integer idMaterial) {
+    public Materiales(Long idMaterial) {
         this.idMaterial = idMaterial;
     }
 
-    public Materiales(Integer idMaterial, String descripcion, Date fecha) {
+    public Materiales(Long idMaterial, String descripcion, Date fecha) {
         this.idMaterial = idMaterial;
         this.descripcion = descripcion;
         this.fecha = fecha;
     }
 
-    public Integer getIdMaterial() {
+    public Long getIdMaterial() {
         return idMaterial;
     }
 
-    public void setIdMaterial(Integer idMaterial) {
+    public void setIdMaterial(Long idMaterial) {
         this.idMaterial = idMaterial;
     }
 

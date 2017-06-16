@@ -68,7 +68,7 @@ public class MenuCliente implements Serializable {
     @NotNull
     @Column(name = "Estado")
     private boolean estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoMenu", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "codigoMenu", fetch = FetchType.LAZY)
     private List<PrivilegiosCliente> privilegiosClienteList;
 
     public MenuCliente() {
