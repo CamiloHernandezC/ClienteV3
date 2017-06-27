@@ -150,7 +150,7 @@ public class Remisiones implements Serializable {
             contentStream.setFont(PDType1Font.TIMES_BOLD, normalSize);
             text = "Fecha: ";
             //Adding text in the form of string 
-            contentStream.showText(text);
+            contentStream.showText(text);//
             
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
             contentStream.setFont(PDType1Font.TIMES_ROMAN, normalSize);
