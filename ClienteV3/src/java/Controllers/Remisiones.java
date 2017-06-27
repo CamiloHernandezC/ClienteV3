@@ -7,6 +7,7 @@ package Controllers;
 
 import java.io.File;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.enterprise.context.SessionScoped;
@@ -85,7 +86,78 @@ public class Remisiones implements Serializable {
 
             //Adding text in the form of string 
             contentStream.showText(title);
+            
+            contentStream.endText();
+            
+            contentStream.beginText();
 
+            int normalSize = 16;// Or whatever font size you want.
+            
+
+            //Setting the position for the line 
+            int marginLeft = 25;
+            int startTop = 700;
+            contentStream.newLineAtOffset(marginLeft, startTop);
+            
+            //Setting the font to the Content stream  
+            contentStream.setFont(PDType1Font.TIMES_BOLD, normalSize);
+            //Setting the leading
+            contentStream.setLeading(normalSize+3);//This is needed for new line
+            
+            String text = "Sucursal: ";
+            //Adding text in the form of string 
+            contentStream.showText(text);
+            
+            contentStream.setFont(PDType1Font.TIMES_ROMAN, normalSize);
+            text = remission.getSucursal().getNombre();
+            contentStream.showText(text);
+            
+            contentStream.newLine();
+            
+            contentStream.setFont(PDType1Font.TIMES_BOLD, normalSize);
+            text = "Almacen: ";
+            //Adding text in the form of string 
+            contentStream.showText(text);
+            
+            contentStream.setFont(PDType1Font.TIMES_ROMAN, normalSize);
+            text = remission.getAlmacen().getDescripcion();
+            contentStream.showText(text);
+            
+            contentStream.newLine();
+            
+            contentStream.setFont(PDType1Font.TIMES_BOLD, normalSize);
+            text = "Almacenista: ";
+            //Adding text in the form of string 
+            contentStream.showText(text);
+            
+            contentStream.setFont(PDType1Font.TIMES_ROMAN, normalSize);
+            text = remission.getAlmacenista().getNombre1() + " " + remission.getAlmacenista().getApellido1();
+            contentStream.showText(text);
+            
+            contentStream.newLine();
+            
+            contentStream.setFont(PDType1Font.TIMES_BOLD, normalSize);
+            text = "Tipo de movimiento: ";
+            //Adding text in the form of string 
+            contentStream.showText(text);
+            
+            contentStream.setFont(PDType1Font.TIMES_ROMAN, normalSize);
+            text = remission.movementType();
+            contentStream.showText(text);
+            
+            contentStream.newLine();
+            
+            contentStream.setFont(PDType1Font.TIMES_BOLD, normalSize);
+            text = "Fecha: ";
+            //Adding text in the form of string 
+            contentStream.showText(text);
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+            contentStream.setFont(PDType1Font.TIMES_ROMAN, normalSize);
+            contentStream.showText(sdf.format(remission.getFechaFin()));
+            
+            contentStream.newLine();
+            
             //Ending the content stream
             contentStream.endText();
 
@@ -99,55 +171,7 @@ public class Remisiones implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /*
-            Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream("c:/temp/" + String.valueOf(remission.getIdRemision()) + ".pdf"));
-            document.open();
-            //Todo se tiene que agregar aquí porque si se crean métodos a los que se le pase document no deja hacer el build
-            document.addTitle("REMISION" + remission.getIdRemision());
-            document.addAuthor("Mailo Innovation");
-            document.addCreator("Mailo Innovation");
-
-            Paragraph preface = new Paragraph();
-            // We add one empty line
-            //addEmptyLine(preface, 1);
-            // Lets write a big header
-            preface.add(new Paragraph(BundleUtils.getBundleProperty("Remission") + " " + remission.getIdRemision(), titleFont));
-            preface.setSpacingAfter(20);
-            preface.setAlignment(1); // Center
-            ////addEmptyLine(preface, 3);
-
-            document.add(preface);
-
-            Paragraph p = new Paragraph();
-            p.add(new Phrase("Sucursal: ", boldFont));
-            p.add(new Phrase(remission.getSucursal().getNombre(), normalFont));
-            document.add(p);
-
-            p = new Paragraph();
-            p.add(new Phrase("Almacen: ", boldFont));
-            p.add(new Phrase(remission.getAlmacen().getDescripcion(), normalFont));
-            document.add(p);
-
-            p = new Paragraph();
-            p.add(new Phrase("Almacenista: ", boldFont));
-            p.add(new Phrase(remission.getAlmacenista().getNombre1() + " " + remission.getAlmacenista().getApellido1(), normalFont));
-            document.add(p);
-
-            p = new Paragraph();
-            p.add(new Phrase("Tipo de movimiento: ", boldFont));
-            p.add(new Phrase(remission.movementType(), normalFont));
-            document.add(p);
-
-            p = new Paragraph();//not need of null verification because only finished remissions will be created
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
-            p.add(new Phrase("Fecha: ", boldFont));
-            p.add(new Phrase(sdf.format(remission.getFechaFin()), normalFont));
-
-            //Last line
-            //addEmptyLine(p, 3);
-            document.add(p);
-
+/*
             PdfPTable table = new PdfPTable(2);//Number of columns
 
             //Table tittle
