@@ -12,6 +12,7 @@ import Utils.Navigation;
 import Utils.Result;
 import java.io.Serializable;
 import java.sql.Date;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 
@@ -108,5 +109,12 @@ public class LoginControl implements Serializable {
         return "";
     }
 
-    //TODO LOGOUT
+    public String logout() {
+        usuariosController.getSelected().setSesion(false);
+        usuariosController.update();
+        ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false)).invalidate();
+        
+        return Navigation.PAGE_LOGIN;//Redirect to login
+    }
+    
 }
