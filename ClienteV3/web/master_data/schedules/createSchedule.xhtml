@@ -11,8 +11,8 @@
         
         <h:form>
             <h1>#{bundle.CreateScheduleTitle}</h1>
-            <p:commandButton action="#{horariosController.save}" value="#{bundle.Save}" ajax="false"/>
-            <p:commandButton action="#{horariosController.cancel}" value="#{bundle.Cancel}" immediate="true" ajax="false"/>
+            <p:commandButton action="#{horariosController.save}" value="#{bundle.Save}" ajax="false" style="float: right"/>
+            <p:commandButton action="#{horariosController.cancel}" value="#{bundle.Cancel}" immediate="true" ajax="false" style="float: right"/>
             <ui:include src="formTemplateSchedule.xhtml"/>
         </h:form>
     </ui:define>

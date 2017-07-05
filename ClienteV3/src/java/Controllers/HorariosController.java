@@ -72,12 +72,16 @@ public class HorariosController extends Converters.HorariosController {
     }
 
     public String changeViewToCreate() {
+        clean();
         return Navigation.PAGE_CREATE_SCHEDULE;
     }
 
     public String save() {
-        
-        selected = new Horarios();
+        GeneralControl generalControl = JsfUtil.findBean("generalControl");
+        if (generalControl.getSelectedBranchOffice() == null) {
+            JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("EditPersonasCliRequiredMessage_idSucursal"));//TODO CHANGE PROPERTY
+            return null;
+        }
         loadEvents();
         Result result = create();
         if(result.errorCode == Constants.OK){
