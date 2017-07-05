@@ -49,7 +49,7 @@ public abstract class AbstractPersistenceController<T> implements Serializable {
 
     protected abstract void prepareUpdate();
     
-    protected void prepareDelete(){
+    protected void prepareDisable(){
         AbstractEntity entity = (AbstractEntity) getSelected();
         entity.setStatus(Constants.STATUS_INACTIVE);
         setSelected((T) entity);
@@ -89,8 +89,20 @@ public abstract class AbstractPersistenceController<T> implements Serializable {
         return persist(JsfUtil.PersistAction.UPDATE);
     }
 
+    /**
+     * Set status to disable
+     * @return 
+     */
+    public Result disable() {
+        prepareDisable();
+        return persist(JsfUtil.PersistAction.UPDATE);
+    }
+    
+    /**
+     * Delete from database, ¡confirm if you should use this method or disable!
+     * @return 
+     */
     public Result delete() {
-        prepareDelete();
         return persist(JsfUtil.PersistAction.DELETE);
     }
 
@@ -113,11 +125,14 @@ public abstract class AbstractPersistenceController<T> implements Serializable {
                 return new Result(validationErrorObservation, Constants.VALIDATION_ERROR);
             }
             try {
-                if (persistAction == JsfUtil.PersistAction.UPDATE || persistAction == JsfUtil.PersistAction.DELETE) {
+                if (persistAction == JsfUtil.PersistAction.UPDATE) {
                     getFacade().edit(getSelected());
                 }
                 if (persistAction == JsfUtil.PersistAction.CREATE) {
                     getFacade().create(getSelected());
+                }
+                if (persistAction == JsfUtil.PersistAction.DELETE){
+                    getFacade().remove(getSelected());
                 }
                 return new Result(null, Constants.OK);
             } catch (EJBException ex) {

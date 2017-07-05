@@ -490,8 +490,12 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
             workbook.write(out);
             workbook.close();
             JsfUtil.addSuccessMessage("SE HA DESCARGADO LA PLANTILLA DE PERSONAS EN LA DIRECCION C:\\ACTIV\\Plantilla de carga personas.xlsx");//TODO CREATE PROPERTY HERE
-        } catch (FileNotFoundException ex) {
-            JsfUtil.addErrorMessage("NO SE HA ENCONTRADO LA PLANTILLA POR FAVOR CONTACTE AL SERVICIO TÉCNICO");//TODO CREATE PROPERTY HERE
+        }catch (FileNotFoundException ex) {
+            if(ex.getMessage().equals("C:\\ACTIV\\Plantilla de carga personas.xlsx (El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso)")){
+                JsfUtil.addErrorMessage("OTRO PROGRAMA ESTÁ UTILIZANDO EL ARCHIVO POR FAVOR CIERRELO Y DESCARGUE DE NUEVO");//TODO CREATE PROPERTY HERE
+            }else{
+                JsfUtil.addErrorMessage("NO SE HA ENCONTRADO LA PLANTILLA POR FAVOR CONTACTE AL SERVICIO TÉCNICO");//TODO CREATE PROPERTY HERE
+            }
         } catch (IOException ex) {
             JsfUtil.addErrorMessage("NO SE HA PODIDO DESCARGAR LA PLANTILLA, INTENTE DE NUEVO MÁS TARDE");//TODO CREATE PROPERTY HERE
         }
@@ -522,7 +526,7 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
 
     public void delete(PersonasSucursal selectedItem) {
         selected = selectedItem;
-        Result result = super.delete();
+        Result result = super.disable();
         if (result.errorCode == Constants.OK) {
             JsfUtil.addSuccessMessage(BundleUtils.getBundleProperty("SuccessfullyDeleted"));
             return;

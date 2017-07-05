@@ -222,4 +222,14 @@ public class HorariosController extends Converters.HorariosController {
             }
         }
     }
+    
+    public void delete(Horarios schedule){
+        selected = schedule;
+        Result result = super.delete();
+        if (result.errorCode == Constants.OK) {
+            JsfUtil.addSuccessMessage(BundleUtils.getBundleProperty("SuccessfullyDeleted"));
+            return;
+        }
+        JsfUtil.addErrorMessage(BundleUtils.getBundleProperty("UnexpectedError"));
+    }
 }
