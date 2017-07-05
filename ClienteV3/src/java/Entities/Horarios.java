@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -35,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Horarios.findAll", query = "SELECT h FROM Horarios h"),
     @NamedQuery(name = "Horarios.findByIdHorario", query = "SELECT h FROM Horarios h WHERE h.idHorario = :idHorario"),
+    @NamedQuery(name = "Horarios.findByNombre", query = "SELECT h FROM Horarios h WHERE h.nombre = :nombre"),
     @NamedQuery(name = "Horarios.findByLunes", query = "SELECT h FROM Horarios h WHERE h.lunes = :lunes"),
     @NamedQuery(name = "Horarios.findByHoraIngresoL", query = "SELECT h FROM Horarios h WHERE h.horaIngresoL = :horaIngresoL"),
     @NamedQuery(name = "Horarios.findByHoraSalidaL", query = "SELECT h FROM Horarios h WHERE h.horaSalidaL = :horaSalidaL"),
@@ -65,6 +67,11 @@ public class Horarios implements Serializable {
     @NotNull
     @Column(name = "Id_Horario")
     private Integer idHorario;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 32)
+    @Column(name = "Nombre")
+    private String nombre;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Lunes")
@@ -156,8 +163,9 @@ public class Horarios implements Serializable {
         this.idHorario = idHorario;
     }
 
-    public Horarios(Integer idHorario, boolean lunes, boolean martes, boolean miercoles, boolean jueves, boolean viernes, boolean sabado, boolean domingo, Date fecha) {
+    public Horarios(Integer idHorario, String nombre, boolean lunes, boolean martes, boolean miercoles, boolean jueves, boolean viernes, boolean sabado, boolean domingo, Date fecha) {
         this.idHorario = idHorario;
+        this.nombre = nombre;
         this.lunes = lunes;
         this.martes = martes;
         this.miercoles = miercoles;
@@ -174,6 +182,14 @@ public class Horarios implements Serializable {
 
     public void setIdHorario(Integer idHorario) {
         this.idHorario = idHorario;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public boolean getLunes() {
