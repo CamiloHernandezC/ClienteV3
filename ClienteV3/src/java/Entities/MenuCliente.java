@@ -8,11 +8,12 @@ package Entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -36,7 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MenuCliente.findByUrl", query = "SELECT m FROM MenuCliente m WHERE m.url = :url"),
     @NamedQuery(name = "MenuCliente.findByTipo", query = "SELECT m FROM MenuCliente m WHERE m.tipo = :tipo"),
     @NamedQuery(name = "MenuCliente.findByNivel", query = "SELECT m FROM MenuCliente m WHERE m.nivel = :nivel"),
-    @NamedQuery(name = "MenuCliente.findByPadre", query = "SELECT m FROM MenuCliente m WHERE m.padre = :padre"),
     @NamedQuery(name = "MenuCliente.findByEstado", query = "SELECT m FROM MenuCliente m WHERE m.estado = :estado")})
 public class MenuCliente implements Serializable {
 
@@ -62,14 +62,15 @@ public class MenuCliente implements Serializable {
     @NotNull
     @Column(name = "Nivel")
     private int nivel;
-    @Column(name = "Padre")
-    private Integer padre;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Estado")
     private boolean estado;
-    @OneToMany(mappedBy = "codigoMenu", fetch = FetchType.LAZY)
-    private List<PrivilegiosCliente> privilegiosClienteList;
+    @OneToMany(mappedBy = "padre", fetch = FetchType.LAZY)
+    private List<MenuCliente> menuClienteList;
+    @JoinColumn(name = "Padre", referencedColumnName = "Codigo")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private MenuCliente padre;
 
     public MenuCliente() {
     }
@@ -126,14 +127,6 @@ public class MenuCliente implements Serializable {
         this.nivel = nivel;
     }
 
-    public Integer getPadre() {
-        return padre;
-    }
-
-    public void setPadre(Integer padre) {
-        this.padre = padre;
-    }
-
     public boolean getEstado() {
         return estado;
     }
@@ -143,12 +136,20 @@ public class MenuCliente implements Serializable {
     }
 
     @XmlTransient
-    public List<PrivilegiosCliente> getPrivilegiosClienteList() {
-        return privilegiosClienteList;
+    public List<MenuCliente> getMenuClienteList() {
+        return menuClienteList;
     }
 
-    public void setPrivilegiosClienteList(List<PrivilegiosCliente> privilegiosClienteList) {
-        this.privilegiosClienteList = privilegiosClienteList;
+    public void setMenuClienteList(List<MenuCliente> menuClienteList) {
+        this.menuClienteList = menuClienteList;
+    }
+
+    public MenuCliente getPadre() {
+        return padre;
+    }
+
+    public void setPadre(MenuCliente padre) {
+        this.padre = padre;
     }
 
     @Override

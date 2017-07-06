@@ -70,6 +70,7 @@ public class Constants {
     public static final String SESSION_USER="USER";
     //</editor-fold>
     public static int NUMBER_OF_PERSON_TYPES=3;
+    public static int MENU_TYPE_SUPER_FATHER = 0;
     public static int MENU_TYPE_FATHER = 1;
     public static int MENU_TYPE_CHILDREN = 2;
     
