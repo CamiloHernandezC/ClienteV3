@@ -407,28 +407,54 @@ public class PersonResumeReportControl implements Serializable {//TODO make uppe
         }
 
     }
+    
+    public boolean showComeBackButton(){
+        switch (typeBar) {
+            case 2:
+                if (allowDrillUpYear) {
+                    return true;
+                }
+                return false;
+            case 3:
+                if (allowDrillUpYear || allowDrillUpMonth) {
+                    return true;
+                } 
+                return false;
+            default:
+                return false;
+        }
+    }
 
     public void drillUp() {
         switch (typeBar) {
+            /*Commented because this line do nothing
             case 1:
                 //Nothing to do here
-                break;
+                break;*/
             case 2:
+                createBar(1);
+                reload();
+                break;
+                /*
                 if (allowDrillUpYear) {
                     createBar(1);
                 } else {
-                    JsfUtil.addErrorMessage("El periodo seleccionado no muestra datos anuales");
+                    JsfUtil.addErrorMessage("El periodo seleccionado no muestra datos anuales");//TODO CREATE BUNDLE PROPERTY 
                 }
                 reload();
-                break;
+                break;*/
             case 3:
+                createBar(2);
+                reload();
+                break;
+                /*
                 if (allowDrillUpYear || allowDrillUpMonth) {
                     createBar(2);
                 } else {
-                    JsfUtil.addErrorMessage("El periodo seleccionado no muestra datos mensuales");
+                    JsfUtil.addErrorMessage("El periodo seleccionado no muestra datos mensuales");//TODO CREATE BUNDLE PROPERTY 
                 }
                 reload();
-                break;
+                break;*/
         }
     }
 
