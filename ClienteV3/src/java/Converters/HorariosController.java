@@ -39,7 +39,7 @@ public class HorariosController extends AbstractPersistenceController<Horarios>{
     }
 
     @Override
-    protected Horarios getSelected() {
+    public Horarios getSelected() {
         if(selected== null){
             selected = new Horarios();
         }
@@ -47,7 +47,7 @@ public class HorariosController extends AbstractPersistenceController<Horarios>{
     }
 
     @Override
-    protected void setSelected(Horarios selected) {
+    public void setSelected(Horarios selected) {
         this.selected = selected;
     }
 
