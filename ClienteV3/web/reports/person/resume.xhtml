@@ -8,11 +8,18 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="report">
+        >
         <p:layout widgetVar="layoutWidget">
+            
             <p:ajax event="toggle" update=":centerForm" />
 
             <p:layoutUnit position="center">
                 <h1>#{bundle.ReportPersonTitle}</h1>
+                
+                <h:form>
+                    <p:commandButton value="#{bundle.ComeBack}" action="#{personResumeReportControl.drillUp()}" rendered="#{personResumeReportControl.showComeBackButton()}"/>
+                </h:form>
+                
                 <p:chart id="chartPerson" type="bar" model="#{personResumeReportControl.barModel}" rendered="#{personResumeReportControl.showChart}" widgetVar="chart" style="width:100%;height:300px">
                         <p:ajax event="itemSelect" listener="#{personResumeReportControl.drillDown}"/>
                 </p:chart>
