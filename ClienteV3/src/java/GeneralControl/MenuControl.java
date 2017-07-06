@@ -22,6 +22,7 @@ import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
 import org.primefaces.model.menu.MenuElement;
+import org.primefaces.model.menu.MenuItem;
 import org.primefaces.model.menu.MenuModel;
 
 /**
@@ -30,47 +31,54 @@ import org.primefaces.model.menu.MenuModel;
  */
 @Named(value = "menuControl")
 @SessionScoped
-public class MenuControl implements Serializable{
+public class MenuControl implements Serializable {
 
     @EJB
     private Facade.MenuClienteFacade ejbFacade;
-    
+
     private MenuModel menu;
+
     /**
      * Creates a new instance of MenuController
      */
     public MenuControl() {
     }
-    
+
+    //<editor-fold desc="Menu construction" defaultstate="collapsed">
     @PostConstruct//This method is called just one time by JSF
     public void init() {
-        //<editor-fold desc="Menu construction" defaultstate="collapsed">
         menu = new DefaultMenuModel();
-        HashMap menuMap = new HashMap();
-        
         Usuarios user = JsfUtil.getSessionUser();
-        
-        String menuQuery = Querys.MENU_CLIENTE_JOIN_PRIVILEGIOS+" WHERE "+Querys.MENU_CLIENTE_NIVEL_MORE_EQUAL+user.getPrivilegios()+"'"+Querys.MENU_CLIENTE_HAS_PRIVILEGE;//TODO ADD STATUS FILTER
+        String menuQuery = Querys.MENU_CLIENTE_JOIN_PRIVILEGIOS + " WHERE (" + Querys.MENU_CLIENTE_NIVEL_MORE_EQUAL + user.getPrivilegios() + "' AND " + Querys.MENU_CLIENTE_TIPO + Constants.MENU_TYPE_SUPER_FATHER + "'" + Querys.MENU_CLIENTE_HAS_PRIVILEGE + Querys.MENU_CLIENTE_ACTIVE;//TODO ADD STATUS FILTER
         List<MenuCliente> menuItems = (List<MenuCliente>) ejbFacade.findByQueryArray(menuQuery).result;
-        for(MenuCliente item: menuItems){
-            if(item.getTipo()==Constants.MENU_TYPE_CHILDREN){
-                DefaultMenuItem menuItem = new DefaultMenuItem(BundleUtils.getBundleProperty(item.getNombre()));
-                menuItem.setUrl(item.getUrl());
-                DefaultSubMenu subMenu = (DefaultSubMenu) menuMap.get(item.getPadre());
-                if(subMenu==null){//If father isn't loaded yet
-                    MenuCliente fatherMenu = ejbFacade.find(item.getPadre());
-                    subMenu = new DefaultSubMenu(BundleUtils.getBundleProperty(fatherMenu.getNombre()));
-                }
-                subMenu.addElement(menuItem);
-                menuMap.put(item.getPadre(), subMenu);
-            }
+        for (MenuCliente item : menuItems) {
+            DefaultSubMenu subMenu = new DefaultSubMenu(BundleUtils.getBundleProperty(item.getNombre()));
+            subMenu = bajar(item.getMenuClienteList(), subMenu);
+            menu.addElement(subMenu);
         }
-        menuMap.forEach((k,v)->menu.addElement((MenuElement) v));
-        //</editor-fold>
     }
- 
+    //</editor-fold>
+
+    private DefaultSubMenu bajar(List<MenuCliente> childrens, DefaultSubMenu subMenu) {
+        for (MenuCliente children : childrens) {
+            if (!children.getEstado()) {
+                continue;
+            }
+            if (children.getTipo() == Constants.MENU_TYPE_FATHER) {
+                DefaultSubMenu subSubMenu = new DefaultSubMenu(BundleUtils.getBundleProperty(children.getNombre()));
+                subSubMenu = bajar(children.getMenuClienteList(), subSubMenu);
+                subMenu.addElement(subSubMenu);
+                continue;
+            }
+            DefaultMenuItem menuItem = new DefaultMenuItem(BundleUtils.getBundleProperty(children.getNombre()));
+            menuItem.setUrl(children.getUrl());
+            subMenu.addElement(menuItem);
+        }
+        return subMenu;
+    }
+
     public MenuModel getMenu() {
         return menu;
-    }   
+    }
 
 }

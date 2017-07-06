@@ -85,8 +85,10 @@ public class Querys {
     public static final String MENU_CLIENTE_ALL="SELECT m FROM MenuCliente m";
     public static final String MENU_CLIENTE_NIVEL_MORE_EQUAL="m.nivel <= '";
     public static final String MENU_CLIENTE_CODIGO="m.codigo = '";
+    public static final String MENU_CLIENTE_TIPO="m.tipo = '";
     public static final String MENU_CLIENTE_JOIN_PRIVILEGIOS="SELECT m FROM MenuCliente m LEFT JOIN PrivilegiosCliente p on (m != p.codigoMenu and p.ver = 'false')";
     public static final String MENU_CLIENTE_HAS_PRIVILEGE=" OR m in (SELECT p2.codigoMenu FROM PrivilegiosCliente p2 WHERE p2.ver = 'true')";
+    public static final String MENU_CLIENTE_ACTIVE=" ) AND m.estado = 'true'";
     public static final String HORARIOS_SUCURSAL=" a.sucursal.idSucursal = '";
     
     public static final String CARDEX_ALL = "SELECT c FROM Cardex c";
