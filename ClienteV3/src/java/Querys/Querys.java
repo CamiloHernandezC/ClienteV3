@@ -51,6 +51,9 @@ public class Querys {
     public static final String PORTERIA_SUCURSAL_CLI_PORTERIA= "SELECT a FROM PorteriaSucursal a WHERE a.porteriaSucursalPK.porteria =";
     //</editor-fold>
     
+    public static final String CONFIG_FORM_ALL = "SELECT a FROM ConfigForm a";
+    public static final String CONFIG_FORM_PERSON=" a.formulario = 'PERSONA'";
+            
     public static final String AREAS_EMPRESA_ALL="SELECT a FROM AreasEmpresa a";
     public static final String AREAS_EMPRESA_SUCURSAL=" a.sucursal.idSucursal = '";
     
@@ -75,12 +78,13 @@ public class Querys {
     public static final String ENTIDADES_CATEGORIA=" e.idCategoria.idCategoria = '";
     public static final String HORARIOS_ALL="SELECT a FROM Horarios a";
     public static final String HORARIOS_PRIMARY_KEY="SELECT a FROM Horarios a ORDER BY a.idHorario DESC";
+    public static final String HORARIOS_HORA_INGRESO=" h.horaIngreso";
+    public static final String HORARIOS_HORA_SALIDA=" h.horaSalida";
     public static final String ASSISTANCE_SELECT = "SELECT p.nombre1, p.apellido1, m.fechaEntrada, m.horaEntrada, h.horaIngreso";
     public static final String ASSISTANCE_TABLES = "  from PersonasSucursal ps LEFT JOIN  MovPersonas m on m.personasSucursal = ps and m.fechaSalida is null INNER JOIN Personas p on p.idPersona = ps.personasSucursalPK.idPersona INNER JOIN Horarios h on h =  ps.horario WHERE h.";
     //public static final String ASSISTANCE_SELECT = "SELECT p.nombre1, m.fechaEntrada, m.horaEntrada, m.fechaSalida, m.horaSalida, h.horaIngreso";
     //public static final String ASSISTANCE_TABLES = " from (((PersonasSucursal ps inner join ps.horario h) inner join ps.idPersona p), MovPersonas m) WHERE m.idPersona = ps.idPersona AND h.";
-    public static final String HORARIOS_HORA_INGRESO=" h.horaIngreso";
-    public static final String HORARIOS_HORA_SALIDA=" h.horaSalida";
+    public static final String CONFIG_FORM_CONTROLLER_PRIMARY_KEY="SELECT a FROM ConfigForm a ORDER BY a.idConfigForm DESC";
     public static final String PRIVILEGIOS_CLIENTE_ALL="SELECT p FROM PrivilegiosCliente p";
     public static final String MENU_CLIENTE_ALL="SELECT m FROM MenuCliente m";
     public static final String MENU_CLIENTE_NIVEL_MORE_EQUAL="m.nivel <= '";

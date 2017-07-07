@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../template.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+
+        <p:dialog modal="true" appendTo="@(body)" id="dialogConfirmCancel" widgetVar="dialogConfirmCancel">
+            <h:form>
+                <p:commandButton id="accept" value="#{bundle.Accept}" actionListener="#{configFormController.cancel()}"/>
+                <p:commandButton id="decline" value="#{bundle.Cancel}" onclick="PF('dialogConfirmCancel').hide();"/>
+            </h:form>
+        </p:dialog>
+
+        <h:form>
+            <h:panelGrid columns="4" cellpadding="5" >
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_sexo}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showSexo}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_fechaNacimiento}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showBirthDay}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_rh}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showRH}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_idPais}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showCountry}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_celular}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showCellphone}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_personaContacto}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showEmergencyPerson}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_telPersonaContacto}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showEmergencyPhone}"/>
+
+                <h:outputText style="width: 200px" value="#{bundle.CreatePersonasCliLabel_direccion}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showAddress}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_idDepartamento}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showDepartment}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_municipiosCli}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showMunicipaly}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_mail}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showMail}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_telefono}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showPhone}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_idEmpresaOrigen}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showOriginEnterprise}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_eps}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showEPS}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_fechavigenciaSS}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showVigencySS}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_arl}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showARL}"/>
+
+                <h:outputText value="#{bundle.CreatePersonasCliLabel_idExterno}"/>
+                <p:selectBooleanCheckbox value="#{configFormController.showOtherID}"/>
+                
+                <p:commandButton action="#{configFormController.save}" value="#{bundle.Save}" ajax="false"/>
+                <p:commandButton action="#{configFormController.showCancelDialog()}" value="#{bundle.Cancel}" immediate="true" ajax="false"/>
+
+            </h:panelGrid>    
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
