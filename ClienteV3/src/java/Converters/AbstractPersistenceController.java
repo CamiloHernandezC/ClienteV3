@@ -49,6 +49,8 @@ public abstract class AbstractPersistenceController<T> implements Serializable {
 
     protected abstract void prepareUpdate();
     
+    public abstract void clean();
+    
     protected void prepareDisable(){
         AbstractEntity entity = (AbstractEntity) getSelected();
         entity.setStatus(Constants.STATUS_INACTIVE);
@@ -56,8 +58,6 @@ public abstract class AbstractPersistenceController<T> implements Serializable {
         prepareUpdate();
     }
     
-    public abstract void clean();
-
     public void calculatePrimaryKey(String squery) {
         Result result = getFacade().findByQuery(squery, true);//Only need the first result
         if (result.errorCode == Constants.NO_RESULT_EXCEPTION) {
