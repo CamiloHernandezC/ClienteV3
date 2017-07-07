@@ -2,7 +2,9 @@ package Converters;
 
 
 import Entities.ConfigForm;
-import java.io.Serializable;
+import Facade.AbstractFacade;
+import Querys.Querys;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -13,62 +15,27 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("configFormController")
-@SessionScoped
-public class ConfigFormController implements Serializable {
+//MANAGE BEAN PROPERTIES ARE COMMENTED BECAUSE PERSONAS CONTROLLER IN CONTROLLERS PAKAGE EXTENDS THIS CLASS
+/*@Named("configFormController")
+@SessionScoped*/
+public class ConfigFormController extends AbstractPersistenceController<ConfigForm> {
 
     @EJB
-    private Facade.ConfigFormFacade ejbFacade;
-    
+    protected Facade.ConfigFormFacade ejbFacade;
+    protected List<ConfigForm> items = null;
+    protected ConfigForm selected;
+   
     public ConfigFormController() {
-    }
-    /*
-    private List<ConfigForm> items = null;
-    private ConfigForm selected;
-
+    }  
     
-
+    @Override
     public ConfigForm getSelected() {
         return selected;
     }
 
+    @Override
     public void setSelected(ConfigForm selected) {
         this.selected = selected;
-    }
-
-    protected void setEmbeddableKeys() {
-    }
-
-    protected void initializeEmbeddableKey() {
-    }
-
-    private ConfigFormFacade getFacade() {
-        return ejbFacade;
-    }
-
-    public ConfigForm prepareCreate() {
-        selected = new ConfigForm();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ConfigFormCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ConfigFormUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("ConfigFormDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
     }
 
     public List<ConfigForm> getItems() {
@@ -77,45 +44,45 @@ public class ConfigFormController implements Serializable {
         }
         return items;
     }
-
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
-    public List<ConfigForm> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<ConfigForm> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
-    */
+    
     public ConfigForm getConfigForm(java.lang.Integer id) {
         return ejbFacade.find(id);
+    }
+
+    @Override
+    protected AbstractFacade getFacade() {
+        return ejbFacade;
+    }
+
+    @Override
+    protected void setItems(List<ConfigForm> items) {
+        this.items = items;
+    }
+
+    @Override
+    protected void setEmbeddableKeys() {
+        //Nothing to do here
+    }
+
+    @Override
+    protected void initializeEmbeddableKey() {
+        //Nothing to do here
+    }
+
+    @Override
+    protected void prepareUpdate() {
+        //Nothing to do here
+    }
+
+    @Override
+    public void clean() {
+        selected = null;
+        items = null;
+    }
+
+    @Override
+    protected void prepareCreate() {
+        calculatePrimaryKey(Querys.CONFIG_FORM_CONTROLLER_PRIMARY_KEY);
     }
 
     @FacesConverter(forClass = ConfigForm.class)

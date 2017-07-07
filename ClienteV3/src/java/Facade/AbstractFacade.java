@@ -67,7 +67,7 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
     public Result findByQuery(String squery, boolean maxResult) {
         try {
             EntityManager em = getEntityManager();
@@ -85,17 +85,27 @@ public abstract class AbstractFacade<T> {
             return new Result(null, Constants.NO_UNIQUE_RESULT_EXCEPTION);
         }
     }
-    
+
     public Result findByQueryArray(String squery) {
-        
+
         EntityManager em = getEntityManager();
         Query query = em.createQuery(squery);
         List<T> list;
         list = (List<T>) query.getResultList();
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             return new Result(list, Constants.NO_RESULT_EXCEPTION);
         }
         return new Result(list, Constants.OK);
     }
-    
+
+    /**
+     * Execute update or delete query
+     * @param squery 
+     */
+    public void executeQuery(String squery) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery(squery);
+        query.executeUpdate();
+    }
+
 }
