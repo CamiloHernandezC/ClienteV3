@@ -4,6 +4,7 @@ package Converters;
 import Entities.Notificaciones;
 import Facade.NotificacionesFacade;
 import Querys.Querys;
+import Utils.Navigation;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -128,6 +129,10 @@ public class NotificacionesController extends AbstractPersistenceController<Noti
             }
         }
 
+    }
+    
+    public String goToCreate(){
+        return Navigation.PAGE_NOTIFICATION_CREATE;
     }
 
 }
