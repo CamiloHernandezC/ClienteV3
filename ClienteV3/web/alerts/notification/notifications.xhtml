@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../../template.xhtml">
+
+    <ui:define name="content">
+
+        <h1>#{bundle.ListNotificacionesTitle}"></h1>
+
+        <h:form id="NotificacionesListForm">
+            <p:panel header="#{bundle.ListNotificacionesTitle}">
+                <p:dataTable id="datalist" value="#{notificacionesController.items}" var="item"
+                             selectionMode="single" selection="#{notificacionesController.selected}"
+                             paginator="true"
+                             rowKey="#{item.idNotificacion}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             >
+                    <f:facet name="header">
+                        <p:commandButton value="#{bundle.Create}" icon="ui-icon-circle-plus" action="#{notificacionesController.goToCreate}"/>
+                    </f:facet>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_idNotificacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idNotificacion}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_tipoEvento}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tipoEvento}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_fechaDesde}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaDesde}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_fechaHasta}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaHasta}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_horaDesde}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.horaDesde}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_horaHasta}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.horaHasta}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_mail}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.mail}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_asunto}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.asunto}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_mensaje}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.mensaje}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_fecha}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_mostrarSucursal}"/>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{item.mostrarSucursal}" disabled="true"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_mostrarPorteria}"/>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{item.mostrarPorteria}" disabled="true"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_mostrarEmpresaOrigen}"/>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{item.mostrarEmpresaOrigen}" disabled="true"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_mostrarEntidad}"/>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{item.mostrarEntidad}" disabled="true"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_mostrarEnte}"/>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{item.mostrarEnte}" disabled="true"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_usuario}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usuario}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_objeto}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.objeto}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_sucursal}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.sucursal}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_porteria}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.porteria}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_empresaOrigen}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.empresaOrigen}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_categoria}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.categoria}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_entidad}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.entidad}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_estado}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.estado}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_persona}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.persona}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListNotificacionesTitle_vehiculo}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.vehiculo}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

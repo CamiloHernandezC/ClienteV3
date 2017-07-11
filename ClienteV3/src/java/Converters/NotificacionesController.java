@@ -2,7 +2,11 @@ package Converters;
 
 
 import Entities.Notificaciones;
+import Facade.NotificacionesFacade;
+import Querys.Querys;
+import Utils.Navigation;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -15,60 +19,48 @@ import javax.faces.convert.FacesConverter;
 
 @Named("notificacionesController")
 @SessionScoped
-public class NotificacionesController implements Serializable {
+public class NotificacionesController extends AbstractPersistenceController<Notificaciones> {
 
     @EJB
     private Facade.NotificacionesFacade ejbFacade;
     
     public NotificacionesController() {
     }
-    /*
+    
     private List<Notificaciones> items = null;
     private Notificaciones selected;
 
     
 
+    @Override
     public Notificaciones getSelected() {
         return selected;
     }
 
+    @Override
     public void setSelected(Notificaciones selected) {
         this.selected = selected;
     }
 
+    @Override
     protected void setEmbeddableKeys() {
+        //Nothing to do here
     }
 
+    @Override
     protected void initializeEmbeddableKey() {
+        //Nothing to do here
     }
 
-    private NotificacionesFacade getFacade() {
+    @Override
+    protected NotificacionesFacade getFacade() {
         return ejbFacade;
     }
 
-    public Notificaciones prepareCreate() {
-        selected = new Notificaciones();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("NotificacionesCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("NotificacionesUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("NotificacionesDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+    @Override
+    public void prepareCreate() {
+        super.calculatePrimaryKey(Querys.NOTIFICACIONES_LAST_PRIMARY_KEY);
+        prepareUpdate();
     }
 
     public List<Notificaciones> getItems() {
@@ -77,45 +69,25 @@ public class NotificacionesController implements Serializable {
         }
         return items;
     }
-
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
-    public List<Notificaciones> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Notificaciones> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
-    */
+    
     public Notificaciones getNotificaciones(java.lang.Integer id) {
         return ejbFacade.find(id);
+    }
+
+    @Override
+    protected void setItems(List<Notificaciones> items) {
+        this.items = items;
+    }
+
+    @Override
+    protected void prepareUpdate() {
+        super.assignParametersToUpdate();
+    }
+
+    @Override
+    public void clean() {
+        selected = null;
+        items = null;
     }
 
     @FacesConverter(forClass = Notificaciones.class)
@@ -157,6 +129,10 @@ public class NotificacionesController implements Serializable {
             }
         }
 
+    }
+    
+    public String goToCreate(){
+        return Navigation.PAGE_NOTIFICATION_CREATE;
     }
 
 }

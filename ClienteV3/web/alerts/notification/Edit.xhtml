@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NotificacionesEditDlg" widgetVar="NotificacionesEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditNotificacionesTitle}">
+            <h:form id="NotificacionesEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{notificacionesController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_idNotificacion}" for="idNotificacion" />
+                        <p:inputText id="idNotificacion" value="#{notificacionesController.selected.idNotificacion}" title="#{bundle.EditNotificacionesTitle_idNotificacion}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_idNotificacion}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_tipoEvento}" for="tipoEvento" />
+                        <p:inputText id="tipoEvento" value="#{notificacionesController.selected.tipoEvento}" title="#{bundle.EditNotificacionesTitle_tipoEvento}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_tipoEvento}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_fechaDesde}" for="fechaDesde" />
+                        <p:calendar id="fechaDesde" pattern="MM/dd/yyyy" value="#{notificacionesController.selected.fechaDesde}" title="#{bundle.EditNotificacionesTitle_fechaDesde}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_fechaDesde}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_fechaHasta}" for="fechaHasta" />
+                        <p:calendar id="fechaHasta" pattern="MM/dd/yyyy" value="#{notificacionesController.selected.fechaHasta}" title="#{bundle.EditNotificacionesTitle_fechaHasta}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_fechaHasta}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_horaDesde}" for="horaDesde" />
+                        <p:calendar id="horaDesde" pattern="HH:mm:ss" value="#{notificacionesController.selected.horaDesde}" title="#{bundle.EditNotificacionesTitle_horaDesde}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_horaDesde}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_horaHasta}" for="horaHasta" />
+                        <p:calendar id="horaHasta" pattern="HH:mm:ss" value="#{notificacionesController.selected.horaHasta}" title="#{bundle.EditNotificacionesTitle_horaHasta}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_horaHasta}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_mail}" for="mail" />
+                        <p:inputText id="mail" value="#{notificacionesController.selected.mail}" title="#{bundle.EditNotificacionesTitle_mail}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_mail}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_asunto}" for="asunto" />
+                        <p:inputText id="asunto" value="#{notificacionesController.selected.asunto}" title="#{bundle.EditNotificacionesTitle_asunto}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_asunto}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_mensaje}" for="mensaje" />
+                        <p:inputText id="mensaje" value="#{notificacionesController.selected.mensaje}" title="#{bundle.EditNotificacionesTitle_mensaje}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_mensaje}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{notificacionesController.selected.fecha}" title="#{bundle.EditNotificacionesTitle_fecha}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_mostrarSucursal}" for="mostrarSucursal" />
+                        <p:selectBooleanCheckbox id="mostrarSucursal" value="#{notificacionesController.selected.mostrarSucursal}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_mostrarSucursal}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_mostrarPorteria}" for="mostrarPorteria" />
+                        <p:selectBooleanCheckbox id="mostrarPorteria" value="#{notificacionesController.selected.mostrarPorteria}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_mostrarPorteria}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_mostrarEmpresaOrigen}" for="mostrarEmpresaOrigen" />
+                        <p:selectBooleanCheckbox id="mostrarEmpresaOrigen" value="#{notificacionesController.selected.mostrarEmpresaOrigen}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_mostrarEmpresaOrigen}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_mostrarEntidad}" for="mostrarEntidad" />
+                        <p:selectBooleanCheckbox id="mostrarEntidad" value="#{notificacionesController.selected.mostrarEntidad}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_mostrarEntidad}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_mostrarEnte}" for="mostrarEnte" />
+                        <p:selectBooleanCheckbox id="mostrarEnte" value="#{notificacionesController.selected.mostrarEnte}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_mostrarEnte}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_usuario}" for="usuario" />
+                        <p:selectOneMenu id="usuario" value="#{notificacionesController.selected.usuario}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_usuario}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasController.itemsAvailableSelectOne}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_objeto}" for="objeto" />
+                        <p:selectOneMenu id="objeto" value="#{notificacionesController.selected.objeto}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{objetosController.itemsAvailableSelectOne}"
+                                           var="objetoItem"
+                                           itemValue="#{objetoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_sucursal}" for="sucursal" />
+                        <p:selectOneMenu id="sucursal" value="#{notificacionesController.selected.sucursal}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{sucursalesController.itemsAvailableSelectOne}"
+                                           var="sucursalItem"
+                                           itemValue="#{sucursalItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_porteria}" for="porteria" />
+                        <p:selectOneMenu id="porteria" value="#{notificacionesController.selected.porteria}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{porteriasController.itemsAvailableSelectOne}"
+                                           var="porteriaItem"
+                                           itemValue="#{porteriaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_empresaOrigen}" for="empresaOrigen" />
+                        <p:selectOneMenu id="empresaOrigen" value="#{notificacionesController.selected.empresaOrigen}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{empresaOrigenController.itemsAvailableSelectOne}"
+                                           var="empresaOrigenItem"
+                                           itemValue="#{empresaOrigenItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_categoria}" for="categoria" />
+                        <p:selectOneMenu id="categoria" value="#{notificacionesController.selected.categoria}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{categoriasController.itemsAvailableSelectOne}"
+                                           var="categoriaItem"
+                                           itemValue="#{categoriaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_entidad}" for="entidad" />
+                        <p:selectOneMenu id="entidad" value="#{notificacionesController.selected.entidad}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{entidadesController.itemsAvailableSelectOne}"
+                                           var="entidadItem"
+                                           itemValue="#{entidadItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_estado}" for="estado" />
+                        <p:selectOneMenu id="estado" value="#{notificacionesController.selected.estado}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{estadosController.itemsAvailableSelectOne}"
+                                           var="estadoItem"
+                                           itemValue="#{estadoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_persona}" for="persona" />
+                        <p:selectOneMenu id="persona" value="#{notificacionesController.selected.persona}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personasController.itemsAvailableSelectOne}"
+                                           var="personaItem"
+                                           itemValue="#{personaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNotificacionesLabel_vehiculo}" for="vehiculo" />
+                        <p:selectOneMenu id="vehiculo" value="#{notificacionesController.selected.vehiculo}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{vehiculosController.itemsAvailableSelectOne}"
+                                           var="vehiculoItem"
+                                           itemValue="#{vehiculoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{notificacionesController.update}" value="#{bundle.Save}" update="display,:NotificacionesListForm:datalist,:growl" oncomplete="handleSubmit(args, 'NotificacionesEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="NotificacionesEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -4,18 +4,25 @@
                 template="./../../template.xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
 
     <ui:define name="content">
 
-        <p:dialog modal="true" appendTo="@(body)" id="dialogConfirmCancel" widgetVar="dialogConfirmCancel">
+        <p:dialog modal="true" appendTo="@(body)" id="dialogConfirmCancel" widgetVar="dialogConfirmCancel" header="#{bundle.Confirm_Cancel}">
             <h:form>
-                <p:commandButton id="accept" value="#{bundle.Accept}" actionListener="#{configFormController.cancel()}"/>
+                <h:panelGrid columns="1">
+                    <h:outputText value="#{bundle.Confirm_Cancel_Message}"/>
+                </h:panelGrid>
+                <p:commandButton id="accept" value="#{bundle.Accept}" action="#{configFormController.cancel()}" style="margin-top: 2%"/>
                 <p:commandButton id="decline" value="#{bundle.Cancel}" onclick="PF('dialogConfirmCancel').hide();"/>
             </h:form>
         </p:dialog>
 
         <h:form>
+            <h1>#{bundle.Configuration_Person_Form}</h1>
+            
+            <h3>#{bundle.Select_Fields_Person_Form}</h3>
             <h:panelGrid columns="4" cellpadding="5" >
 
                 <h:outputText value="#{bundle.CreatePersonasCliLabel_sexo}"/>
@@ -69,10 +76,9 @@
                 <h:outputText value="#{bundle.CreatePersonasCliLabel_idExterno}"/>
                 <p:selectBooleanCheckbox value="#{configFormController.showOtherID}"/>
                 
-                <p:commandButton action="#{configFormController.save}" value="#{bundle.Save}" ajax="false"/>
-                <p:commandButton action="#{configFormController.showCancelDialog()}" value="#{bundle.Cancel}" immediate="true" ajax="false"/>
-
             </h:panelGrid>    
+            <p:commandButton action="#{configFormController.save}" value="#{bundle.Save}" ajax="false" style="margin-top: 2%"/>
+            <p:commandButton action="#{configFormController.showCancelDialog()}" value="#{bundle.Cancel}" immediate="true" ajax="false"/>
         </h:form>
     </ui:define>
 
