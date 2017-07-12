@@ -1,0 +1,75 @@
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:dialog modal="true" appendTo="@(body)" id="dialogConfirmCancel" widgetVar="dialogConfirmCancel" header="#{bundle.Confirm_Cancel}">
+        #{bundle.Confirm_Cancel_Message}
+        <p:commandButton id="accept" value="#{bundle.Accept}" actionListener="#{personasController.cancel()}"/>
+        <p:commandButton id="decline" value="#{bundle.Cancel}" onclick="PF('dialogConfirmCancel').hide();"/>
+    </p:dialog>
+
+    <p:panelGrid columns="2">
+        
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_tipoEvento}" for="tipoEvento" />
+        <p:inputText id="tipoEvento" value="#{notificacionesController.selected.tipoEvento}" title="#{bundle.CreateNotificacionesTitle_tipoEvento}" required="true" requiredMessage="#{bundle.CreateNotificacionesRequiredMessage_tipoEvento}"/>
+
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_fechaDesde}" for="fechaDesde" />
+        <p:calendar id="fechaDesde" pattern="MM/dd/yyyy" value="#{notificacionesController.selected.fechaDesde}" title="#{bundle.EditNotificacionesTitle_fechaDesde}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_fechaDesde}" showOn="button"/>
+
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_fechaHasta}" for="fechaHasta" />
+        <p:calendar id="fechaHasta" pattern="MM/dd/yyyy" value="#{notificacionesController.selected.fechaHasta}" title="#{bundle.EditNotificacionesTitle_fechaHasta}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_fechaHasta}" showOn="button"/>
+
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_horaDesde}" for="horaDesde" />
+        <p:calendar id="horaDesde" pattern="HH:mm:ss" value="#{notificacionesController.selected.horaDesde}" title="#{bundle.EditNotificacionesTitle_horaDesde}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_horaDesde}" showOn="button"/>
+
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_horaHasta}" for="horaHasta" />
+        <p:calendar id="horaHasta" pattern="HH:mm:ss" value="#{notificacionesController.selected.horaHasta}" title="#{bundle.EditNotificacionesTitle_horaHasta}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_horaHasta}" showOn="button"/>
+
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_mail}" for="mail" />
+        <p:inputText id="mail" value="#{notificacionesController.selected.mail}" title="#{bundle.CreateNotificacionesTitle_mail}" required="true" requiredMessage="#{bundle.CreateNotificacionesRequiredMessage_mail}"/>
+
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_asunto}" for="asunto" />
+        <p:inputText id="asunto" value="#{notificacionesController.selected.asunto}" title="#{bundle.CreateNotificacionesTitle_asunto}" required="true" requiredMessage="#{bundle.CreateNotificacionesRequiredMessage_asunto}"/>
+
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_mensaje}" for="mensaje" />
+        <p:inputText id="mensaje" value="#{notificacionesController.selected.mensaje}" title="#{bundle.CreateNotificacionesTitle_mensaje}" required="true" requiredMessage="#{bundle.CreateNotificacionesRequiredMessage_mensaje}"/>
+
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_mostrarSucursal}" for="mostrarSucursal" />
+        <p:selectBooleanCheckbox id="mostrarSucursal" value="#{notificacionesController.selected.mostrarSucursal}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_mostrarSucursal}"/>
+
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_mostrarPorteria}" for="mostrarPorteria" />
+        <p:selectBooleanCheckbox id="mostrarPorteria" value="#{notificacionesController.selected.mostrarPorteria}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_mostrarPorteria}"/>
+
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_mostrarEmpresaOrigen}" for="mostrarEmpresaOrigen" />
+        <p:selectBooleanCheckbox id="mostrarEmpresaOrigen" value="#{notificacionesController.selected.mostrarEmpresaOrigen}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_mostrarEmpresaOrigen}"/>
+
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_mostrarEntidad}" for="mostrarEntidad" />
+        <p:selectBooleanCheckbox id="mostrarEntidad" value="#{notificacionesController.selected.mostrarEntidad}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_mostrarEntidad}"/>
+
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_mostrarEnte}" for="mostrarEnte" />
+        <p:selectBooleanCheckbox id="mostrarEnte" value="#{notificacionesController.selected.mostrarEnte}" required="true" requiredMessage="#{bundle.EditNotificacionesRequiredMessage_mostrarEnte}"/>
+
+        <!--Sucursales-->
+        <!--Porterias-->
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_empresaOrigen}" for="empresaOrigen" />
+        <p:selectOneMenu id="empresaOrigen" value="#{notificacionesController.selected.empresaOrigen}" >
+            <f:selectItems value="#{empresaOrigenController.items}"
+                           var="empresaOrigenItem"
+                           itemValue="#{empresaOrigenItem}"/>
+        </p:selectOneMenu>
+        <!--<p:outputLabel value="{bundle.CreateNotificacionesLabel_categoria}" for="categoria" />
+        <p:selectOneMenu id="categoria" value="{notificacionesController.selected.categoria}" >
+            <f:selectItems value="{categoriasController.items}"
+                           var="categoriaItem"
+                           itemValue="{categoriaItem}"/>
+        </p:selectOneMenu>-->
+        <p:outputLabel value="#{bundle.CreateNotificacionesLabel_entidad}" for="entidad" />
+        <p:selectOneMenu id="entidad" value="#{notificacionesController.selected.entidad}" >
+            <f:selectItems value="#{entidadesController.items}"
+                           var="entidadItem"
+                           itemValue="#{entidadItem}"/>
+        </p:selectOneMenu>
+    </p:panelGrid>
+
+</ui:composition>

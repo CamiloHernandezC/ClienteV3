@@ -34,6 +34,9 @@ public class NotificacionesController extends AbstractPersistenceController<Noti
 
     @Override
     public Notificaciones getSelected() {
+        if(selected==null){
+            selected = new Notificaciones();
+        }
         return selected;
     }
 
