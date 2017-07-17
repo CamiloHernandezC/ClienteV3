@@ -23,6 +23,7 @@ public class NotificacionesController extends AbstractPersistenceController<Noti
 
     @EJB
     private Facade.NotificacionesFacade ejbFacade;
+    private int activeStep;
     
     public NotificacionesController() {
     }
@@ -30,7 +31,9 @@ public class NotificacionesController extends AbstractPersistenceController<Noti
     private List<Notificaciones> items = null;
     private Notificaciones selected;
 
-    
+    public int getActiveStep() {
+        return activeStep;
+    }
 
     @Override
     public Notificaciones getSelected() {

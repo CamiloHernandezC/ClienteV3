@@ -11,6 +11,8 @@
         
         <h:form>
             <h1>#{bundle.ListNotificacionesTitle}"></h1>
+            <ui:include src="steps.xhtml"/>
+            <h:form style="margin-top: 10%"/>
             <ui:include src="formTemplate.xhtml"/>
             <p:commandButton action="#{notificacionesController.createByForm()}" value="#{bundle.Save}" ajax="false"/>
             <p:commandButton action="#{notificacionesController.showCancelDialog()}" value="#{bundle.Cancel}" immediate="true" ajax="false"/>
