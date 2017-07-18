@@ -1,14 +1,18 @@
 package Converters;
 
 
+import Converters.util.JsfUtil;
 import Entities.Notificaciones;
 import Facade.NotificacionesFacade;
 import Querys.Querys;
 import Utils.Navigation;
 import java.io.Serializable;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -16,6 +20,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.event.DragDropEvent;
 
 @Named("notificacionesController")
 @SessionScoped
@@ -23,7 +28,8 @@ public class NotificacionesController extends AbstractPersistenceController<Noti
 
     @EJB
     private Facade.NotificacionesFacade ejbFacade;
-    private int activeStep;
+    private int activeStep=1;
+    private List<String> availableMessages;
     
     public NotificacionesController() {
     }
@@ -94,6 +100,8 @@ public class NotificacionesController extends AbstractPersistenceController<Noti
     public void clean() {
         selected = null;
         items = null;
+        activeStep = 0;
+        init();
     }
 
     @FacesConverter(forClass = Notificaciones.class)
@@ -140,5 +148,85 @@ public class NotificacionesController extends AbstractPersistenceController<Noti
     public String goToCreate(){
         return Navigation.PAGE_NOTIFICATION_CREATE;
     }
-
+    
+    public void nextStep(){
+        if(activeStep<1){//Different from last step
+            activeStep +=1;
+        }
+    }
+    
+     public void showCancelDialog() {
+        JsfUtil.showModal("dialogConfirmCancel");
+    }
+     
+    public String cancel(){
+        clean();
+        return Navigation.PAGE_INDEX;
+    }
+    
+    public boolean isEmptyDropArea(){
+        return !(getSelected().getMostrarEmpresaOrigen() || getSelected().getMostrarEnte()
+                || getSelected().getMostrarEntidad() || getSelected().getMostrarPorteria() || getSelected().getMostrarSucursal());
+    }
+    
+    public List<String> getAvailableMessages(){
+        return availableMessages;
+    }
+    
+    public void onDrop(DragDropEvent ddEvent){
+        String messageToAdd = ((String) ddEvent.getData());
+        String newMessage="Acaba de llegar/salir";
+        if(selected.getMensaje()!=null){
+            newMessage = selected.getMensaje();
+        }
+        switch(messageToAdd){
+            case "Sucursal":
+                selected.setMostrarSucursal(true);
+                newMessage +=" a la sucursal: sucursal de ejemplo";
+                selected.setMensaje(newMessage);
+                break;
+            case "Porteria":
+                selected.setMostrarPorteria(true);
+                newMessage +=" por la porteria: porteria de ejemplo";
+                selected.setMensaje(newMessage);
+                break;
+            /*case "Entidad":
+                selected.setMostrarEntidad(true);
+                newMessage +=" el visitante/ el automovil";
+                selected.setMensaje(newMessage);
+                break;*/
+            case "Tipo de Objeto":
+                selected.setMostrarEnte(true);
+                newMessage +=" la persona/ el vehículo";
+                selected.setMensaje(newMessage);
+                break;
+            case "Empresa":
+                selected.setMostrarEmpresaOrigen(true);
+                newMessage +=" de la empresa: empresa de ejemplo";
+                selected.setMensaje(newMessage);
+                break;
+        }
+        availableMessages.remove(messageToAdd);
+    }
+    
+    @PostConstruct
+    public void init(){
+        availableMessages = new ArrayList<>();
+        if(!getSelected().getMostrarSucursal()){
+            availableMessages.add("Sucursal");
+        }
+        if(!getSelected().getMostrarPorteria()){
+            availableMessages.add("Porteria");
+        }
+        /*if(!getSelected().getMostrarEntidad()){
+            availableMessages.add("Entidad");
+        }*/
+        if(!getSelected().getMostrarEnte()){
+            availableMessages.add("Tipo de Objeto");
+        }
+        if(!getSelected().getMostrarEmpresaOrigen()){
+            availableMessages.add("Empresa");
+        }
+    }
+    
 }
