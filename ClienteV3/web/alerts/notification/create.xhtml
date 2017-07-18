@@ -8,14 +8,30 @@
                 xmlns="http://www.w3.org/1999/xhtml">
 
     <ui:define name="content">
-        
+
+        <p:dialog modal="true" appendTo="@(body)" id="dialogConfirmCancel" widgetVar="dialogConfirmCancel" header="#{bundle.Confirm_Cancel}">
+            <h:form>
+                <h:panelGrid columns="1">
+                    <h:outputText value="#{bundle.Confirm_Cancel_Message}"/>
+                </h:panelGrid>
+                <p:commandButton id="accept" value="#{bundle.Accept}" action="#{notificacionesController.cancel()}" style="margin-top: 2%"/>
+                <p:commandButton id="decline" value="#{bundle.Cancel}" onclick="PF('dialogConfirmCancel').hide();"/>
+            </h:form>
+        </p:dialog>
+
         <h:form>
             <h1>#{bundle.ListNotificacionesTitle}"></h1>
             <ui:include src="steps.xhtml"/>
-            <h:form style="margin-top: 10%"/>
-            <ui:include src="formTemplate.xhtml"/>
-            <p:commandButton action="#{notificacionesController.createByForm()}" value="#{bundle.Save}" ajax="false"/>
-            <p:commandButton action="#{notificacionesController.showCancelDialog()}" value="#{bundle.Cancel}" immediate="true" ajax="false"/>
+            <h:panelGroup style="margin-top: 10%"/>
+            <h:panelGroup rendered="#{notificacionesController.activeStep eq 0}">
+                <ui:include src="step1.xhtml" />
+            </h:panelGroup>
+            <h:panelGroup rendered="#{notificacionesController.activeStep eq 1}">
+                <ui:include src="step2.xhtml"/>
+            </h:panelGroup>
+            <p:commandButton action="#{notificacionesController.nextStep()}" value="#{bundle.Next}" ajax="false" rendered="#{notificacionesController.activeStep ne 1}" style="margin-top: 2%"/>
+            <p:commandButton action="#{notificacionesController.createByForm()}" value="#{bundle.Save}" ajax="false" rendered="#{notificacionesController.activeStep eq 1}" style="margin-top: 2%"/>
+            <p:commandButton action="#{notificacionesController.showCancelDialog()}" value="#{bundle.Cancel}" immediate="true" style="margin-top: 2%"/>
         </h:form>
     </ui:define>
 
