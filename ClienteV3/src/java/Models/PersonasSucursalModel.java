@@ -8,7 +8,7 @@ package Models;
 import Entities.PersonasSucursal;
 
 /**
- *
+ * Modelo usado para almacenar la entidad y la observacion de los errores al guardar desde archivo
  * @author Kmilo
  */
 public class PersonasSucursalModel extends AbstractMasterDataModel<PersonasSucursal>{
