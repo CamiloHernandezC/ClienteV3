@@ -5,7 +5,10 @@ import Converters.util.JsfUtil;
 import Entities.Notificaciones;
 import Facade.NotificacionesFacade;
 import Querys.Querys;
+import Utils.BundleUtils;
+import Utils.Constants;
 import Utils.Navigation;
+import Utils.Result;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.ArrayList;
@@ -28,7 +31,7 @@ public class NotificacionesController extends AbstractPersistenceController<Noti
 
     @EJB
     private Facade.NotificacionesFacade ejbFacade;
-    private int activeStep=1;
+    private int activeStep;
     private List<String> availableMessages;
     
     public NotificacionesController() {
@@ -227,6 +230,17 @@ public class NotificacionesController extends AbstractPersistenceController<Noti
         if(!getSelected().getMostrarEmpresaOrigen()){
             availableMessages.add("Empresa");
         }
+    }
+    
+    public String save(){
+        Result result = create();
+        if(result.errorCode == Constants.OK){
+            JsfUtil.addSuccessMessage(BundleUtils.getBundleProperty("SuccessfullyCreatedRegistry"));
+            selected = null;
+            return Navigation.PAGE_MASTER_DATA_NOTIFICATION;
+        }
+        JsfUtil.addErrorMessage(validationErrorObservation);
+        return null;
     }
     
 }

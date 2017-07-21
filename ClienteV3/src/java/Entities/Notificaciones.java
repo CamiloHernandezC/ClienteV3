@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Notificaciones.findByMostrarEmpresaOrigen", query = "SELECT n FROM Notificaciones n WHERE n.mostrarEmpresaOrigen = :mostrarEmpresaOrigen"),
     @NamedQuery(name = "Notificaciones.findByMostrarEntidad", query = "SELECT n FROM Notificaciones n WHERE n.mostrarEntidad = :mostrarEntidad"),
     @NamedQuery(name = "Notificaciones.findByMostrarEnte", query = "SELECT n FROM Notificaciones n WHERE n.mostrarEnte = :mostrarEnte")})
-public class Notificaciones implements Serializable {
+public class Notificaciones extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -392,6 +392,31 @@ public class Notificaciones implements Serializable {
     @Override
     public String toString() {
         return "Entities.Notificaciones[ idNotificacion=" + idNotificacion + " ]";
+    }
+
+    @Override
+    public int getPrimaryKey() {
+        return idNotificacion;
+    }
+
+    @Override
+    public void setPrimaryKey(int primaryKey) {
+        idNotificacion = primaryKey;
+    }
+
+    @Override
+    public void setUser(Personas user) {
+        usuario = user;
+    }
+
+    @Override
+    public void setDate(Date date) {
+        fecha = date;
+    }
+
+    @Override
+    public void setStatus(Integer Status) {
+        //Nothing to do here
     }
     
 }

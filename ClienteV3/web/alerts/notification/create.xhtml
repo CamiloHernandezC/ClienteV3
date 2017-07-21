@@ -30,7 +30,7 @@
                 <ui:include src="step2.xhtml"/>
             </h:panelGroup>
             <p:commandButton action="#{notificacionesController.nextStep()}" value="#{bundle.Next}" ajax="false" rendered="#{notificacionesController.activeStep ne 1}" style="margin-top: 2%"/>
-            <p:commandButton action="#{notificacionesController.createByForm()}" value="#{bundle.Save}" ajax="false" rendered="#{notificacionesController.activeStep eq 1}" style="margin-top: 2%"/>
+            <p:commandButton action="#{notificacionesController.save()}" value="#{bundle.Save}" ajax="false" rendered="#{notificacionesController.activeStep eq 1}" style="margin-top: 2%"/>
             <p:commandButton action="#{notificacionesController.showCancelDialog()}" value="#{bundle.Cancel}" immediate="true" style="margin-top: 2%"/>
         </h:form>
     </ui:define>
