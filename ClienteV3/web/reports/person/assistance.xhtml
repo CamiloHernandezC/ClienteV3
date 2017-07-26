@@ -28,7 +28,7 @@
                 
                 <p:column style="#{item[3] eq null ? 'background-color: yellow' : null}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListMovPersonasCliTitle_fechaEntrada}"/>
+                        <h:outputText value="#{bundle.EntryDate}"/>
                     </f:facet>
                     <h:outputText value="#{item[2]}">
                         <f:convertDateTime pattern="dd/MM/yy"/>
@@ -37,7 +37,7 @@
 
                 <p:column style="#{item[3] eq null ? 'background-color: yellow' : null}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.ListMovPersonasCliTitle_horaEntrada}"/>
+                        <h:outputText value="#{bundle.EntryHour}"/>
                     </f:facet>
                     <h:outputText value="#{item[3]}">
                         <f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-5"/>
@@ -46,7 +46,7 @@
                 
                 <p:column style="#{item[3] eq null ? 'background-color: yellow' : null}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.Horario_Ingreso}"/>
+                        <h:outputText value="#{bundle.EntrySchedule}"/>
                     </f:facet>
                     <h:outputText value="#{item[4]}">
                         <f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-5"/>
@@ -55,7 +55,7 @@
                 
                 <p:column style="#{item[3] eq null ? 'background-color: yellow' : null}">
                     <f:facet name="header">
-                        <h:outputText value="#{bundle.Horario_Salida}"/>
+                        <h:outputText value="#{bundle.LeaveSchedule}"/>
                     </f:facet>
                     <h:outputText value="#{item[5]}">
                         <f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-5"/>

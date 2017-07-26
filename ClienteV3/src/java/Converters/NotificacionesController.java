@@ -33,12 +33,16 @@ public class NotificacionesController extends AbstractPersistenceController<Noti
     private Facade.NotificacionesFacade ejbFacade;
     private int activeStep;
     private List<String> availableMessages;
+    private String exampleMessage;
+    private List<Notificaciones> items = null;
+    private Notificaciones selected;
     
     public NotificacionesController() {
     }
-    
-    private List<Notificaciones> items = null;
-    private Notificaciones selected;
+
+    public String getExampleMessage() {
+        return exampleMessage;
+    }
 
     public int getActiveStep() {
         return activeStep;
@@ -178,20 +182,18 @@ public class NotificacionesController extends AbstractPersistenceController<Noti
     
     public void onDrop(DragDropEvent ddEvent){
         String messageToAdd = ((String) ddEvent.getData());
-        String newMessage="Acaba de llegar/salir";
-        if(selected.getMensaje()!=null){
-            newMessage = selected.getMensaje();
+        //String newMessage=
+        if(exampleMessage==null){
+            exampleMessage = "Acaba de llegar/salir";
         }
         switch(messageToAdd){
             case "Sucursal":
                 selected.setMostrarSucursal(true);
-                newMessage +=" a la sucursal: sucursal de ejemplo";
-                selected.setMensaje(newMessage);
+                exampleMessage +=" a la sucursal: sucursal de ejemplo";
                 break;
             case "Porteria":
                 selected.setMostrarPorteria(true);
-                newMessage +=" por la porteria: porteria de ejemplo";
-                selected.setMensaje(newMessage);
+                exampleMessage +=" por la porteria: porteria de ejemplo";
                 break;
             /*case "Entidad":
                 selected.setMostrarEntidad(true);
@@ -200,13 +202,11 @@ public class NotificacionesController extends AbstractPersistenceController<Noti
                 break;*/
             case "Tipo de Objeto":
                 selected.setMostrarEnte(true);
-                newMessage +=" la persona/ el vehículo";
-                selected.setMensaje(newMessage);
+                exampleMessage +=" la persona/ el vehículo";
                 break;
             case "Empresa":
                 selected.setMostrarEmpresaOrigen(true);
-                newMessage +=" de la empresa: empresa de ejemplo";
-                selected.setMensaje(newMessage);
+                exampleMessage +=" de la empresa: empresa de ejemplo";
                 break;
         }
         availableMessages.remove(messageToAdd);
