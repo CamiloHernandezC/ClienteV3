@@ -8,7 +8,17 @@
                 xmlns="http://www.w3.org/1999/xhtml">
 
     <ui:define name="content">
-        
+
+        <p:dialog modal="true" appendTo="@(body)" id="dialogConfirmCancel" widgetVar="dialogConfirmCancel" header="#{bundle.Confirm_Cancel}">
+            <h:form>
+                <h:panelGrid columns="1">
+                    <h:outputText value="#{bundle.Confirm_Cancel_Message}"/>
+                </h:panelGrid>
+                <p:commandButton id="accept" value="#{bundle.Accept}" actionListener="#{personasController.cancel()}"/>
+                <p:commandButton id="decline" value="#{bundle.Cancel}" onclick="PF('dialogConfirmCancel').hide();"/>
+            </h:form>
+        </p:dialog>
+
         <h:form>
             <h1>#{bundle.CreatePersonasCliTitle}</h1>
             <ui:include src="formTemplate.xhtml"/>
