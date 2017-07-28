@@ -9,10 +9,9 @@
 
     <ui:define name="content">
 
-        <h1>#{bundle.ListNotificacionesCliTitle}"></h1>
+        <h1>#{bundle.ListNotificacionesCliTitle}</h1>
 
         <h:form id="NotificacionesListForm">
-            <p:panel header="#{bundle.ListNotificacionesCliTitle}">
                 <p:dataTable id="datalist" value="#{notificacionesController.items}" var="item"
                              selectionMode="single" selection="#{notificacionesController.selected}"
                              paginator="true"
@@ -117,74 +116,73 @@
                         </f:facet>
                         <p:selectBooleanCheckbox value="#{item.mostrarEntidad}" disabled="true"/>
                     </p:column>
-                    <p:column>
+                    <!--<p:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListNotificacionesCliTitle_mostrarEnte}"/>
+                            <h:outputText value="{bundle.ListNotificacionesCliTitle_mostrarEnte}"/>
                         </f:facet>
-                        <p:selectBooleanCheckbox value="#{item.mostrarEnte}" disabled="true"/>
+                        <p:selectBooleanCheckbox value="{item.mostrarEnte}" disabled="true"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListNotificacionesCliTitle_usuario}"/>
+                            <h:outputText value="{bundle.ListNotificacionesCliTitle_usuario}"/>
                         </f:facet>
-                        <h:outputText value="#{item.usuario}"/>
+                        <h:outputText value="{item.usuario}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListNotificacionesCliTitle_objeto}"/>
+                            <h:outputText value="{bundle.ListNotificacionesCliTitle_objeto}"/>
                         </f:facet>
-                        <h:outputText value="#{item.objeto}"/>
+                        <h:outputText value="{item.objeto}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListNotificacionesCliTitle_sucursal}"/>
+                            <h:outputText value="{bundle.ListNotificacionesCliTitle_sucursal}"/>
                         </f:facet>
-                        <h:outputText value="#{item.sucursal}"/>
+                        <h:outputText value="{item.sucursal}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListNotificacionesCliTitle_porteria}"/>
+                            <h:outputText value="{bundle.ListNotificacionesCliTitle_porteria}"/>
                         </f:facet>
-                        <h:outputText value="#{item.porteria}"/>
+                        <h:outputText value="{item.porteria}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListNotificacionesCliTitle_empresaOrigen}"/>
+                            <h:outputText value="{bundle.ListNotificacionesCliTitle_empresaOrigen}"/>
                         </f:facet>
-                        <h:outputText value="#{item.empresaOrigen}"/>
+                        <h:outputText value="{item.empresaOrigen}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListNotificacionesCliTitle_categoria}"/>
+                            <h:outputText value="{bundle.ListNotificacionesCliTitle_categoria}"/>
                         </f:facet>
-                        <h:outputText value="#{item.categoria}"/>
+                        <h:outputText value="{item.categoria}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListNotificacionesCliTitle_entidad}"/>
+                            <h:outputText value="{bundle.ListNotificacionesCliTitle_entidad}"/>
                         </f:facet>
-                        <h:outputText value="#{item.entidad}"/>
+                        <h:outputText value="{item.entidad}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListNotificacionesCliTitle_estado}"/>
+                            <h:outputText value="{bundle.ListNotificacionesCliTitle_estado}"/>
                         </f:facet>
-                        <h:outputText value="#{item.estado}"/>
+                        <h:outputText value="{item.estado}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListNotificacionesCliTitle_persona}"/>
+                            <h:outputText value="{bundle.ListNotificacionesCliTitle_persona}"/>
                         </f:facet>
-                        <h:outputText value="#{item.persona}"/>
+                        <h:outputText value="{item.persona}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListNotificacionesCliTitle_vehiculo}"/>
+                            <h:outputText value="{bundle.ListNotificacionesCliTitle_vehiculo}"/>
                         </f:facet>
-                        <h:outputText value="#{item.vehiculo}"/>
-                    </p:column>
+                        <h:outputText value="{item.vehiculo}"/>
+                    </p:column>-->
                 </p:dataTable>
-            </p:panel>
         </h:form>
 
     </ui:define>
