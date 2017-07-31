@@ -25,8 +25,8 @@
         <p:confirmDialog id="inactiveDialog" appendTo="@(body)" message="#{bundle.ActivePerson}" severity="alert" showEffect="fade" hideEffect="fade" widgetVar="inactiveDialog" closable="false">
             <h:form>
                 <h:panelGrid columns="2">
-                    <p:commandButton id="confirm" value="#{constantes.ACCEPT}" onclick="PF('dialogDelete').hide();" action="#{personasSucursalController.activePerson}" ajax="false"/>
-                    <p:commandButton id="decline" value="#{constantes.CANCEL}" onclick="PF('dialogDelete').hide();"/>
+                    <p:commandButton id="confirm" value="#{bundle.Accept}" onclick="PF('dialogDelete').hide();" action="#{personasSucursalController.activePerson}" ajax="false"/>
+                    <p:commandButton id="decline" value="#{bundle.Cancel}" onclick="PF('dialogDelete').hide();"/>
                 </h:panelGrid>
             </h:form>
         </p:confirmDialog>

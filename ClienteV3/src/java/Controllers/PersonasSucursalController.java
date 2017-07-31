@@ -178,10 +178,10 @@ public class PersonasSucursalController extends Converters.PersonasSucursalContr
              
             if (values[x][2] != null) {
                 switch (values[x][2]) {
-                    case "CC"://TODO CREATE CONSTANST HERE
+                    case "Cedula de ciudadania"://TODO CREATE CONSTANST HERE
                         person.setTipoDocumento(new TiposDocumento(13));//TODO CREATE CONSTANST HERE
                         break;
-                    case "CE"://TODO CREATE CONSTANST HERE
+                    case "Cedula de extrangeria"://TODO CREATE CONSTANST HERE
                         person.setTipoDocumento(new TiposDocumento(1));//TODO CREATE CONSTANST HERE
                         break;
                 }

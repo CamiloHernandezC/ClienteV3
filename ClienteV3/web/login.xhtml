@@ -17,12 +17,25 @@
     </script>
     <!--*********************************************************************-->
 
-    <h:body>
+     <h:body style="background-color: white; overflow: hidden">
 
+        <style type="text/css">
+            html,body{
+                margin:0px;
+                height:100%;
+            }
+        </style>
+        
+        <style type="text/css">
+            #centerLU div{background-image: url(#{resource['images/fondo2.jpg']});}
+        </style>
 
-        <div id="loginForm" style="position: absolute;top: 50%; left: 50%;  transform: translate(-50%, -50%)">
+        <style type="text/css">
+            .ui-widget{font-size:90% !important;}
+            .ui-layout-unit-content{background: white}
+        </style>
 
-            <p:confirmDialog id="confirmDialog" appendTo="@(body)" header="#{bundle.recoverPassword}" severity="alert" showEffect="fade" hideEffect="fade" widgetVar="dialogRecoverPassword" closable="false">
+        <p:confirmDialog id="confirmDialog" appendTo="@(body)" header="#{bundle.recoverPassword}" severity="alert" showEffect="fade" hideEffect="fade" widgetVar="dialogRecoverPassword" closable="false">
                 
                 <h:form>
                     <p:messages id="errorMsg" autoUpdate="true" closable="true"/>
@@ -38,30 +51,26 @@
                 </h:form>
             </p:confirmDialog>
 
-            <h:form>
+        <div  style="background-image: url(#{resource['images/fondo2.jpg']});width:100%; height:100%;" id="centerLU">
+            <div align="center" style="margin-top: 10%;">
+                <p:panel style="border-color: blue;background-color: white;width: 20%;">
+                    <p:growl id="growl" showDetail="true" />
+                    <h:form>
+                        <h:panelGrid  style="width: 97%"  columns="1" cellpadding="5px" >
+                            <p:graphicImage style="margin-left: 22%" url="resources\images\userLogin.png"/>
+                            
+                            <h:outputLabel value="#{bundle.User}" style="width: fit-content"/>
+                            <p:inputText value="#{loginControl.selected.idUsuario}" style="width: 100%"/>
 
-                <p:panel style="width:620px; border-color: blue" >
-                    <h:graphicImage url="resources\Image\Firma_Seracis.png"/>
-                    <p:panel style="border-color: blue">
-                        <p:growl id="growl" showDetail="true" />
+                            <h:outputLabel value="#{bundle.Password}" style="width: fit-content"/>
+                            <p:inputText value="#{loginControl.selected.password}" style="width: 100%"/>
 
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <p:outputLabel for="usuario" value="#{bundle.User}" />
-                            <p:inputText value="#{loginControl.selected.idUsuario}" id="usuario" autocomplete="off"/>
-                            <p:outputLabel for="clave" value="#{bundle.Password}" />
-                            <p:password value="#{loginControl.selected.password}" id="clave" />
-                            <br/>
-                        </h:panelGrid>
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <p:column/>
-                            <p:commandButton icon="ui-icon-key" id="loginButton" value="#{bundle.InitSession}"
-                                             action="#{loginControl.login()}" update="growl" /> 
-
-                        </h:panelGrid>
-                        <p:commandLink value="#{bundle.forgotPassword}" oncomplete="PF('dialogRecoverPassword').show();" immediate="true"/>
-                    </p:panel>
+                            <p:commandButton style="width: 100%;background: #339900" icon="ui-icon-key" id="loginButton" value="#{bundle.InitSession}" action="#{loginControl.login()}" update="growl" /> 
+                            <p:commandLink value="#{bundle.forgotPassword}" style="color: #00cc00" oncomplete="PF('dialogRecoverPassword').show();" immediate="true"/>
+                        </h:panelGrid>    
+                    </h:form>
                 </p:panel>
-            </h:form>
+            </div>
         </div>
     </h:body>
 </html>

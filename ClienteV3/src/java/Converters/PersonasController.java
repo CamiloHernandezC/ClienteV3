@@ -106,8 +106,14 @@ public class PersonasController extends AbstractPersistenceController<Personas>{
         if(selected.getEmpresaOrigen()==null ){
             selected.setEmpresaOrigen(existingPerson.getEmpresaOrigen());
         }
+        if(selected.getNombre1()==null && existingPerson.getNombre1()!=null){
+            selected.setNombre1(existingPerson.getNombre1());
+        }
         if(selected.getNombre2()==null && existingPerson.getNombre2()!=null){
             selected.setNombre2(existingPerson.getNombre2());
+        }
+        if(selected.getApellido1()==null && existingPerson.getApellido1()!=null){
+            selected.setApellido1(existingPerson.getApellido2());
         }
         if(selected.getApellido2()==null && existingPerson.getApellido2()!=null){
             selected.setApellido2(existingPerson.getApellido2());
